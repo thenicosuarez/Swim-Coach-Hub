@@ -44,7 +44,9 @@ export function Contact() {
 
               <div className="flex justify-center gap-4">
                 <a
-                  href="#"
+                  href="https://instagram.com/[your-handle]"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
                   aria-label="Instagram"
                 >
@@ -60,7 +62,9 @@ export function Contact() {
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="https://twitter.com/[your-handle]"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
                   aria-label="Twitter"
                 >

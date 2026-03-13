@@ -152,7 +152,7 @@ export function Services() {
             <div className="flex-grow text-center sm:text-left">
               <h4 className="font-display text-xl font-bold text-foreground">Video Review</h4>
               <p className="text-muted-foreground text-sm mt-1">
-                Send me a video of your stroke and I'll send back a detailed analysis with corrections, drills, and tips.
+                Send me a video of your stroke and I'll send back a detailed analysis with corrections, drills, and tips. Upload coming soon — for now, send via text or email!
               </p>
             </div>
             <div className="text-center shrink-0">

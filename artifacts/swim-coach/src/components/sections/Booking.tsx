@@ -367,18 +367,18 @@ export function Booking() {
                           {[
                             {
                               value: "water_safety",
-                              label: "Water Safety",
-                              desc: "Survival skills & comfort in water",
+                              label: "Survival Water Skills",
+                              desc: "Comfort, safety, and confidence in the water",
                             },
                             {
                               value: "recreational",
-                              label: "Recreational",
-                              desc: "Confident swimming for fun & vacations",
+                              label: "Recreational / Vacation Ready",
+                              desc: "Learn to freestyle and be safe on family vacations",
                             },
                             {
                               value: "competitive",
-                              label: "Competitive",
-                              desc: "Stroke precision & faster times",
+                              label: "Stroke Precision / Competitive",
+                              desc: "Refine technique and improve competitive times",
                             },
                           ].map((opt) => (
                             <label
