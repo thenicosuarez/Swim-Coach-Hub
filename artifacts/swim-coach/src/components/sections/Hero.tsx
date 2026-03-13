@@ -10,7 +10,7 @@ export function Hero() {
           alt="Black female swimmer racing in competition pool" 
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1a3a3a]/90 via-[#1a3a3a]/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-overlay-dark/90 via-overlay-dark/70 to-transparent" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-6 pt-20">

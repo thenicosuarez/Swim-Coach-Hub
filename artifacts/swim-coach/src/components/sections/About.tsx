@@ -20,7 +20,7 @@ export function About() {
                 alt="Black female competitive swimmer at the pool" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a3a3a]/80 to-transparent p-6">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-overlay-dark/80 to-transparent p-6">
                 <p className="text-white font-display font-bold tracking-widest uppercase text-sm">Head Coach</p>
                 <h3 className="text-white text-2xl font-bold">[Your Name]</h3>
               </div>
