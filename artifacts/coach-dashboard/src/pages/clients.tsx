@@ -43,6 +43,7 @@ interface ParsedIntake {
   allFourStrokes?: string;
   poolAccess?: string;
   preferredDays?: string[];
+  preferredTime?: string;
   experience?: string;
   additionalNotes?: string;
   [key: string]: unknown;
@@ -239,10 +240,10 @@ export default function ClientsPage() {
                           <p className="text-foreground mt-0.5">{clientBooking.preferredDate}</p>
                         </div>
                       )}
-                      {clientBooking?.preferredTime && (
+                      {(clientBooking?.preferredTime || intakeData.preferredTime) && (
                         <div>
                           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Preferred Time</span>
-                          <p className="text-foreground mt-0.5">{clientBooking.preferredTime}</p>
+                          <p className="text-foreground mt-0.5">{clientBooking?.preferredTime || intakeData.preferredTime}</p>
                         </div>
                       )}
                       {intakeData.additionalNotes && (

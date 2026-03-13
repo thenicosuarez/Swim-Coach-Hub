@@ -1,11 +1,11 @@
 import { Router, type IRouter } from "express";
 import { db, bookingsTable } from "@workspace/db";
 import { CreateBookingBody } from "@workspace/api-zod";
-import { eq } from "drizzle-orm";
+import { coachAuth } from "../middleware/coach-auth";
 
 const router: IRouter = Router();
 
-router.get("/bookings", async (_req, res) => {
+router.get("/bookings", coachAuth, async (_req, res) => {
   try {
     const bookings = await db.select().from(bookingsTable).orderBy(bookingsTable.createdAt);
     res.json(bookings.map(b => ({
