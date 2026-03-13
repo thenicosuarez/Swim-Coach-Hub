@@ -1,7 +1,8 @@
-import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
+import { Router, type IRouter } from "express";
 import { db, bookingsTable, clientsTable, coachingPlansTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 import crypto from "crypto";
+import { coachAuth } from "../middleware/coach-auth";
 
 function parseId(param: string | string[] | undefined): number {
   const raw = Array.isArray(param) ? param[0] : param;
@@ -15,18 +16,15 @@ function parseToken(param: string | string[] | undefined): string {
 
 const router: IRouter = Router();
 
-function coachAuth(req: Request, res: Response, next: NextFunction) {
-  const password = req.headers["x-coach-password"] as string;
-  if (!process.env.COACH_PASSWORD) {
-    res.status(500).json({ error: "COACH_PASSWORD not configured" });
-    return;
-  }
-  if (!password || password !== process.env.COACH_PASSWORD) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
-  next();
-}
+router.get("/coach/auth-check", coachAuth, (_req, res) => {
+  res.json({ authenticated: true });
+});
+
+router.get("/coach/config", coachAuth, (_req, res) => {
+  res.json({
+    calendlyUrl: process.env.COACH_CALENDLY_URL || "https://calendly.com/[your-handle]",
+  });
+});
 
 router.get("/coach/bookings", coachAuth, async (_req, res) => {
   try {

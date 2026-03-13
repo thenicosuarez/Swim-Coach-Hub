@@ -46,13 +46,17 @@ async function coachFetch(path: string, options: RequestInit = {}) {
 
 export async function validatePassword(pw: string): Promise<boolean> {
   try {
-    const res = await fetch(`${API_BASE}/coach/bookings`, {
+    const res = await fetch(`${API_BASE}/coach/auth-check`, {
       headers: { "x-coach-password": pw },
     });
     return res.ok;
   } catch {
     return false;
   }
+}
+
+export async function getConfig(): Promise<{ calendlyUrl: string }> {
+  return coachFetch("/coach/config");
 }
 
 export async function getBookings() {

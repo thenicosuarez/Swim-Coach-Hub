@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getBookings, approveBooking, rejectBooking } from "@/lib/api";
+import { getBookings, approveBooking, rejectBooking, getConfig } from "@/lib/api";
 
 interface Booking {
   id: number;
@@ -63,6 +63,11 @@ export default function LeadsPage() {
   const [rejectNote, setRejectNote] = useState("");
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [calendlyUrl, setCalendlyUrl] = useState("https://calendly.com/[your-handle]");
+
+  useEffect(() => {
+    getConfig().then(c => setCalendlyUrl(c.calendlyUrl)).catch(console.error);
+  }, []);
 
   const fetchBookings = async () => {
     try {
@@ -104,7 +109,7 @@ export default function LeadsPage() {
   };
 
   const copyCalendlyLink = (id: number) => {
-    navigator.clipboard.writeText("https://calendly.com/[your-handle]");
+    navigator.clipboard.writeText(calendlyUrl);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
