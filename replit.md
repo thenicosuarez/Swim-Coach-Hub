@@ -40,12 +40,34 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
   - 10-Session Package: $680
 - Frontend packages: framer-motion, @hookform/resolvers, clsx, tailwind-merge, react-hook-form, zod, lucide-react
 
+### `artifacts/coach-dashboard` — Coach CRM Dashboard
+- Private coach-facing dashboard at `/coach` for managing leads, clients, and coaching plans
+- Password-protected via `COACH_PASSWORD` environment variable (default: `coach2026!`)
+- Same teal/coral design palette as the main swim-coach site
+- Views:
+  - **Lead Funnel**: Lists all intake form submissions, filterable by status (pending/approved/rejected). Approve → promotes to client + shows "Copy Calendly Link". Reject → optional note.
+  - **Clients**: Lists approved leads as active clients. Coach can add/edit private session notes (auto-saved on blur). Shows linked coaching plans.
+  - **Coaching Plans**: Create/edit training plans (title, goals, drills, notes). Assign to clients. Share via public read-only URL.
+  - **Public Plan View**: `/coach/plans/:shareToken` — branded read-only plan page, no auth required.
+- API routes (all `/api/coach/*` require `x-coach-password` header):
+  - `GET /api/coach/bookings` — list all bookings (newest first)
+  - `PATCH /api/coach/bookings/:id/approve` — approve + auto-create client
+  - `PATCH /api/coach/bookings/:id/reject` — reject with optional note
+  - `GET /api/coach/clients` — list all clients
+  - `PATCH /api/coach/clients/:id` — update client notes/status
+  - `GET /api/coach/plans` — list all coaching plans
+  - `POST /api/coach/plans` — create a plan
+  - `PATCH /api/coach/plans/:id` — update a plan
+  - `GET /api/plans/share/:token` — public plan view (no auth)
+- DB tables: `clients` (FK to bookings), `coaching_plans` (with `share_token` UUID)
+
 ## Structure
 
 ```text
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
 │   ├── api-server/         # Express API server
+│   ├── coach-dashboard/    # Coach CRM dashboard (React + Vite)
 │   └── swim-coach/         # Swim coaching website (React + Vite)
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
@@ -89,6 +111,8 @@ Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` 
 Database layer using Drizzle ORM with PostgreSQL.
 
 - `src/schema/bookings.ts` — bookings table for swim coaching session requests
+- `src/schema/clients.ts` — clients table (promoted from approved bookings)
+- `src/schema/coaching-plans.ts` — coaching plans with shareable tokens
 
 ### `lib/api-spec` (`@workspace/api-spec`)
 
