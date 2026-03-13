@@ -34,8 +34,8 @@ export function Contact() {
     submitContact.mutate({ data }, {
       onSuccess: () => {
         toast({
-          title: "Message Sent",
-          description: "Thanks for reaching out! I'll reply soon.",
+          title: "Message Sent!",
+          description: "Thanks for reaching out! I'll get back to you within 24 hours.",
         });
         form.reset();
       },
@@ -51,7 +51,6 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-24 bg-primary relative overflow-hidden">
-      {/* Decorative large text */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-display font-black text-white/[0.03] whitespace-nowrap pointer-events-none select-none">
         LET'S SWIM
       </div>
@@ -64,9 +63,12 @@ export function Contact() {
             viewport={{ once: true }}
           >
             <h2 className="text-accent font-bold tracking-widest uppercase text-sm mb-3">Questions?</h2>
-            <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-8">
-              Get in Touch
+            <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
+              Let's Chat
             </h3>
+            <p className="text-white/70 mb-8">
+              Have questions about lessons, scheduling, or pool locations? I'd love to hear from you! I'm happy to coordinate times that work with your schedule.
+            </p>
             
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 text-left">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -96,7 +98,7 @@ export function Contact() {
               <div>
                 <Textarea 
                   {...form.register("message")} 
-                  placeholder="How can I help you?" 
+                  placeholder="Tell me about your swimmer and what you're looking for!" 
                   className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:border-accent focus-visible:ring-accent/20"
                 />
                 {form.formState.errors.message && (

@@ -4,15 +4,13 @@ import { Button } from "@/components/ui/button";
 export function Hero() {
   return (
     <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        {/* hero background dramatic underwater olympic pool shot */}
         <img 
-          src="https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=2070&auto=format&fit=crop" 
-          alt="Swimmer in pool" 
+          src="https://images.unsplash.com/photo-1560089000-7433a4ebbd64?q=80&w=2070&auto=format&fit=crop" 
+          alt="Swimmer diving into pool" 
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1a3a3a]/90 via-[#1a3a3a]/70 to-transparent" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-6 pt-20">
@@ -22,8 +20,8 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="inline-block py-1 px-3 rounded-full bg-accent/20 text-accent border border-accent/30 font-semibold text-sm tracking-widest uppercase mb-6 backdrop-blur-sm">
-              Former D1 Athlete & Elite Coach
+            <span className="inline-block py-1.5 px-4 rounded-full bg-accent/20 text-accent border border-accent/30 font-semibold text-sm tracking-widest uppercase mb-6 backdrop-blur-sm">
+              University of Michigan · Big Ten Championship
             </span>
           </motion.div>
           
@@ -33,9 +31,9 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-[1.1] mb-6 tracking-tight text-balance"
           >
-            Master the water. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-300">
-              Own your stroke.
+            D1 trained. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-amber-300">
+              Chicago coached.
             </span>
           </motion.h1>
           
@@ -45,7 +43,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-lg md:text-xl text-white/80 mb-10 max-w-xl font-light leading-relaxed"
           >
-            Elite technique training and personalized coaching programs designed to make you faster, stronger, and more confident in the pool.
+            From the Big Ten Championship pool to your private lesson. Elite technique, personalized coaching, and a genuine love for the water — for swimmers of every level.
           </motion.p>
           
           <motion.div
@@ -64,7 +62,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Decorative Water Texture Overlay */}
       <div 
         className="absolute inset-0 z-0 opacity-10 mix-blend-overlay pointer-events-none"
         style={{

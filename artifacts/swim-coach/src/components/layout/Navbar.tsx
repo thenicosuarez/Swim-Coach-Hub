@@ -44,11 +44,10 @@ export function Navbar() {
             "font-display font-bold text-xl tracking-tight transition-colors",
             isScrolled ? "text-primary" : "text-white drop-shadow-md"
           )}>
-            Alex<span className="text-accent">Rios</span>
+            Swim<span className="text-accent">Coach</span>
           </span>
         </Link>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
@@ -64,14 +63,13 @@ export function Navbar() {
           ))}
           <Button 
             asChild 
-            variant={isScrolled ? "default" : "accent"}
+            variant={isScrolled ? "default" : "default"}
             className={cn(!isScrolled && "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary")}
           >
             <a href="#booking">Book a Session</a>
           </Button>
         </nav>
 
-        {/* Mobile Menu Toggle */}
         <button 
           className="md:hidden p-2 text-primary"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -84,7 +82,6 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Nav */}
       <div className={cn(
         "md:hidden absolute top-full left-0 w-full bg-white shadow-xl overflow-hidden transition-all duration-300 ease-in-out",
         mobileMenuOpen ? "max-h-80 border-t" : "max-h-0"
@@ -100,7 +97,7 @@ export function Navbar() {
               {link.name}
             </a>
           ))}
-          <Button asChild variant="accent" className="mt-2 w-full">
+          <Button asChild className="mt-2 w-full">
             <a href="#booking" onClick={() => setMobileMenuOpen(false)}>Book a Session</a>
           </Button>
         </nav>

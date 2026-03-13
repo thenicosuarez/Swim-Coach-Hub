@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, CalendarCheck } from "lucide-react";
 
-// Mirroring the API schema locally for react-hook-form validation
 const bookingSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Valid email is required"),
@@ -52,7 +50,7 @@ export function Booking() {
       onSuccess: () => {
         toast({
           title: "Request Sent!",
-          description: "I'll get back to you shortly to confirm your session.",
+          description: "I'll get back to you within 24 hours to confirm!",
         });
         form.reset();
       },
@@ -72,7 +70,6 @@ export function Booking() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-24">
           
-          {/* Left Text */}
           <div className="lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -84,33 +81,32 @@ export function Booking() {
                 Ready to dive in?
               </h3>
               <p className="text-lg text-muted-foreground mb-8">
-                Fill out the request form and I'll get back to you within 24 hours to confirm our session time and location.
+                Fill out the form and I'll get back to you within 24 hours! My availability varies with my work schedule, but I'm usually free Mondays, Thursday afternoons, Fridays, and weekends.
               </p>
               
               <div className="bg-secondary rounded-2xl p-6 border border-border/50">
                 <h4 className="font-display font-bold text-lg mb-4 flex items-center gap-2">
-                  <CalendarCheck className="w-5 h-5 text-accent" />
+                  <CalendarCheck className="w-5 h-5 text-primary" />
                   What happens next?
                 </h4>
                 <ul className="space-y-3 text-muted-foreground text-sm">
                   <li className="flex gap-3">
-                    <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center font-bold text-xs text-primary shrink-0 shadow-sm">1</span>
+                    <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">1</span>
                     <p>Submit your preferred times and goals.</p>
                   </li>
                   <li className="flex gap-3">
-                    <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center font-bold text-xs text-primary shrink-0 shadow-sm">2</span>
-                    <p>I review and coordinate pool lane availability.</p>
+                    <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">2</span>
+                    <p>I'll coordinate pool availability and confirm our session.</p>
                   </li>
                   <li className="flex gap-3">
-                    <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center font-bold text-xs text-primary shrink-0 shadow-sm">3</span>
-                    <p>You receive a calendar invite and payment link.</p>
+                    <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">3</span>
+                    <p>Show up, jump in, and let's get to work!</p>
                   </li>
                 </ul>
               </div>
             </motion.div>
           </div>
 
-          {/* Right Form */}
           <div className="lg:col-span-3">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -123,7 +119,7 @@ export function Booking() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-foreground">Name *</label>
-                    <Input {...form.register("name")} placeholder="John Doe" />
+                    <Input {...form.register("name")} placeholder="Your name" />
                     {form.formState.errors.name && (
                       <p className="text-destructive text-xs mt-1">{form.formState.errors.name.message}</p>
                     )}
@@ -131,7 +127,7 @@ export function Booking() {
                   
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-foreground">Email *</label>
-                    <Input type="email" {...form.register("email")} placeholder="john@example.com" />
+                    <Input type="email" {...form.register("email")} placeholder="your@email.com" />
                     {form.formState.errors.email && (
                       <p className="text-destructive text-xs mt-1">{form.formState.errors.email.message}</p>
                     )}
@@ -148,13 +144,13 @@ export function Booking() {
                     <label className="text-sm font-semibold text-foreground">Service *</label>
                     <select 
                       {...form.register("service")}
-                      className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-accent focus-visible:ring-4 focus-visible:ring-accent/10 transition-all duration-200"
+                      className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 transition-all duration-200"
                     >
                       <option value="" disabled selected>Select a service</option>
-                      <option value={CreateBookingRequestService.private_lesson}>Private Lesson ($80)</option>
-                      <option value={CreateBookingRequestService.group_session}>Group Session ($40/ea)</option>
-                      <option value={CreateBookingRequestService.stroke_clinic}>Stroke Clinic ($95)</option>
-                      <option value={CreateBookingRequestService.video_analysis}>Video Analysis ($60)</option>
+                      <option value={CreateBookingRequestService.private_lesson}>Private Lesson (from $60)</option>
+                      <option value={CreateBookingRequestService.group_session}>Group / Family ($50)</option>
+                      <option value={CreateBookingRequestService.stroke_clinic}>Advanced / Team Prep ($65)</option>
+                      <option value={CreateBookingRequestService.video_analysis}>Baby & Toddler (from $40)</option>
                       <option value={CreateBookingRequestService.package_5}>5-Session Package ($360)</option>
                       <option value={CreateBookingRequestService.package_10}>10-Session Package ($680)</option>
                     </select>
@@ -174,7 +170,7 @@ export function Booking() {
                     <label className="text-sm font-semibold text-foreground">Preferred Time</label>
                     <select 
                       {...form.register("preferredTime")}
-                      className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-accent focus-visible:ring-4 focus-visible:ring-accent/10 transition-all duration-200"
+                      className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 transition-all duration-200"
                     >
                       <option value="">Any Time</option>
                       <option value="morning">Morning (6AM - 11AM)</option>
@@ -185,10 +181,10 @@ export function Booking() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-foreground">Goals / Notes</label>
+                  <label className="text-sm font-semibold text-foreground">Tell me about your swimmer!</label>
                   <Textarea 
                     {...form.register("notes")} 
-                    placeholder="Tell me about your current swimming level and what you want to achieve..."
+                    placeholder="Age, swimming experience, goals, preferred pool location..."
                   />
                 </div>
 

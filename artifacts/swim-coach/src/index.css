@@ -36,32 +36,28 @@
 }
 
 :root {
-  /* Luxe Athletic Palette */
-  --background: 0 0% 100%;
-  --foreground: 222 47% 11%;
-  
-  /* Deep Navy */
-  --primary: 222 47% 15%;
+  --background: 180 20% 99%;
+  --foreground: 200 25% 15%;
+
+  --primary: 174 62% 35%;
   --primary-foreground: 0 0% 100%;
-  
-  /* Slate/Cool Gray */
-  --secondary: 210 20% 96%;
-  --secondary-foreground: 222 47% 11%;
-  
-  /* Bright Pool/Cyan Blue Accent */
-  --accent: 199 89% 48%;
+
+  --secondary: 180 20% 96%;
+  --secondary-foreground: 200 25% 15%;
+
+  --accent: 16 85% 62%;
   --accent-foreground: 0 0% 100%;
-  
-  --muted: 210 20% 96%;
-  --muted-foreground: 215 16% 47%;
-  
+
+  --muted: 180 15% 95%;
+  --muted-foreground: 200 12% 45%;
+
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  
-  --border: 214 32% 91%;
-  --input: 214 32% 91%;
-  --ring: 199 89% 48%;
-  
+  --card-foreground: 200 25% 15%;
+
+  --border: 180 15% 90%;
+  --input: 180 15% 90%;
+  --ring: 174 62% 35%;
+
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 }
@@ -76,7 +72,7 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased font-sans selection:bg-accent selection:text-white;
+    @apply bg-background text-foreground antialiased font-sans selection:bg-primary selection:text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -1,8 +1,8 @@
-import { Instagram, Twitter, Mail } from "lucide-react";
+import { Instagram, Twitter, Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground py-16">
+    <footer className="bg-[#1a3a3a] text-white py-16">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           <div>
@@ -13,12 +13,16 @@ export function Footer() {
                 className="w-10 h-10 rounded-full bg-white p-1"
               />
               <span className="font-display font-bold text-2xl tracking-tight">
-                Alex<span className="text-accent">Rios</span>
+                Swim<span className="text-accent">Coach</span>
               </span>
             </div>
-            <p className="text-primary-foreground/70 max-w-sm">
-              Train hard. Swim smart. Love the water. Elevating swimmers from beginners to elite competitors with proven D1 techniques.
+            <p className="text-white/70 max-w-sm">
+              Train hard. Swim smart. Love the water. University of Michigan D1 swimmer bringing elite coaching to Chicago swimmers of all levels.
             </p>
+            <div className="flex items-center gap-2 mt-4 text-white/60 text-sm">
+              <MapPin className="w-4 h-4" />
+              <span>West Loop, Chicago</span>
+            </div>
           </div>
           
           <div>
@@ -40,19 +44,18 @@ export function Footer() {
               <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="mailto:hello@alexrios.com" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors">
+              <a href="mailto:your.email@example.com" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
-            <p className="mt-6 text-primary-foreground/70">
-              hello@alexrios.com<br />
-              (555) 123-4567
+            <p className="mt-6 text-white/70">
+              your.email@example.com
             </p>
           </div>
         </div>
         
-        <div className="border-t border-white/10 mt-16 pt-8 text-center text-primary-foreground/50 text-sm">
-          &copy; {new Date().getFullYear()} Alex Rios Swimming. All rights reserved.
+        <div className="border-t border-white/10 mt-16 pt-8 text-center text-white/50 text-sm">
+          &copy; {new Date().getFullYear()} SwimCoach. All rights reserved.
         </div>
       </div>
     </footer>
