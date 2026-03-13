@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Swim Coach"
+version = "1.0.0"
+id = "artifacts/swim-coach"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 18674
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/swim-coach run dev"
+
+[services.env]
+PORT = "18674"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/swim-coach", "run", "build"]
+publicDir = "artifacts/swim-coach/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"

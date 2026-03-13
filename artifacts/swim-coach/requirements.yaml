@@ -1,0 +1,18 @@
+packages:
+  "framer-motion": "Smooth entry animations and scroll reveals for a premium feel"
+  "@hookform/resolvers": "Zod validation integration for booking and contact forms"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to efficiently merge Tailwind CSS classes"
+
+images:
+  - path: "artifacts/swim-coach/public/images/logo.png"
+    description: "Minimalist, luxury athletic logo for a swim coach, geometric wave or 'S' monogram, deep navy and bright cyan blue on transparent background"
+    aspect_ratio: "1:1"
+  - path: "artifacts/swim-coach/public/images/water-texture.png"
+    description: "Abstract macro photography of clear pool water ripples with caustic light reflections, bright cyan and deep blue, premium athletic aesthetic"
+    aspect_ratio: "16:9"
+
+notes:
+  - Using wouter for routing, though primarily a single-page scrolling layout.
+  - Relying on @workspace/api-client-react for TanStack Query hooks.
+  - Using Unsplash for realistic, high-quality swimming photography.
