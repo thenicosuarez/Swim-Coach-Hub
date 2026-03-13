@@ -19,20 +19,26 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 ## Artifacts
 
 ### `artifacts/swim-coach` — Swim Coach Website
-- A premium swimming coaching website for a D1 swimmer turned coach
-- Pages: Hero, About, Services & Rates, Book a Session, Contact, Footer
+- A premium swimming coaching website for a Black female D1 University of Michigan swimmer turned private coach in Chicago's West Loop
+- Design: Teal/aqua primary (174 62% 35%), coral/orange accent (16 85% 62%), airy white backgrounds
+- Identity: "[Your Name]" placeholder throughout — coach name, email, social links TBD
+- Pages: Hero, About, Services & Rates, Book a Session (Calendly + Intake Form), Contact (chatbot placeholder), Footer
+- Scheduling: Service cards and booking tiles link out to Calendly (placeholder URL `https://calendly.com/[your-handle]`)
+- Lead intake form: Rich form collecting name, email, phone, neighborhood, swimmer age, service interest, goal (water safety / recreational / competitive), all-four-strokes preference, pool access, preferred days/times, experience level, notes — POSTs to `/api/bookings`
+- Contact section: No form — "Live Chat Coming Soon" placeholder + social links (Instagram, LinkedIn, Twitter, Email)
 - Routes:
   - `GET /api/bookings` — list all booking requests
-  - `POST /api/bookings` — submit a booking request
-  - `POST /api/contact` — submit a contact inquiry
-- Services & Rates:
-  - Private Lesson (1hr): $80
-  - Group Session (up to 4): $40/swimmer
-  - Stroke Clinic (2hr): $95
-  - Video Analysis: $60
+  - `POST /api/bookings` — submit a booking/intake request
+  - `POST /api/contact` — submit a contact inquiry (currently unused, contact form removed)
+- Services & Rates (updated pricing based on $1/min principle):
+  - Private Lesson: $60/30 min, $90/45 min, $120/60 min
+  - Advanced / Team Prep: $65/30 min, $95/45 min, $130/60 min
+  - Baby & Toddler: from $40/session
+  - Group / Family: $50/45 min
+  - Video Review: $20/video (design-only placeholder)
   - 5-Session Package: $360
   - 10-Session Package: $680
-- Frontend packages: framer-motion, @hookform/resolvers, clsx, tailwind-merge
+- Frontend packages: framer-motion, @hookform/resolvers, clsx, tailwind-merge, react-hook-form, zod, lucide-react
 
 ## Structure
 

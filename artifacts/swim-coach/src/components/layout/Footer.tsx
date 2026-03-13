@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Mail, MapPin } from "lucide-react";
+import { Instagram, Twitter, Mail, MapPin, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -38,13 +38,16 @@ export function Footer() {
           <div>
             <h4 className="font-display font-semibold text-lg mb-6 tracking-wide uppercase text-white/50">Connect</h4>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors">
+              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors">
+              <a href="https://linkedin.com/in/[your-handle]" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="LinkedIn">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="Twitter">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="mailto:your.email@example.com" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors">
+              <a href="mailto:your.email@example.com" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="Email">
                 <Mail className="w-5 h-5" />
               </a>
             </div>

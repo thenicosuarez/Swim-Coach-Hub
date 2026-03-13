@@ -1,54 +1,7 @@
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useSubmitContact } from "@workspace/api-client-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
-
-const contactSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Valid email is required"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
-
-type ContactFormValues = z.infer<typeof contactSchema>;
+import { Instagram, Twitter, Mail, Linkedin, MessageCircle } from "lucide-react";
 
 export function Contact() {
-  const { toast } = useToast();
-  const submitContact = useSubmitContact();
-  
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    }
-  });
-
-  const onSubmit = (data: ContactFormValues) => {
-    submitContact.mutate({ data }, {
-      onSuccess: () => {
-        toast({
-          title: "Message Sent!",
-          description: "Thanks for reaching out! I'll get back to you within 24 hours.",
-        });
-        form.reset();
-      },
-      onError: () => {
-        toast({
-          title: "Error",
-          description: "Failed to send message. Try emailing me directly.",
-          variant: "destructive"
-        });
-      }
-    });
-  };
-
   return (
     <section id="contact" className="py-24 bg-primary relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-display font-black text-white/[0.03] whitespace-nowrap pointer-events-none select-none">
@@ -62,65 +15,66 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-accent font-bold tracking-widest uppercase text-sm mb-3">Questions?</h2>
+            <h2 className="text-accent font-bold tracking-widest uppercase text-sm mb-3">Get In Touch</h2>
             <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
-              Let's Chat
+              Let's Connect
             </h3>
-            <p className="text-white/70 mb-8">
-              Have questions about lessons, scheduling, or pool locations? I'd love to hear from you! I'm happy to coordinate times that work with your schedule.
+            <p className="text-white/70 mb-10">
+              Have questions about lessons, scheduling, or pool locations? Reach out anytime — I'd love to hear from you!
             </p>
-            
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 text-left">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Input 
-                    {...form.register("name")} 
-                    placeholder="Your Name" 
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:border-accent focus-visible:ring-accent/20"
-                  />
-                  {form.formState.errors.name && (
-                    <p className="text-red-300 text-xs mt-1">{form.formState.errors.name.message}</p>
-                  )}
-                </div>
-                <div>
-                  <Input 
-                    type="email" 
-                    {...form.register("email")} 
-                    placeholder="Your Email" 
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:border-accent focus-visible:ring-accent/20"
-                  />
-                  {form.formState.errors.email && (
-                    <p className="text-red-300 text-xs mt-1">{form.formState.errors.email.message}</p>
-                  )}
-                </div>
-              </div>
-              
-              <div>
-                <Textarea 
-                  {...form.register("message")} 
-                  placeholder="Tell me about your swimmer and what you're looking for!" 
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:border-accent focus-visible:ring-accent/20"
-                />
-                {form.formState.errors.message && (
-                  <p className="text-red-300 text-xs mt-1">{form.formState.errors.message.message}</p>
-                )}
-              </div>
 
-              <Button 
-                type="submit" 
-                variant="accent" 
-                size="lg" 
-                className="w-full"
-                disabled={submitContact.isPending}
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 mb-10">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <MessageCircle className="w-6 h-6 text-accent" />
+                <h4 className="font-display font-bold text-xl text-white">Live Chat Coming Soon</h4>
+              </div>
+              <p className="text-white/60 text-sm max-w-md mx-auto">
+                I'm setting up a live chat assistant so you can get answers instantly. In the meantime, feel free to email me or connect on social!
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <a 
+                href="mailto:your.email@example.com" 
+                className="inline-flex items-center gap-2 text-white hover:text-accent transition-colors font-semibold text-lg"
               >
-                {submitContact.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Sending...
-                  </>
-                ) : "Send Message"}
-              </Button>
-            </form>
+                <Mail className="w-5 h-5" />
+                your.email@example.com
+              </a>
+
+              <div className="flex justify-center gap-4">
+                <a
+                  href="#"
+                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/[your-handle]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <a
+                  href="mailto:your.email@example.com"
+                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
