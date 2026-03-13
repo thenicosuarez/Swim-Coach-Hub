@@ -45,6 +45,14 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: "bg-gray-100 text-gray-800 border-gray-200",
 };
 
+const STATUS_LABELS: Record<string, string> = {
+  pending: "Pending Review",
+  approved: "Approved",
+  rejected: "Rejected",
+  confirmed: "Confirmed",
+  cancelled: "Cancelled",
+};
+
 function parseNotes(notes?: string): ParsedNotes {
   if (!notes) return {};
   try {
@@ -181,7 +189,7 @@ export default function LeadsPage() {
                       <div className="flex items-center gap-3 mb-1">
                         <h3 className="font-semibold text-foreground text-lg">{booking.name}</h3>
                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${STATUS_COLORS[booking.status] || STATUS_COLORS.cancelled}`}>
-                          {booking.status}
+                          {STATUS_LABELS[booking.status] || booking.status}
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">

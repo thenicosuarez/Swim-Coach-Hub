@@ -117,7 +117,7 @@ export function useHealthCheck<
 }
 
 /**
- * @summary Get all bookings
+ * @summary Get all bookings (coach-protected)
  */
 export const getGetBookingsUrl = () => {
   return `/api/bookings`;
@@ -138,7 +138,7 @@ export const getGetBookingsQueryKey = () => {
 
 export const getGetBookingsQueryOptions = <
   TData = Awaited<ReturnType<typeof getBookings>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<void>,
 >(options?: {
   query?: UseQueryOptions<
     Awaited<ReturnType<typeof getBookings>>,
@@ -165,15 +165,15 @@ export const getGetBookingsQueryOptions = <
 export type GetBookingsQueryResult = NonNullable<
   Awaited<ReturnType<typeof getBookings>>
 >;
-export type GetBookingsQueryError = ErrorType<unknown>;
+export type GetBookingsQueryError = ErrorType<void>;
 
 /**
- * @summary Get all bookings
+ * @summary Get all bookings (coach-protected)
  */
 
 export function useGetBookings<
   TData = Awaited<ReturnType<typeof getBookings>>,
-  TError = ErrorType<unknown>,
+  TError = ErrorType<void>,
 >(options?: {
   query?: UseQueryOptions<
     Awaited<ReturnType<typeof getBookings>>,

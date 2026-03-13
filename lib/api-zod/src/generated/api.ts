@@ -16,8 +16,12 @@ export const HealthCheckResponse = zod.object({
 });
 
 /**
- * @summary Get all bookings
+ * @summary Get all bookings (coach-protected)
  */
+export const GetBookingsHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
 export const GetBookingsResponseItem = zod.object({
   id: zod.number(),
   name: zod.string(),
