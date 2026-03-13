@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getClients, updateClient, getPlans } from "@/lib/api";
+import { getClients, updateClient, getPlans, getBookings } from "@/lib/api";
 
 interface ClientData {
   id: number;
@@ -14,6 +14,19 @@ interface ClientData {
   createdAt: string;
 }
 
+interface BookingData {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  service: string;
+  preferredDate?: string;
+  preferredTime?: string;
+  notes?: string;
+  status: string;
+  createdAt: string;
+}
+
 interface Plan {
   id: number;
   clientId?: number;
@@ -21,8 +34,32 @@ interface Plan {
   shareToken: string;
 }
 
+interface ParsedIntake {
+  swimmerName?: string;
+  email?: string;
+  phone?: string;
+  neighborhood?: string;
+  goal?: string;
+  allFourStrokes?: string;
+  poolAccess?: string;
+  preferredDays?: string[];
+  experience?: string;
+  additionalNotes?: string;
+  [key: string]: unknown;
+}
+
+function parseIntakeNotes(notes?: string): ParsedIntake {
+  if (!notes) return {};
+  try {
+    return JSON.parse(notes);
+  } catch {
+    return { additionalNotes: notes };
+  }
+}
+
 export default function ClientsPage() {
   const [clients, setClients] = useState<ClientData[]>([]);
+  const [bookings, setBookings] = useState<BookingData[]>([]);
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -30,10 +67,11 @@ export default function ClientsPage() {
   const [savingId, setSavingId] = useState<number | null>(null);
 
   useEffect(() => {
-    Promise.all([getClients(), getPlans()])
-      .then(([c, p]) => {
+    Promise.all([getClients(), getPlans(), getBookings()])
+      .then(([c, p, b]) => {
         setClients(c);
         setPlans(p);
+        setBookings(b);
         const notesMap: Record<number, string> = {};
         c.forEach((cl: ClientData) => { notesMap[cl.id] = cl.notes || ""; });
         setEditNotes(notesMap);
@@ -55,6 +93,10 @@ export default function ClientsPage() {
 
   const selectedClient = clients.find((c) => c.id === selectedId);
   const clientPlans = plans.filter((p) => p.clientId === selectedId);
+  const clientBooking = selectedClient?.bookingId
+    ? bookings.find((b) => b.id === selectedClient.bookingId)
+    : null;
+  const intakeData = clientBooking ? parseIntakeNotes(clientBooking.notes) : {};
 
   if (loading) {
     return (
@@ -112,8 +154,8 @@ export default function ClientsPage() {
 
           <div className="lg:col-span-2">
             {selectedClient ? (
-              <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
-                <div className="flex items-start justify-between mb-6">
+              <div className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-6">
+                <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-xl font-bold text-foreground">{selectedClient.name}</h2>
                     <p className="text-muted-foreground">{selectedClient.email}</p>
@@ -127,33 +169,94 @@ export default function ClientsPage() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  {selectedClient.phone && (
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">Contact Info</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {selectedClient.phone && (
+                      <div>
+                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Phone</span>
+                        <p className="text-foreground mt-0.5">{selectedClient.phone}</p>
+                      </div>
+                    )}
+                    {(selectedClient.neighborhood || intakeData.neighborhood) && (
+                      <div>
+                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Neighborhood</span>
+                        <p className="text-foreground mt-0.5">{selectedClient.neighborhood || intakeData.neighborhood}</p>
+                      </div>
+                    )}
+                    {selectedClient.service && (
+                      <div>
+                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Service</span>
+                        <p className="text-foreground mt-0.5 capitalize">{selectedClient.service.replace(/_/g, " ")}</p>
+                      </div>
+                    )}
                     <div>
-                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Phone</span>
-                      <p className="text-foreground mt-0.5">{selectedClient.phone}</p>
+                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Client Since</span>
+                      <p className="text-foreground mt-0.5">{new Date(selectedClient.createdAt).toLocaleDateString()}</p>
                     </div>
-                  )}
-                  {selectedClient.neighborhood && (
-                    <div>
-                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Neighborhood</span>
-                      <p className="text-foreground mt-0.5">{selectedClient.neighborhood}</p>
-                    </div>
-                  )}
-                  {selectedClient.service && (
-                    <div>
-                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Service</span>
-                      <p className="text-foreground mt-0.5 capitalize">{selectedClient.service.replace(/_/g, " ")}</p>
-                    </div>
-                  )}
-                  <div>
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Since</span>
-                    <p className="text-foreground mt-0.5">{new Date(selectedClient.createdAt).toLocaleDateString()}</p>
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <label className="text-sm font-medium text-foreground block mb-2">Private Session Notes</label>
+                {Object.keys(intakeData).length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">Intake Profile</h3>
+                    <div className="grid grid-cols-2 gap-4 bg-muted/20 rounded-lg p-4">
+                      {intakeData.goal && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Goal</span>
+                          <p className="text-foreground mt-0.5 capitalize">{intakeData.goal}</p>
+                        </div>
+                      )}
+                      {intakeData.allFourStrokes && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">All Four Strokes</span>
+                          <p className="text-foreground mt-0.5 capitalize">{intakeData.allFourStrokes}</p>
+                        </div>
+                      )}
+                      {intakeData.poolAccess && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Pool Access</span>
+                          <p className="text-foreground mt-0.5 capitalize">{intakeData.poolAccess}</p>
+                        </div>
+                      )}
+                      {intakeData.preferredDays && intakeData.preferredDays.length > 0 && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Preferred Days</span>
+                          <p className="text-foreground mt-0.5">
+                            {Array.isArray(intakeData.preferredDays) ? intakeData.preferredDays.join(", ") : intakeData.preferredDays}
+                          </p>
+                        </div>
+                      )}
+                      {intakeData.experience && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Experience</span>
+                          <p className="text-foreground mt-0.5">{intakeData.experience}</p>
+                        </div>
+                      )}
+                      {clientBooking?.preferredDate && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Preferred Date</span>
+                          <p className="text-foreground mt-0.5">{clientBooking.preferredDate}</p>
+                        </div>
+                      )}
+                      {clientBooking?.preferredTime && (
+                        <div>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Preferred Time</span>
+                          <p className="text-foreground mt-0.5">{clientBooking.preferredTime}</p>
+                        </div>
+                      )}
+                      {intakeData.additionalNotes && (
+                        <div className="col-span-2">
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Additional Notes</span>
+                          <p className="text-foreground mt-0.5 whitespace-pre-wrap">{intakeData.additionalNotes}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <label className="text-sm font-semibold text-foreground block mb-2 uppercase tracking-wide">Private Session Notes</label>
                   <textarea
                     value={editNotes[selectedClient.id] || ""}
                     onChange={(e) => setEditNotes((prev) => ({ ...prev, [selectedClient.id]: e.target.value }))}
@@ -173,7 +276,7 @@ export default function ClientsPage() {
 
                 {clientPlans.length > 0 && (
                   <div>
-                    <h3 className="text-sm font-medium text-foreground mb-2">Coaching Plans</h3>
+                    <h3 className="text-sm font-semibold text-foreground mb-2 uppercase tracking-wide">Coaching Plans</h3>
                     <div className="space-y-2">
                       {clientPlans.map((plan) => (
                         <div key={plan.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">

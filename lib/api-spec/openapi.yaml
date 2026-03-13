@@ -13,6 +13,10 @@ tags:
     description: Booking operations
   - name: contact
     description: Contact operations
+  - name: coach
+    description: Coach dashboard operations (password-protected)
+  - name: plans
+    description: Public plan sharing
 paths:
   /healthz:
     get:
@@ -76,6 +80,230 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContactResponse"
+  /coach/bookings:
+    get:
+      operationId: getCoachBookings
+      tags: [coach]
+      summary: Get all bookings for coach review
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of bookings sorted newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+        "401":
+          description: Unauthorized
+  /coach/bookings/{id}/approve:
+    patch:
+      operationId: approveBooking
+      tags: [coach]
+      summary: Approve a booking and auto-create client
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Booking approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "404":
+          description: Booking not found
+  /coach/bookings/{id}/reject:
+    patch:
+      operationId: rejectBooking
+      tags: [coach]
+      summary: Reject a booking with optional note
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+      responses:
+        "200":
+          description: Booking rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "404":
+          description: Booking not found
+  /coach/clients:
+    get:
+      operationId: getCoachClients
+      tags: [coach]
+      summary: List all clients
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Client"
+  /coach/clients/{id}:
+    patch:
+      operationId: updateCoachClient
+      tags: [coach]
+      summary: Update client notes or status
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notes:
+                  type: string
+                status:
+                  type: string
+      responses:
+        "200":
+          description: Client updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+  /coach/plans:
+    get:
+      operationId: getCoachPlans
+      tags: [coach]
+      summary: List all coaching plans
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of plans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CoachingPlan"
+    post:
+      operationId: createCoachPlan
+      tags: [coach]
+      summary: Create a new coaching plan
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePlanRequest"
+      responses:
+        "201":
+          description: Plan created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoachingPlan"
+  /coach/plans/{id}:
+    patch:
+      operationId: updateCoachPlan
+      tags: [coach]
+      summary: Update a coaching plan
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePlanRequest"
+      responses:
+        "200":
+          description: Plan updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoachingPlan"
+  /plans/share/{token}:
+    get:
+      operationId: getSharedPlan
+      tags: [plans]
+      summary: Get a public coaching plan by share token
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Public plan data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedPlan"
+        "404":
+          description: Plan not found
 components:
   schemas:
     HealthStatus:
@@ -107,7 +335,7 @@ components:
           type: string
         status:
           type: string
-          enum: [pending, confirmed, cancelled]
+          enum: [pending, confirmed, cancelled, approved, rejected]
         createdAt:
           type: string
       required:
@@ -162,3 +390,116 @@ components:
       required:
         - success
         - message
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+        bookingId:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        neighborhood:
+          type: string
+        service:
+          type: string
+        notes:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive]
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - email
+        - status
+        - createdAt
+    CoachingPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        clientId:
+          type: integer
+        title:
+          type: string
+        goal:
+          type: string
+        drills:
+          type: string
+        notes:
+          type: string
+        shareToken:
+          type: string
+        isPublic:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - title
+        - shareToken
+        - isPublic
+        - createdAt
+        - updatedAt
+    CreatePlanRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        goal:
+          type: string
+        drills:
+          type: string
+        notes:
+          type: string
+        clientId:
+          type: integer
+        isPublic:
+          type: boolean
+      required:
+        - title
+    UpdatePlanRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        goal:
+          type: string
+        drills:
+          type: string
+        notes:
+          type: string
+        clientId:
+          type: integer
+        isPublic:
+          type: boolean
+    SharedPlan:
+      type: object
+      properties:
+        title:
+          type: string
+        goal:
+          type: string
+        drills:
+          type: string
+        notes:
+          type: string
+        clientName:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - title
+        - createdAt
+        - updatedAt

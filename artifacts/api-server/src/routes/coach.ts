@@ -3,6 +3,16 @@ import { db, bookingsTable, clientsTable, coachingPlansTable } from "@workspace/
 import { eq, desc } from "drizzle-orm";
 import crypto from "crypto";
 
+function parseId(param: string | string[] | undefined): number {
+  const raw = Array.isArray(param) ? param[0] : param;
+  return parseInt(raw || "0", 10);
+}
+
+function parseToken(param: string | string[] | undefined): string {
+  const raw = Array.isArray(param) ? param[0] : param;
+  return raw || "";
+}
+
 const router: IRouter = Router();
 
 function coachAuth(req: Request, res: Response, next: NextFunction) {
@@ -41,7 +51,7 @@ router.get("/coach/bookings", coachAuth, async (_req, res) => {
 
 router.patch("/coach/bookings/:id/approve", coachAuth, async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseId(req.params.id);
     const [booking] = await db.update(bookingsTable)
       .set({ status: "approved" })
       .where(eq(bookingsTable.id, id))
@@ -85,7 +95,7 @@ router.patch("/coach/bookings/:id/approve", coachAuth, async (req, res) => {
 
 router.patch("/coach/bookings/:id/reject", coachAuth, async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseId(req.params.id);
     const rejectionNote = req.body?.note;
 
     const [booking] = await db.select().from(bookingsTable).where(eq(bookingsTable.id, id));
@@ -145,7 +155,7 @@ router.get("/coach/clients", coachAuth, async (_req, res) => {
 
 router.patch("/coach/clients/:id", coachAuth, async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseId(req.params.id);
     const { notes, status } = req.body;
 
     const updates: Record<string, unknown> = {};
@@ -239,7 +249,7 @@ router.post("/coach/plans", coachAuth, async (req, res) => {
 
 router.patch("/coach/plans/:id", coachAuth, async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseId(req.params.id);
     const { title, goal, drills, notes, clientId, isPublic } = req.body;
 
     const updates: Record<string, unknown> = { updatedAt: new Date() };
@@ -280,7 +290,7 @@ router.patch("/coach/plans/:id", coachAuth, async (req, res) => {
 
 router.get("/plans/share/:token", async (req, res) => {
   try {
-    const token = req.params.token;
+    const token = parseToken(req.params.token);
     const [plan] = await db.select().from(coachingPlansTable)
       .where(eq(coachingPlansTable.shareToken, token));
 

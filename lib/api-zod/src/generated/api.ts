@@ -34,7 +34,13 @@ export const GetBookingsResponseItem = zod.object({
   preferredDate: zod.string().optional(),
   preferredTime: zod.string().optional(),
   notes: zod.string().optional(),
-  status: zod.enum(["pending", "confirmed", "cancelled"]),
+  status: zod.enum([
+    "pending",
+    "confirmed",
+    "cancelled",
+    "approved",
+    "rejected",
+  ]),
   createdAt: zod.string(),
 });
 export const GetBookingsResponse = zod.array(GetBookingsResponseItem);
@@ -71,4 +77,253 @@ export const SubmitContactBody = zod.object({
 export const SubmitContactResponse = zod.object({
   success: zod.boolean(),
   message: zod.string(),
+});
+
+/**
+ * @summary Get all bookings for coach review
+ */
+export const GetCoachBookingsHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const GetCoachBookingsResponseItem = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string().optional(),
+  service: zod.enum([
+    "private_lesson",
+    "group_session",
+    "stroke_clinic",
+    "video_analysis",
+    "package_5",
+    "package_10",
+  ]),
+  preferredDate: zod.string().optional(),
+  preferredTime: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum([
+    "pending",
+    "confirmed",
+    "cancelled",
+    "approved",
+    "rejected",
+  ]),
+  createdAt: zod.string(),
+});
+export const GetCoachBookingsResponse = zod.array(GetCoachBookingsResponseItem);
+
+/**
+ * @summary Approve a booking and auto-create client
+ */
+export const ApproveBookingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const ApproveBookingHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const ApproveBookingResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string().optional(),
+  service: zod.enum([
+    "private_lesson",
+    "group_session",
+    "stroke_clinic",
+    "video_analysis",
+    "package_5",
+    "package_10",
+  ]),
+  preferredDate: zod.string().optional(),
+  preferredTime: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum([
+    "pending",
+    "confirmed",
+    "cancelled",
+    "approved",
+    "rejected",
+  ]),
+  createdAt: zod.string(),
+});
+
+/**
+ * @summary Reject a booking with optional note
+ */
+export const RejectBookingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const RejectBookingHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const RejectBookingBody = zod.object({
+  note: zod.string().optional(),
+});
+
+export const RejectBookingResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string().optional(),
+  service: zod.enum([
+    "private_lesson",
+    "group_session",
+    "stroke_clinic",
+    "video_analysis",
+    "package_5",
+    "package_10",
+  ]),
+  preferredDate: zod.string().optional(),
+  preferredTime: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum([
+    "pending",
+    "confirmed",
+    "cancelled",
+    "approved",
+    "rejected",
+  ]),
+  createdAt: zod.string(),
+});
+
+/**
+ * @summary List all clients
+ */
+export const GetCoachClientsHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const GetCoachClientsResponseItem = zod.object({
+  id: zod.number(),
+  bookingId: zod.number().optional(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string().optional(),
+  neighborhood: zod.string().optional(),
+  service: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum(["active", "inactive"]),
+  createdAt: zod.string(),
+});
+export const GetCoachClientsResponse = zod.array(GetCoachClientsResponseItem);
+
+/**
+ * @summary Update client notes or status
+ */
+export const UpdateCoachClientParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateCoachClientHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const UpdateCoachClientBody = zod.object({
+  notes: zod.string().optional(),
+  status: zod.string().optional(),
+});
+
+export const UpdateCoachClientResponse = zod.object({
+  id: zod.number(),
+  bookingId: zod.number().optional(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string().optional(),
+  neighborhood: zod.string().optional(),
+  service: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum(["active", "inactive"]),
+  createdAt: zod.string(),
+});
+
+/**
+ * @summary List all coaching plans
+ */
+export const GetCoachPlansHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const GetCoachPlansResponseItem = zod.object({
+  id: zod.number(),
+  clientId: zod.number().optional(),
+  title: zod.string(),
+  goal: zod.string().optional(),
+  drills: zod.string().optional(),
+  notes: zod.string().optional(),
+  shareToken: zod.string(),
+  isPublic: zod.boolean(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+export const GetCoachPlansResponse = zod.array(GetCoachPlansResponseItem);
+
+/**
+ * @summary Create a new coaching plan
+ */
+export const CreateCoachPlanHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const CreateCoachPlanBody = zod.object({
+  title: zod.string(),
+  goal: zod.string().optional(),
+  drills: zod.string().optional(),
+  notes: zod.string().optional(),
+  clientId: zod.number().optional(),
+  isPublic: zod.boolean().optional(),
+});
+
+/**
+ * @summary Update a coaching plan
+ */
+export const UpdateCoachPlanParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateCoachPlanHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const UpdateCoachPlanBody = zod.object({
+  title: zod.string().optional(),
+  goal: zod.string().optional(),
+  drills: zod.string().optional(),
+  notes: zod.string().optional(),
+  clientId: zod.number().optional(),
+  isPublic: zod.boolean().optional(),
+});
+
+export const UpdateCoachPlanResponse = zod.object({
+  id: zod.number(),
+  clientId: zod.number().optional(),
+  title: zod.string(),
+  goal: zod.string().optional(),
+  drills: zod.string().optional(),
+  notes: zod.string().optional(),
+  shareToken: zod.string(),
+  isPublic: zod.boolean(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary Get a public coaching plan by share token
+ */
+export const GetSharedPlanParams = zod.object({
+  token: zod.coerce.string(),
+});
+
+export const GetSharedPlanResponse = zod.object({
+  title: zod.string(),
+  goal: zod.string().optional(),
+  drills: zod.string().optional(),
+  notes: zod.string().optional(),
+  clientName: zod.string().optional(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
 });

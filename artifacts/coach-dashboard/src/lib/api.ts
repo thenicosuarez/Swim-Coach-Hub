@@ -74,6 +74,11 @@ export async function getClients() {
   return coachFetch("/coach/clients");
 }
 
+export async function getBookingById(id: number) {
+  const bookings = await coachFetch("/coach/bookings");
+  return bookings.find((b: { id: number }) => b.id === id);
+}
+
 export async function updateClient(id: number, data: { notes?: string; status?: string }) {
   return coachFetch(`/coach/clients/${id}`, {
     method: "PATCH",

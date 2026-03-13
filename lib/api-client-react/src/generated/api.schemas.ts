@@ -27,6 +27,8 @@ export const BookingStatus = {
   pending: "pending",
   confirmed: "confirmed",
   cancelled: "cancelled",
+  approved: "approved",
+  rejected: "rejected",
 } as const;
 
 export interface Booking {
@@ -74,3 +76,73 @@ export interface ContactResponse {
   success: boolean;
   message: string;
 }
+
+export type ClientStatus = (typeof ClientStatus)[keyof typeof ClientStatus];
+
+export const ClientStatus = {
+  active: "active",
+  inactive: "inactive",
+} as const;
+
+export interface Client {
+  id: number;
+  bookingId?: number;
+  name: string;
+  email: string;
+  phone?: string;
+  neighborhood?: string;
+  service?: string;
+  notes?: string;
+  status: ClientStatus;
+  createdAt: string;
+}
+
+export interface CoachingPlan {
+  id: number;
+  clientId?: number;
+  title: string;
+  goal?: string;
+  drills?: string;
+  notes?: string;
+  shareToken: string;
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreatePlanRequest {
+  title: string;
+  goal?: string;
+  drills?: string;
+  notes?: string;
+  clientId?: number;
+  isPublic?: boolean;
+}
+
+export interface UpdatePlanRequest {
+  title?: string;
+  goal?: string;
+  drills?: string;
+  notes?: string;
+  clientId?: number;
+  isPublic?: boolean;
+}
+
+export interface SharedPlan {
+  title: string;
+  goal?: string;
+  drills?: string;
+  notes?: string;
+  clientName?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type RejectBookingBody = {
+  note?: string;
+};
+
+export type UpdateCoachClientBody = {
+  notes?: string;
+  status?: string;
+};
