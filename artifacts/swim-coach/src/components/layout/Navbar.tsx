@@ -44,7 +44,7 @@ export function Navbar() {
             "font-display font-bold text-xl tracking-tight transition-colors",
             isScrolled ? "text-primary" : "text-white drop-shadow-md"
           )}>
-            Swim<span className="text-accent">Coach</span>
+            [Your<span className="text-accent"> Name]</span>
           </span>
         </Link>
 

@@ -13,7 +13,7 @@ export function Footer() {
                 className="w-10 h-10 rounded-full bg-white p-1"
               />
               <span className="font-display font-bold text-2xl tracking-tight">
-                Swim<span className="text-accent">Coach</span>
+                [Your<span className="text-accent"> Name]</span>
               </span>
             </div>
             <p className="text-white/70 max-w-sm">
@@ -55,7 +55,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-white/10 mt-16 pt-8 text-center text-white/50 text-sm">
-          &copy; {new Date().getFullYear()} SwimCoach. All rights reserved.
+          &copy; {new Date().getFullYear()} [Your Name] Swimming. All rights reserved.
         </div>
       </div>
     </footer>

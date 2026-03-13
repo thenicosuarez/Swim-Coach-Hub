@@ -17,12 +17,12 @@ export function About() {
             <div className="rounded-2xl overflow-hidden shadow-2xl relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
               <img 
                 src="https://images.unsplash.com/photo-1622629797619-c100e3e67e2e?q=80&w=1200&auto=format&fit=crop" 
-                alt="Competitive swimmer at the pool" 
+                alt="Black female competitive swimmer at the pool" 
                 className="w-full h-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a3a3a]/80 to-transparent p-6">
                 <p className="text-white font-display font-bold tracking-widest uppercase text-sm">Head Coach</p>
-                <h3 className="text-white text-2xl font-bold">Michigan Wolverine</h3>
+                <h3 className="text-white text-2xl font-bold">[Your Name]</h3>
               </div>
             </div>
             
@@ -50,7 +50,7 @@ export function About() {
                 I spent four years swimming Division 1 at the <strong className="text-foreground">University of Michigan</strong>, competing at the <strong className="text-foreground">Big Ten Championship</strong> and training under one of the best coaching staffs in college swimming. That experience shaped everything about how I coach today.
               </p>
               <p>
-                Now based in <strong className="text-foreground">Chicago's West Loop</strong>, I bring that same elite-level training to swimmers of every age and ability — from babies getting comfortable in the water for the first time, to kids learning their strokes, to competitive swimmers refining technique. My Michigan coaches taught me that great coaching starts with breaking down complex mechanics into simple, intuitive steps. That's exactly what I do.
+                Now based in <strong className="text-foreground">Chicago's West Loop</strong>, I bring that same elite-level training to swimmers of every age and ability — from babies getting comfortable in the water for the first time, to kids learning their strokes, to competitive swimmers refining technique. My Michigan coaches taught me that great coaching starts with breaking down complex mechanics into simple, intuitive steps — and that a private coach should charge at minimum <strong className="text-foreground">$1 per minute</strong>. That principle guides my fair, transparent pricing to this day.
               </p>
               <p>
                 I'm also pursuing my <strong className="text-foreground">Masters of Public Health</strong> while working at Northwestern Hospital, so I get the hustle. I'm flexible with scheduling because I know life is busy — let's find times that work for both of us!

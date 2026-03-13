@@ -7,7 +7,7 @@ export function Hero() {
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1560089000-7433a4ebbd64?q=80&w=2070&auto=format&fit=crop" 
-          alt="Swimmer diving into pool" 
+          alt="Black female swimmer racing in competition pool" 
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1a3a3a]/90 via-[#1a3a3a]/70 to-transparent" />
