@@ -41,9 +41,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-xl text-white/80 mb-10 max-w-xl font-light leading-relaxed"
+            className="text-lg md:text-xl text-white/80 mb-4 max-w-xl font-light leading-relaxed"
           >
             From the Big Ten Championship pool to your private lesson. Elite technique, personalized coaching, and a genuine love for the water — for swimmers of every level.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
+            className="text-white/60 text-sm font-semibold tracking-widest uppercase mb-8"
+          >
+            Coach [Your Name] · West Loop, Chicago
           </motion.p>
           
           <motion.div
