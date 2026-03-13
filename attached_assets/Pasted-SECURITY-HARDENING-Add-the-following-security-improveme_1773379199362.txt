@@ -1,0 +1,26 @@
+SECURITY HARDENING
+
+Add the following security improvements to this Express.js app:
+
+Install and configure helmet middleware — apply it globally in server/index.ts before all routes to set secure HTTP headers (Content-Security-Policy, X-Content-Type-Options, X-Frame-Options, HSTS, etc.)
+Install and configure express-rate-limit:
+Global limiter: 100 requests per 15 minutes per IP, applied to all routes
+Strict auth limiter: 10 requests per 15 minutes per IP, applied specifically to POST /api/auth/login, POST /api/auth/signup, and POST /api/auth/forgot-password
+Return a clear JSON error { error: "Too many requests, please try again later" } when limit is hit
+Make all /api/* routes require authentication by default — apply authMiddleware globally to /api rather than maintaining a manual list of protected paths. Explicitly exempt public routes: /api/auth/login, /api/auth/signup, /api/auth/forgot-password, /api/auth/reset-password, and any webhook endpoints.
+Ensure all auth cookies are set with httpOnly: true, secure: true in production, and sameSite: "lax".
+Validate all request bodies with Zod schemas before processing. Any route that accepts user input should parse with .safeParse() and return a 400 with the first validation error message if it fails.
+MOBILE OPTIMIZATION
+
+Apply the following mobile-first responsive improvements across the app:
+
+Navigation / Sidebar — On screens smaller than lg (1024px), hide the sidebar by default and add a hamburger menu button in a top navigation bar. Tapping the hamburger opens the sidebar as a slide-over drawer with a dark overlay backdrop. Tapping outside the drawer closes it.
+Data tables — On mobile (sm and below), convert wide tables to a card-based layout. Each row becomes a stacked card showing label + value pairs vertically instead of columns. Use hidden sm:table-cell on non-essential columns to reduce clutter on medium screens.
+Charts — Make all Recharts charts responsive by wrapping them in <ResponsiveContainer width="100%" height={300}>. On mobile, hide chart legends or move them below the chart. Simplify axis tick labels (e.g., abbreviate months, reduce tick count).
+KPI / stat cards — Use a responsive grid: grid-cols-2 on mobile, grid-cols-3 on tablet, grid-cols-4 on desktop. Cards should have adequate padding (p-4) and legible font sizes (minimum text-sm for labels, text-xl for values).
+Forms and inputs — Ensure all form inputs have text-base font size minimum to prevent iOS auto-zoom on focus. Stack form fields vertically on mobile. Make buttons full-width (w-full) on mobile with touch-manipulation to remove tap delay.
+Modals and dialogs — On mobile, dialogs should open as bottom sheets (slide up from bottom, full width) rather than centered modals. Use max-h-[85vh] overflow-y-auto to allow scrolling inside tall dialogs.
+Touch targets — All interactive elements (buttons, links, tabs) must be at least 44×44px. Add py-3 minimum to buttons. Ensure table rows and list items have enough vertical padding for comfortable tapping.
+Viewport and overflow — Add overflow-x-hidden to the root layout to prevent horizontal scroll. Use min-w-0 on flex children that contain text to enable proper truncation. Add truncate or line-clamp-1 on long text strings in constrained spaces.
+Typography — Page titles: text-xl on mobile, text-2xl on desktop. Section headings: text-base on mobile, text-lg on desktop. Body text: minimum text-sm. Avoid tiny text below text-xs anywhere on the UI.
+Test all pages at 375px wide (iPhone SE), 390px (iPhone 14), and 768px (iPad) to verify no layout breaks, no overflowing content, and all interactive elements are reachable.
