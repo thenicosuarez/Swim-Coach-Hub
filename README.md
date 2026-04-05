@@ -29,8 +29,15 @@ pnpm --filter @workspace/coach-dashboard run dev   # http://localhost:23134/coac
 | `DATABASE_URL` | Both | PostgreSQL connection string |
 | `COACH_PASSWORD` | coach-dashboard | Login password for the dashboard (required — auth fails closed without it) |
 | `COACH_CALENDLY_URL` | coach-dashboard | Calendly booking link (server-side) |
-| `NEXT_PUBLIC_COACH_CALENDLY_URL` | swim-coach | Calendly booking link (client-side embed) |
-| `COACH_EMAIL` | Both | Coach contact email |
+| `NEXT_PUBLIC_COACH_CALENDLY_URL` | swim-coach | Calendly booking link (client-side) |
+| `NOTIFICATION_EMAIL` | swim-coach | Email address to notify on new intake submissions |
+| `SMTP_HOST` | swim-coach | SMTP server host for email notifications |
+| `SMTP_PORT` | swim-coach | SMTP port (default: 587) |
+| `SMTP_SECURE` | swim-coach | `true` for TLS, `false` for STARTTLS |
+| `SMTP_USER` | swim-coach | SMTP username |
+| `SMTP_PASS` | swim-coach | SMTP password |
+| `SMTP_FROM` | swim-coach | From address for notification emails |
+| `GOOGLE_SHEETS_WEBHOOK_URL` | swim-coach | Optional webhook URL to forward new bookings to Google Sheets |
 | `NODE_ENV` | Both | `production` enables secure cookies |
 
 ## Database

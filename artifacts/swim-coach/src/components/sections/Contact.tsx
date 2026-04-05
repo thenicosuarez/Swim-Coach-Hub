@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
-import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 import { Button } from "@/components/ui/button";
 
 export function Contact() {
@@ -32,8 +31,8 @@ export function Contact() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
               <Button size="lg" variant="accent" asChild className="text-lg px-8">
-                <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
-                  Book quick 5–10 min intake call
+                <a href="#booking">
+                  Fill out my intake form
                 </a>
               </Button>
               <a

@@ -1,7 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { TALLY_INTAKE_URL, CALENDLY_BASE_URL } from "@/lib/booking-urls";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CALENDLY_BASE_URL } from "@/lib/booking-urls";
+
+const SERVICE_OPTIONS = [
+  { value: "Private Lesson", label: "Private Lesson — from $60 / 30 min" },
+  { value: "Advanced / Team Prep", label: "Advanced / Team Prep — from $65 / 30 min" },
+  { value: "Baby & Toddler", label: "Baby & Toddler — from $40 / session" },
+  { value: "Group / Family", label: "Group / Family — $50 / 45 min" },
+  { value: "Video Analysis", label: "Video Review — $20 / video" },
+  { value: "Other", label: "Other / Not sure yet" },
+];
 
 const quickServices = [
   { label: "Private Lesson", sub: "from $60 / 30 min", slug: "30min" },
@@ -11,9 +21,74 @@ const quickServices = [
   { label: "Video Review", sub: "$20 / video", slug: "video" },
 ];
 
+type FormState = "idle" | "submitting" | "success" | "error";
+
+interface FormFields {
+  name: string;
+  email: string;
+  phone: string;
+  service: string;
+  preferredDate: string;
+  preferredTime: string;
+  notes: string;
+}
+
+const empty: FormFields = {
+  name: "",
+  email: "",
+  phone: "",
+  service: "",
+  preferredDate: "",
+  preferredTime: "",
+  notes: "",
+};
+
 export function Booking() {
-  const tallyUrl = TALLY_INTAKE_URL;
-  const hasTally = tallyUrl && !tallyUrl.includes("placeholder");
+  const [fields, setFields] = useState<FormFields>(empty);
+  const [formState, setFormState] = useState<FormState>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  function update(key: keyof FormFields, value: string) {
+    setFields((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFormState("submitting");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fields.name.trim(),
+          email: fields.email.trim(),
+          phone: fields.phone.trim() || undefined,
+          service: fields.service,
+          preferredDate: fields.preferredDate || undefined,
+          preferredTime: fields.preferredTime || undefined,
+          notes: fields.notes.trim() || undefined,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error((data as { error?: string }).error || "Something went wrong");
+      }
+
+      setFormState("success");
+      setFields(empty);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setFormState("error");
+    }
+  }
+
+  const inputClass =
+    "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors";
+  const labelClass = "block text-sm font-medium text-foreground mb-1.5";
+  const isSubmitting = formState === "submitting";
 
   return (
     <section id="booking" className="py-24 bg-background">
@@ -35,49 +110,178 @@ export function Booking() {
 
         <div className="max-w-4xl mx-auto space-y-14">
 
-          <div>
-            <div className="bg-card rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden">
-              {hasTally ? (
-                <iframe
-                  src={tallyUrl}
-                  title="Swim Coaching Intake Form"
-                  width="100%"
-                  height="720"
-                  frameBorder="0"
-                  marginHeight={0}
-                  marginWidth={0}
-                  className="block"
-                  allow="camera; microphone; autoplay; encrypted-media;"
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center gap-6 py-16 px-8 text-center">
+          <div className="bg-card rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden">
+            <AnimatePresence mode="wait">
+              {formState === "success" ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center justify-center gap-5 py-20 px-8 text-center"
+                >
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-xl text-foreground mb-2">
-                      Swimmer Intake Form
+                    <h4 className="font-display font-bold text-2xl text-foreground mb-2">
+                      You're all set!
                     </h4>
-                    <p className="text-muted-foreground mb-6 max-w-sm">
-                      Tell me about your swimmer — goals, experience, and availability. I'll follow up within 24 hours.
+                    <p className="text-muted-foreground max-w-sm">
+                      Thanks for reaching out. I'll review your goals and follow up within 24 hours with a personalized plan and scheduling link.
                     </p>
                   </div>
-                  <a
-                    href={tallyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+                  <button
+                    onClick={() => setFormState("idle")}
+                    className="text-sm text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
                   >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Open Intake Form
-                  </a>
-                </div>
+                    Submit another request
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onSubmit={handleSubmit}
+                  className="p-8 md:p-10 space-y-6"
+                >
+                  <div>
+                    <h3 className="font-display font-bold text-xl text-foreground mb-1">
+                      Swimmer Intake Form
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      Tell me about your swimmer — goals, experience, and availability.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="name" className={labelClass}>Full Name <span className="text-destructive">*</span></label>
+                      <input
+                        id="name"
+                        type="text"
+                        required
+                        value={fields.name}
+                        onChange={(e) => update("name", e.target.value)}
+                        placeholder="Jane Smith"
+                        className={inputClass}
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className={labelClass}>Email <span className="text-destructive">*</span></label>
+                      <input
+                        id="email"
+                        type="email"
+                        required
+                        value={fields.email}
+                        onChange={(e) => update("email", e.target.value)}
+                        placeholder="jane@example.com"
+                        className={inputClass}
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className={labelClass}>Phone <span className="text-muted-foreground font-normal">(optional)</span></label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        value={fields.phone}
+                        onChange={(e) => update("phone", e.target.value)}
+                        placeholder="(312) 555-0100"
+                        className={inputClass}
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="service" className={labelClass}>Service Interest <span className="text-destructive">*</span></label>
+                      <select
+                        id="service"
+                        required
+                        value={fields.service}
+                        onChange={(e) => update("service", e.target.value)}
+                        className={inputClass}
+                        disabled={isSubmitting}
+                      >
+                        <option value="" disabled>Select a service…</option>
+                        {SERVICE_OPTIONS.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="preferredDate" className={labelClass}>Preferred Start Date <span className="text-muted-foreground font-normal">(optional)</span></label>
+                      <input
+                        id="preferredDate"
+                        type="date"
+                        value={fields.preferredDate}
+                        onChange={(e) => update("preferredDate", e.target.value)}
+                        className={inputClass}
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="preferredTime" className={labelClass}>Preferred Time of Day <span className="text-muted-foreground font-normal">(optional)</span></label>
+                      <select
+                        id="preferredTime"
+                        value={fields.preferredTime}
+                        onChange={(e) => update("preferredTime", e.target.value)}
+                        className={inputClass}
+                        disabled={isSubmitting}
+                      >
+                        <option value="">No preference</option>
+                        <option value="Early morning (6–9 am)">Early morning (6–9 am)</option>
+                        <option value="Morning (9 am–12 pm)">Morning (9 am–12 pm)</option>
+                        <option value="Afternoon (12–4 pm)">Afternoon (12–4 pm)</option>
+                        <option value="Evening (4–8 pm)">Evening (4–8 pm)</option>
+                        <option value="Weekends only">Weekends only</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="notes" className={labelClass}>Goals & Anything Else <span className="text-muted-foreground font-normal">(optional)</span></label>
+                    <textarea
+                      id="notes"
+                      rows={4}
+                      value={fields.notes}
+                      onChange={(e) => update("notes", e.target.value)}
+                      placeholder="Tell me about the swimmer's experience level, goals, pool access, or anything else I should know…"
+                      className={`${inputClass} resize-none`}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  {formState === "error" && (
+                    <p className="text-sm text-destructive bg-destructive/10 rounded-xl px-4 py-3">
+                      {errorMsg}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all shadow-lg shadow-primary/20"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                        </svg>
+                        Sending…
+                      </>
+                    ) : (
+                      "Send My Request"
+                    )}
+                  </button>
+                </motion.form>
               )}
-            </div>
+            </AnimatePresence>
           </div>
 
           <div className="flex items-center gap-4">

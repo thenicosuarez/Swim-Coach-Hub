@@ -110,15 +110,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../app/api/webhooks/tally/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/webhooks/tally">> = Specific
-  const handler = {} as typeof import("../../app/api/webhooks/tally/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 
 
 

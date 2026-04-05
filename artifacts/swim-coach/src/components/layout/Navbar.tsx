@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 import { Menu, X } from "lucide-react";
 
 export function Navbar() {
@@ -74,7 +73,7 @@ export function Navbar() {
                 "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary"
             )}
           >
-            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+            <a href="#booking">
               Book a Session
             </a>
           </Button>
@@ -111,9 +110,7 @@ export function Navbar() {
           ))}
           <Button asChild className="mt-2 w-full">
             <a
-              href={TALLY_INTAKE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#booking"
               onClick={() => setMobileMenuOpen(false)}
             >
               Book a Session

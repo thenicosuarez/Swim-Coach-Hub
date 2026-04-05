@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 
 export function Hero() {
   return (
@@ -64,7 +63,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button size="lg" variant="accent" asChild className="text-lg px-8">
-              <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+              <a href="#booking">
                 Book a Session
               </a>
             </Button>
