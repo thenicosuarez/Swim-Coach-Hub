@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createSessionToken } from "@/lib/session";
 
 export async function POST(request: Request) {
   try {
@@ -9,8 +10,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
+    const token = createSessionToken();
     const response = NextResponse.json({ success: true });
-    response.cookies.set("coach-session", "authenticated", {
+    response.cookies.set("coach-session", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

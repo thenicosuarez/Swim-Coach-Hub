@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { verifySessionToken } from "@/lib/session";
 
 export async function GET() {
   const cookieStore = await cookies();
   const session = cookieStore.get("coach-session");
-  if (session?.value === "authenticated") {
+  if (session && verifySessionToken(session.value)) {
     return NextResponse.json({ authenticated: true });
   }
   return NextResponse.json({ authenticated: false }, { status: 401 });

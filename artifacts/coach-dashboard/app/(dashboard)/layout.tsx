@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { verifySessionToken } from "@/lib/session";
 import DashboardNav from "./nav";
 
 const basePath = process.env.BASE_PATH ?? "";
@@ -8,7 +9,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const cookieStore = await cookies();
   const session = cookieStore.get("coach-session");
 
-  if (!session || session.value !== "authenticated") {
+  if (!session || !verifySessionToken(session.value)) {
     redirect(`${basePath}/login`);
   }
 

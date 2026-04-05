@@ -1,7 +1,27 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { createHmac, timingSafeEqual } from "crypto";
+
+export const runtime = "nodejs";
 
 const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
+
+function getSecret(): string {
+  return process.env.COACH_PASSWORD ?? "dev-secret-changeme";
+}
+
+function isValidToken(token: string): boolean {
+  try {
+    const secret = getSecret();
+    const expected = createHmac("sha256", secret).update("coach-authenticated").digest("hex");
+    const expectedBuf = Buffer.from(expected, "hex");
+    const actualBuf = Buffer.from(token, "hex");
+    if (expectedBuf.length !== actualBuf.length) return false;
+    return timingSafeEqual(expectedBuf, actualBuf);
+  } catch {
+    return false;
+  }
+}
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -19,7 +39,7 @@ export function middleware(request: NextRequest) {
   if (isPublic) return NextResponse.next();
 
   const sessionCookie = request.cookies.get("coach-session");
-  if (!sessionCookie || sessionCookie.value !== "authenticated") {
+  if (!sessionCookie || !isValidToken(sessionCookie.value)) {
     const loginPath = basePath ? `${basePath}/login` : "/login";
     return NextResponse.redirect(new URL(loginPath, request.url));
   }
