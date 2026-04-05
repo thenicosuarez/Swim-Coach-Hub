@@ -8,7 +8,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const cookieStore = await cookies();
   const session = cookieStore.get("coach-session");
 
-  if (!session) {
+  if (!session || session.value !== "authenticated") {
     redirect(`${basePath}/login`);
   }
 

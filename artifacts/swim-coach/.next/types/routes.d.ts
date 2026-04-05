@@ -3,7 +3,7 @@
 
 type AppRoutes = "/" | "/privacy-policy" | "/terms-of-service"
 type AppRouteHandlerRoutes = "/api/bookings" | "/api/contact" | "/api/health" | "/api/webhooks/calendly" | "/api/webhooks/tally"
-type PageRoutes = "/Home" | "/PrivacyPolicy" | "/TermsOfService" | "/not-found"
+type PageRoutes = never
 type LayoutRoutes = "/"
 type RedirectRoutes = never
 type RewriteRoutes = never
@@ -17,12 +17,8 @@ interface ParamMap {
   "/api/health": {}
   "/api/webhooks/calendly": {}
   "/api/webhooks/tally": {}
-  "/Home": {}
-  "/not-found": {}
   "/privacy-policy": {}
-  "/PrivacyPolicy": {}
   "/terms-of-service": {}
-  "/TermsOfService": {}
 }
 
 

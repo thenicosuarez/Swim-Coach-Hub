@@ -58,6 +58,7 @@ export default function DashboardNav() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   function isActive(href: string) {
+    if (!pathname) return false;
     const full = `${basePath}${href}`;
     if (href === "/") return pathname === full || pathname === basePath;
     return pathname.startsWith(full);

@@ -29,6 +29,7 @@
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "date-fns": "^3.6.0",
+    "drizzle-orm": "catalog:",
     "framer-motion": "catalog:",
     "lucide-react": "catalog:",
     "next": "^15.3.2",

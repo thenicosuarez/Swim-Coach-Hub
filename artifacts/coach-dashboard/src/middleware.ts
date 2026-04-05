@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
   if (isPublic) return NextResponse.next();
 
   const sessionCookie = request.cookies.get("coach-session");
-  if (!sessionCookie) {
+  if (!sessionCookie || sessionCookie.value !== "authenticated") {
     const loginPath = basePath ? `${basePath}/login` : "/login";
     return NextResponse.redirect(new URL(loginPath, request.url));
   }
