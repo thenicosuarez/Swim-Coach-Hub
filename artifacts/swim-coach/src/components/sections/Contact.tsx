@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
+import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 import { Button } from "@/components/ui/button";
 
-const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
 
 export function Contact() {
   return (
@@ -36,7 +36,7 @@ export function Contact() {
                 asChild
                 className="text-lg px-8"
               >
-                <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+                <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
                   Book quick 5–10 min intake call
                 </a>
               </Button>

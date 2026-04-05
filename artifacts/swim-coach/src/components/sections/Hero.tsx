@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-
-const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
+import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 
 export function Hero() {
   return (
@@ -63,7 +62,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button size="lg" variant="accent" asChild className="text-lg px-8">
-              <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
+              <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
             </Button>
             <Button size="lg" variant="outline" asChild className="text-lg px-8 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm">
               <a href="#services">View Rates</a>

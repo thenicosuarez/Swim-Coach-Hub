@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 
-const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
-const VIDEO_FORM_URL = "https://calendly.com/[your-handle]";
 
 export function Services() {
   return (
@@ -151,7 +150,7 @@ export function Services() {
                 Submit your video for a detailed technique breakdown with personalized recommendations and a Zoom debrief. Please send video at least 48 hours prior to your appointment.
               </p>
               <a
-                href={VIDEO_FORM_URL}
+                href={TALLY_INTAKE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-xs font-semibold text-accent hover:underline"
@@ -170,7 +169,7 @@ export function Services() {
           className="text-center mb-10"
         >
           <Button size="lg" variant="default" asChild className="text-lg px-10 py-6 rounded-2xl shadow-lg">
-            <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
               Book quick 5–10 min client intake call here
             </a>
           </Button>

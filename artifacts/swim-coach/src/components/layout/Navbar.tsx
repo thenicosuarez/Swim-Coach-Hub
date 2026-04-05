@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 import { Menu, X } from "lucide-react";
 
-const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -68,7 +68,7 @@ export function Navbar() {
             variant={isScrolled ? "default" : "default"}
             className={cn(!isScrolled && "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary")}
           >
-            <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
+            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
           </Button>
         </nav>
 
@@ -100,7 +100,7 @@ export function Navbar() {
             </a>
           ))}
           <Button asChild className="mt-2 w-full">
-            <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>Book a Session</a>
+            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>Book a Session</a>
           </Button>
         </nav>
       </div>
