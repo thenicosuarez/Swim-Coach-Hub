@@ -42,6 +42,15 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
+            className="text-white/70 text-base md:text-lg font-light mb-5 max-w-xl leading-relaxed"
+          >
+            From infants &amp; toddlers to high school athletes to adults — coaching for every age and stage.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.32, ease: "easeOut" }}
             className="text-white/60 text-sm font-semibold tracking-widest uppercase mb-8"
           >
             Coach Nikki · West Loop + West Town, Chicago
@@ -50,7 +59,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button size="lg" variant="accent" asChild className="text-lg px-8">
