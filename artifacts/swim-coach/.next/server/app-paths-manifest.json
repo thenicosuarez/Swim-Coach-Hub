@@ -1,4 +1,11 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/bookings/route": "app/api/bookings/route.js",
+  "/api/contact/route": "app/api/contact/route.js",
   "/api/health/route": "app/api/health/route.js",
-  "/page": "app/page.js"
+  "/api/webhooks/calendly/route": "app/api/webhooks/calendly/route.js",
+  "/api/webhooks/tally/route": "app/api/webhooks/tally/route.js",
+  "/page": "app/page.js",
+  "/terms-of-service/page": "app/terms-of-service/page.js",
+  "/privacy-policy/page": "app/privacy-policy/page.js"
 }

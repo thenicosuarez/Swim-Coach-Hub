@@ -6,13 +6,10 @@ export const runtime = "nodejs";
 
 const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 
-function getSecret(): string {
-  return process.env.COACH_PASSWORD ?? "dev-secret-changeme";
-}
-
 function isValidToken(token: string): boolean {
   try {
-    const secret = getSecret();
+    const secret = process.env.COACH_PASSWORD;
+    if (!secret) return false;
     const expected = createHmac("sha256", secret).update("coach-authenticated").digest("hex");
     const expectedBuf = Buffer.from(expected, "hex");
     const actualBuf = Buffer.from(token, "hex");

@@ -1,7 +1,11 @@
 import { createHmac, timingSafeEqual } from "crypto";
 
 function getSecret(): string {
-  return process.env.COACH_PASSWORD ?? "dev-secret-changeme";
+  const secret = process.env.COACH_PASSWORD;
+  if (!secret) {
+    throw new Error("COACH_PASSWORD environment variable is required");
+  }
+  return secret;
 }
 
 export function createSessionToken(): string {
@@ -11,7 +15,8 @@ export function createSessionToken(): string {
 
 export function verifySessionToken(token: string): boolean {
   try {
-    const expected = createSessionToken();
+    const secret = getSecret();
+    const expected = createHmac("sha256", secret).update("coach-authenticated").digest("hex");
     const expectedBuf = Buffer.from(expected, "hex");
     const actualBuf = Buffer.from(token, "hex");
     if (expectedBuf.length !== actualBuf.length) return false;
