@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CALENDLY_BASE_URL } from "@/lib/booking-urls";
 
 const SERVICE_OPTIONS = [
   { value: "Private Lesson (1:1)", label: "Private Lesson (1:1)" },
@@ -41,14 +40,6 @@ const EXPERIENCE_OPTIONS = [
 
 const FOUR_STROKES_OPTIONS = ["Yes", "No", "Working on it"];
 const POOL_ACCESS_OPTIONS = ["Yes — building or private pool", "No — need pool suggestion"];
-
-const quickServices = [
-  { label: "Private Lesson", sub: "from $60 / 30 min", slug: "30min" },
-  { label: "Advanced / Team Prep", sub: "from $65 / 30 min", slug: "advanced" },
-  { label: "Baby & Toddler", sub: "from $40 / session", slug: "baby" },
-  { label: "Group / Family", sub: "$50 / 45 min", slug: "group" },
-  { label: "Video Review", sub: "$20 / video", slug: "video" },
-];
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -458,46 +449,6 @@ export function Booking() {
                 </motion.form>
               )}
             </AnimatePresence>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex-1 h-px bg-border" />
-            <span className="text-muted-foreground text-sm font-medium px-2">Already know what you need?</span>
-            <div className="flex-1 h-px bg-border" />
-          </div>
-
-          <div>
-            <h3 className="font-display font-bold text-xl text-foreground mb-2 text-center">
-              Book directly on Calendly
-            </h3>
-            <p className="text-center text-muted-foreground text-sm mb-6">
-              Skip the intake form and book a specific service right now.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {quickServices.map((svc, i) => (
-                <motion.a
-                  key={svc.slug}
-                  href={`${CALENDLY_BASE_URL.replace(/\/$/, "")}/${svc.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.07 }}
-                  className="group flex flex-col items-start gap-1.5 p-5 rounded-2xl border-2 border-border hover:border-primary/50 bg-card hover:bg-primary/5 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
-                >
-                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mb-1 group-hover:bg-primary/20 transition-colors">
-                    <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <span className="font-display font-bold text-foreground group-hover:text-primary transition-colors">
-                    {svc.label}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{svc.sub}</span>
-                </motion.a>
-              ))}
-            </div>
           </div>
 
         </div>
