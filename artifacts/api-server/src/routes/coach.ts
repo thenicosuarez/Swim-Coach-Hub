@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db, bookingsTable, clientsTable, coachingPlansTable, sessionsTable, invoicesTable } from "@workspace/db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import crypto from "crypto";
 import { coachAuth } from "../middleware/coach-auth";
 
@@ -324,8 +324,10 @@ router.get("/plans/share/:token", async (req, res) => {
 router.get("/coach/sessions", coachAuth, async (req, res) => {
   try {
     const clientIdFilter = req.query.clientId ? parseInt(req.query.clientId as string) : undefined;
-    let rows = await db.select().from(sessionsTable).orderBy(desc(sessionsTable.scheduledAt));
-    if (clientIdFilter) rows = rows.filter(s => s.clientId === clientIdFilter);
+    const query = db.select().from(sessionsTable);
+    const rows = await (clientIdFilter
+      ? query.where(eq(sessionsTable.clientId, clientIdFilter)).orderBy(desc(sessionsTable.scheduledAt))
+      : query.orderBy(desc(sessionsTable.scheduledAt)));
     res.json(rows.map(s => ({
       id: s.id,
       clientId: s.clientId ?? undefined,
@@ -422,9 +424,12 @@ router.get("/coach/invoices", coachAuth, async (req, res) => {
   try {
     const clientIdFilter = req.query.clientId ? parseInt(req.query.clientId as string) : undefined;
     const statusFilter = req.query.status as string | undefined;
-    let rows = await db.select().from(invoicesTable).orderBy(desc(invoicesTable.createdAt));
-    if (clientIdFilter) rows = rows.filter(i => i.clientId === clientIdFilter);
-    if (statusFilter) rows = rows.filter(i => i.status === statusFilter);
+    const conditions = [];
+    if (clientIdFilter) conditions.push(eq(invoicesTable.clientId, clientIdFilter));
+    if (statusFilter) conditions.push(eq(invoicesTable.status, statusFilter));
+    const rows = await (conditions.length > 0
+      ? db.select().from(invoicesTable).where(and(...conditions)).orderBy(desc(invoicesTable.createdAt))
+      : db.select().from(invoicesTable).orderBy(desc(invoicesTable.createdAt)));
     res.json(rows.map(i => ({
       id: i.id,
       clientId: i.clientId ?? undefined,
