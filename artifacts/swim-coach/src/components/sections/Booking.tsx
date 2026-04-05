@@ -1,512 +1,131 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import {
-  Loader2,
-  CheckCircle2,
-} from "lucide-react";
 
-const CALENDLY_URL = "https://calendly.com/[your-handle]";
+const CALENDLY_URL = import.meta.env.VITE_COACH_CALENDLY_URL ?? "https://calendly.com/[your-handle]";
+const TALLY_FORM_URL = import.meta.env.VITE_TALLY_FORM_URL ?? "";
 
 const quickServices = [
-  { label: "Private Lesson", sub: "from $60 / 30 min" },
-  { label: "Advanced / Team Prep", sub: "from $65 / 30 min" },
-  { label: "Baby & Toddler", sub: "from $40 / session" },
-  { label: "Group / Family", sub: "$50 / 45 min" },
-  { label: "Video Review", sub: "$20 / video" },
+  { label: "Private Lesson", sub: "from $60 / 30 min", slug: "30min" },
+  { label: "Advanced / Team Prep", sub: "from $65 / 30 min", slug: "advanced" },
+  { label: "Baby & Toddler", sub: "from $40 / session", slug: "baby" },
+  { label: "Group / Family", sub: "$50 / 45 min", slug: "group" },
+  { label: "Video Review", sub: "$20 / video", slug: "video" },
 ];
 
-const intakeSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Valid email is required"),
-  phone: z.string().min(7, "Phone number is required"),
-  neighborhood: z.string().min(2, "Neighborhood is required"),
-  swimmerAge: z.string().optional(),
-  serviceInterest: z.string().min(1, "Please select a service"),
-  goal: z.string().min(1, "Please select a goal"),
-  allFourStrokes: z.string().min(1, "Please select an option"),
-  poolAccess: z.string().min(1, "Please select an option"),
-  preferredDays: z.array(z.string()).optional(),
-  preferredTime: z.string().optional(),
-  experience: z.string().optional(),
-  notes: z.string().optional(),
-});
-
-type IntakeFormValues = z.infer<typeof intakeSchema>;
-
 export function Booking() {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const form = useForm<IntakeFormValues>({
-    resolver: zodResolver(intakeSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      neighborhood: "",
-      swimmerAge: "",
-      serviceInterest: "",
-      goal: "",
-      allFourStrokes: "",
-      poolAccess: "",
-      preferredDays: [],
-      preferredTime: "",
-      experience: "",
-      notes: "",
-    },
-  });
-
-  const onSubmit = async (data: IntakeFormValues) => {
-    setIsSubmitting(true);
-    try {
-      const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
-      const res = await fetch(`${baseUrl}/api/bookings`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          service: data.serviceInterest,
-          notes: JSON.stringify({
-            neighborhood: data.neighborhood,
-            swimmerAge: data.swimmerAge,
-            goal: data.goal,
-            allFourStrokes: data.allFourStrokes,
-            poolAccess: data.poolAccess,
-            preferredDays: data.preferredDays,
-            preferredTime: data.preferredTime,
-            experience: data.experience,
-            additionalNotes: data.notes,
-          }),
-        }),
-      });
-      if (!res.ok) throw new Error("Failed to submit");
-      toast({
-        title: "Got it! Thank you!",
-        description:
-          "I'll review your info and reach out within 24 hours to set up your first session.",
-      });
-      setIsSubmitted(true);
-      form.reset();
-    } catch {
-      toast({
-        title: "Something went wrong",
-        description: "Please try again or email me directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const days = [
-    "Monday",
-    "Thursday PM",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  const tallyUrl = TALLY_FORM_URL || "https://tally.so/r/placeholder";
 
   return (
     <section id="booking" className="py-24 bg-background">
       <div className="container mx-auto px-4 md:px-6">
 
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="text-center mb-10">
-              <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3">
-                Tell me about your swimmer
-              </h3>
-              <p className="text-muted-foreground max-w-xl mx-auto">
-                Help me prepare for our first session! The more I know about your
-                goals, the better I can customize your experience.
-              </p>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3">
+            Book a Session
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+            Pick a service to book directly — or fill out the intake form so I can
+            reach out with a customized plan.
+          </p>
+        </motion.div>
+
+        <div className="max-w-4xl mx-auto space-y-14">
+
+          <div>
+            <h3 className="font-display font-bold text-xl text-foreground mb-5 text-center">
+              Book directly on Calendly
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {quickServices.map((svc, i) => (
+                <motion.a
+                  key={svc.slug}
+                  href={`${CALENDLY_URL}/${svc.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.07 }}
+                  className="group flex flex-col items-start gap-1.5 p-5 rounded-2xl border-2 border-border hover:border-primary/50 bg-card hover:bg-primary/5 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+                >
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mb-1 group-hover:bg-primary/20 transition-colors">
+                    <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <span className="font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                    {svc.label}
+                  </span>
+                  <span className="text-sm text-muted-foreground">{svc.sub}</span>
+                </motion.a>
+              ))}
             </div>
+          </div>
 
-            {isSubmitted ? (
-              <div className="bg-card rounded-3xl shadow-xl shadow-black/5 border border-border p-10 text-center">
-                <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h4 className="font-display text-2xl font-bold text-foreground mb-2">
-                  Thank you!
-                </h4>
-                <p className="text-muted-foreground mb-6">
-                  I've got your info and I'll reach out within 24 hours.
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsSubmitted(false)}
-                >
-                  Submit another form
-                </Button>
-              </div>
-            ) : (
-              <div className="bg-card p-6 md:p-10 rounded-3xl shadow-xl shadow-black/5 border border-border">
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
-                >
-                  <div>
-                    <h4 className="font-display font-bold text-lg text-foreground mb-4 pb-2 border-b border-border">
-                      Your Info
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Your Name *
-                        </label>
-                        <Input
-                          {...form.register("name")}
-                          placeholder="First & last name"
-                        />
-                        {form.formState.errors.name && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.name.message}
-                          </p>
-                        )}
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Email *
-                        </label>
-                        <Input
-                          type="email"
-                          {...form.register("email")}
-                          placeholder="your@email.com"
-                        />
-                        {form.formState.errors.email && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.email.message}
-                          </p>
-                        )}
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Phone *
-                        </label>
-                        <Input
-                          type="tel"
-                          {...form.register("phone")}
-                          placeholder="(312) 555-1234"
-                        />
-                        {form.formState.errors.phone && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.phone.message}
-                          </p>
-                        )}
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Neighborhood / Area *
-                        </label>
-                        <Input
-                          {...form.register("neighborhood")}
-                          placeholder="e.g. West Loop, Lincoln Park, Oak Park..."
-                        />
-                        {form.formState.errors.neighborhood && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.neighborhood.message}
-                          </p>
-                        )}
-                      </div>
-                    </div>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-muted-foreground text-sm font-medium px-2">or</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          <div>
+            <h3 className="font-display font-bold text-xl text-foreground mb-3 text-center">
+              Tell me about your swimmer
+            </h3>
+            <p className="text-center text-muted-foreground mb-8 max-w-xl mx-auto">
+              Not sure which session to book? Fill out the intake form — I'll review
+              your goals and reach out within 24 hours with a personalized recommendation.
+            </p>
+
+            <div className="bg-card rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden">
+              {TALLY_FORM_URL ? (
+                <iframe
+                  data-tally-src={TALLY_FORM_URL}
+                  src={TALLY_FORM_URL}
+                  title="Swim Coaching Intake Form"
+                  width="100%"
+                  height="700"
+                  frameBorder="0"
+                  marginHeight={0}
+                  marginWidth={0}
+                  className="block"
+                  allow="camera; microphone; autoplay; encrypted-media;"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-6 py-16 px-8 text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
                   </div>
-
                   <div>
-                    <h4 className="font-display font-bold text-lg text-foreground mb-4 pb-2 border-b border-border">
-                      About the Swimmer
+                    <h4 className="font-display font-bold text-xl text-foreground mb-2">
+                      Intake Form
                     </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Swimmer's Age
-                        </label>
-                        <Input
-                          {...form.register("swimmerAge")}
-                          placeholder="e.g. 6, Adult, 18 months..."
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Service Interest *
-                        </label>
-                        <select
-                          {...form.register("serviceInterest")}
-                          className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 transition-all duration-200"
-                        >
-                          <option value="">Select a service</option>
-                          <option value="private_lesson">Private Lesson</option>
-                          <option value="advanced_team_prep">
-                            Advanced / Team Prep
-                          </option>
-                          <option value="baby_toddler">Baby & Toddler</option>
-                          <option value="group_family">Group / Family</option>
-                          <option value="video_review">Video Review</option>
-                          <option value="not_sure">Not sure yet</option>
-                        </select>
-                        {form.formState.errors.serviceInterest && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.serviceInterest.message}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="mt-5 space-y-1.5">
-                      <label className="text-sm font-semibold text-foreground">
-                        Current Experience Level
-                      </label>
-                      <select
-                        {...form.register("experience")}
-                        className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 transition-all duration-200"
-                      >
-                        <option value="">Select experience level</option>
-                        <option value="none">No swimming experience</option>
-                        <option value="beginner">
-                          Beginner — can float / kick a little
-                        </option>
-                        <option value="intermediate">
-                          Intermediate — can swim but wants to improve
-                        </option>
-                        <option value="advanced">
-                          Advanced — competitive / team swimmer
-                        </option>
-                      </select>
-                    </div>
+                    <p className="text-muted-foreground mb-6 max-w-sm">
+                      The intake form will appear here once configured. Click below to open it in a new tab.
+                    </p>
                   </div>
-
-                  <div>
-                    <h4 className="font-display font-bold text-lg text-foreground mb-4 pb-2 border-b border-border">
-                      Goals & Preferences
-                    </h4>
-
-                    <div className="space-y-5">
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-foreground">
-                          What's the main goal? *
-                        </label>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                          {[
-                            {
-                              value: "water_safety",
-                              label: "Survival Water Skills",
-                              desc: "Comfort, safety, and confidence in the water",
-                            },
-                            {
-                              value: "recreational",
-                              label: "Recreational / Vacation Ready",
-                              desc: "Learn to freestyle and be safe on family vacations",
-                            },
-                            {
-                              value: "competitive",
-                              label: "Stroke Precision / Competitive",
-                              desc: "Refine technique and improve competitive times",
-                            },
-                          ].map((opt) => (
-                            <label
-                              key={opt.value}
-                              className={`relative flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                                form.watch("goal") === opt.value
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/30"
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                value={opt.value}
-                                {...form.register("goal")}
-                                className="sr-only"
-                              />
-                              <span className="font-semibold text-sm text-foreground">
-                                {opt.label}
-                              </span>
-                              <span className="text-xs text-muted-foreground mt-0.5">
-                                {opt.desc}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                        {form.formState.errors.goal && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.goal.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-foreground">
-                          Want to learn all four strokes? *
-                        </label>
-                        <div className="flex gap-3">
-                          {[
-                            { value: "yes", label: "Yes, all four!" },
-                            { value: "no", label: "Not necessarily" },
-                            { value: "not_sure", label: "Not sure yet" },
-                          ].map((opt) => (
-                            <label
-                              key={opt.value}
-                              className={`flex-1 text-center py-3 px-4 rounded-xl border-2 cursor-pointer text-sm font-semibold transition-all duration-200 ${
-                                form.watch("allFourStrokes") === opt.value
-                                  ? "border-primary bg-primary/5 text-foreground"
-                                  : "border-border text-muted-foreground hover:border-primary/30"
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                value={opt.value}
-                                {...form.register("allFourStrokes")}
-                                className="sr-only"
-                              />
-                              {opt.label}
-                            </label>
-                          ))}
-                        </div>
-                        {form.formState.errors.allFourStrokes && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.allFourStrokes.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-foreground">
-                          Do you have access to a pool? *
-                        </label>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                          {[
-                            {
-                              value: "own_pool",
-                              label: "Yes, I have a pool",
-                            },
-                            {
-                              value: "building_pool",
-                              label: "Building / HOA pool",
-                            },
-                            {
-                              value: "need_location",
-                              label: "I need a location",
-                            },
-                          ].map((opt) => (
-                            <label
-                              key={opt.value}
-                              className={`text-center py-3 px-4 rounded-xl border-2 cursor-pointer text-sm font-semibold transition-all duration-200 ${
-                                form.watch("poolAccess") === opt.value
-                                  ? "border-primary bg-primary/5 text-foreground"
-                                  : "border-border text-muted-foreground hover:border-primary/30"
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                value={opt.value}
-                                {...form.register("poolAccess")}
-                                className="sr-only"
-                              />
-                              {opt.label}
-                            </label>
-                          ))}
-                        </div>
-                        {form.formState.errors.poolAccess && (
-                          <p className="text-destructive text-xs">
-                            {form.formState.errors.poolAccess.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-semibold text-foreground">
-                          Preferred Days
-                        </label>
-                        <div className="flex flex-wrap gap-2">
-                          {days.map((day) => {
-                            const selected =
-                              form.watch("preferredDays")?.includes(day) ??
-                              false;
-                            return (
-                              <label
-                                key={day}
-                                className={`py-2 px-4 rounded-full border-2 cursor-pointer text-sm font-medium transition-all duration-200 ${
-                                  selected
-                                    ? "border-primary bg-primary/10 text-foreground"
-                                    : "border-border text-muted-foreground hover:border-primary/30"
-                                }`}
-                              >
-                                <input
-                                  type="checkbox"
-                                  value={day}
-                                  {...form.register("preferredDays")}
-                                  className="sr-only"
-                                />
-                                {day}
-                              </label>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Preferred Time of Day
-                        </label>
-                        <select
-                          {...form.register("preferredTime")}
-                          className="flex h-12 w-full rounded-lg border-2 border-border bg-background px-4 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 transition-all duration-200"
-                        >
-                          <option value="">Any time works</option>
-                          <option value="morning">
-                            Morning (6 AM - 11 AM)
-                          </option>
-                          <option value="afternoon">
-                            Afternoon (12 PM - 4 PM)
-                          </option>
-                          <option value="evening">
-                            Evening (5 PM - 8 PM)
-                          </option>
-                        </select>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-foreground">
-                          Anything else I should know?
-                        </label>
-                        <Textarea
-                          {...form.register("notes")}
-                          placeholder="Medical considerations, fears, past swim experience, questions for me..."
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full"
-                    disabled={isSubmitting}
+                  <a
+                    href={tallyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      "Send My Swimmer Info"
-                    )}
-                  </Button>
-                </form>
-              </div>
-            )}
-          </motion.div>
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Open Intake Form
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
