@@ -2,6 +2,8 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import Home from "@/pages/Home";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
 
 // Create a robust QueryClient setup
 const queryClient = new QueryClient({
@@ -29,6 +31,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-of-service" component={TermsOfService} />
       <Route component={NotFound} />
     </Switch>
   );

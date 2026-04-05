@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
+const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,7 +38,7 @@ export function Navbar() {
           <div className="w-10 h-10 rounded-full overflow-hidden bg-primary flex items-center justify-center">
             <img 
               src={`${import.meta.env.BASE_URL}images/logo.png`} 
-              alt="Coach Logo" 
+              alt="Coach Nikki Logo" 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
@@ -44,7 +46,7 @@ export function Navbar() {
             "font-display font-bold text-xl tracking-tight transition-colors",
             isScrolled ? "text-primary" : "text-white drop-shadow-md"
           )}>
-            [Your<span className="text-accent"> Name]</span>
+            Coach<span className="text-accent"> Nikki</span>
           </span>
         </Link>
 
@@ -66,7 +68,7 @@ export function Navbar() {
             variant={isScrolled ? "default" : "default"}
             className={cn(!isScrolled && "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary")}
           >
-            <a href="#booking">Book a Session</a>
+            <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
           </Button>
         </nav>
 
@@ -98,7 +100,7 @@ export function Navbar() {
             </a>
           ))}
           <Button asChild className="mt-2 w-full">
-            <a href="#booking" onClick={() => setMobileMenuOpen(false)}>Book a Session</a>
+            <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>Book a Session</a>
           </Button>
         </nav>
       </div>

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
+const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
+
 export function Hero() {
   return (
     <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
@@ -15,23 +17,13 @@ export function Hero() {
 
       <div className="container relative z-10 mx-auto px-4 md:px-6 pt-20">
         <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <span className="inline-block py-1.5 px-4 rounded-full bg-accent/20 text-accent border border-accent/30 font-semibold text-sm tracking-widest uppercase mb-6 backdrop-blur-sm">
-              University of Michigan · Big Ten Championship
-            </span>
-          </motion.div>
-          
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-[1.1] mb-6 tracking-tight text-balance"
           >
-            D1 trained. <br />
+            Michigan trained. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-amber-300">
               Chicago coached.
             </span>
@@ -43,7 +35,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-lg md:text-xl text-white/80 mb-4 max-w-xl font-light leading-relaxed"
           >
-            From the Big Ten Championship pool to your private lesson. Elite technique, personalized coaching, and a genuine love for the water — for swimmers of every level.
+            Elite technique, personalized coaching, and a genuine love for the water — for swimmers of every level.
           </motion.p>
 
           <motion.p
@@ -52,7 +44,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
             className="text-white/60 text-sm font-semibold tracking-widest uppercase mb-8"
           >
-            Coach [Your Name] · West Loop, Chicago
+            Coach Nikki · West Loop + West Town, Chicago
           </motion.p>
           
           <motion.div
@@ -62,7 +54,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button size="lg" variant="accent" asChild className="text-lg px-8">
-              <a href="#booking">Book a Session</a>
+              <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
             </Button>
             <Button size="lg" variant="outline" asChild className="text-lg px-8 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm">
               <a href="#services">View Rates</a>

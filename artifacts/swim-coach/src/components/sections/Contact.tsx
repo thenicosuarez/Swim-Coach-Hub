@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
-import { Instagram, Twitter, Mail, Linkedin, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
 
 export function Contact() {
   return (
@@ -17,68 +20,41 @@ export function Contact() {
           >
             <h2 className="text-accent font-bold tracking-widest uppercase text-sm mb-3">Get In Touch</h2>
             <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
-              Let's Connect
+              Ready to dive in?
             </h3>
-            <p className="text-white/70 mb-10">
-              Have questions about lessons, scheduling, or pool locations? Reach out anytime — I'd love to hear from you!
+            <p className="text-white/70 mb-4 text-lg">
+              Let's connect! Whether you have questions about lessons, scheduling, or pool locations — I'd love to hear from you.
+            </p>
+            <p className="text-white/60 mb-10 text-sm">
+              I'm usually available <strong className="text-white/80">Mondays, Thursday afternoons, Fridays,</strong> and <strong className="text-white/80">weekends</strong>. Let's find a time that works!
             </p>
 
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 mb-10">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <MessageCircle className="w-6 h-6 text-accent" />
-                <h4 className="font-display font-bold text-xl text-white">Live Chat Coming Soon</h4>
-              </div>
-              <p className="text-white/60 text-sm max-w-md mx-auto">
-                I'm setting up a live chat assistant so you can get answers instantly. In the meantime, feel free to email me or connect on social!
-              </p>
-            </div>
-
-            <div className="space-y-6">
-              <a 
-                href="mailto:your.email@example.com" 
-                className="inline-flex items-center gap-2 text-white hover:text-accent transition-colors font-semibold text-lg"
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+              <Button
+                size="lg"
+                variant="accent"
+                asChild
+                className="text-lg px-8"
               >
-                <Mail className="w-5 h-5" />
-                your.email@example.com
+                <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+                  Book quick 5–10 min intake call
+                </a>
+              </Button>
+              <a 
+                href="#booking"
+                className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors font-semibold text-base border border-white/30 px-6 py-3 rounded-lg hover:border-white/60"
+              >
+                Fill out intake form
               </a>
-
-              <div className="flex justify-center gap-4">
-                <a
-                  href="https://instagram.com/[your-handle]"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/[your-handle]"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://twitter.com/[your-handle]"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a
-                  href="mailto:your.email@example.com"
-                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors"
-                  aria-label="Email"
-                >
-                  <Mail className="w-5 h-5" />
-                </a>
-              </div>
             </div>
+
+            <a 
+              href="mailto:your.email@example.com" 
+              className="inline-flex items-center gap-2 text-white/70 hover:text-accent transition-colors font-semibold text-lg"
+            >
+              <Mail className="w-5 h-5" />
+              your.email@example.com
+            </a>
           </motion.div>
         </div>
       </div>

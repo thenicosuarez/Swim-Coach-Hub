@@ -1,4 +1,5 @@
-import { Instagram, Twitter, Mail, MapPin, Linkedin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
+import { Link } from "wouter";
 
 export function Footer() {
   return (
@@ -13,15 +14,15 @@ export function Footer() {
                 className="w-10 h-10 rounded-full bg-white p-1"
               />
               <span className="font-display font-bold text-2xl tracking-tight">
-                [Your<span className="text-accent"> Name]</span>
+                Coach<span className="text-accent"> Nikki</span>
               </span>
             </div>
             <p className="text-white/70 max-w-sm">
-              Train hard. Swim smart. Love the water. University of Michigan D1 swimmer bringing elite coaching to Chicago swimmers of all levels.
+              Train hard. Swim smart. Love the water. University of Michigan swimmer bringing elite coaching to Chicago swimmers of all levels.
             </p>
             <div className="flex items-center gap-2 mt-4 text-white/60 text-sm">
               <MapPin className="w-4 h-4" />
-              <span>West Loop, Chicago</span>
+              <span>West Loop + West Town, Chicago</span>
             </div>
           </div>
           
@@ -36,29 +37,20 @@ export function Footer() {
           </div>
           
           <div>
-            <h4 className="font-display font-semibold text-lg mb-6 tracking-wide uppercase text-white/50">Connect</h4>
-            <div className="flex gap-4">
-              <a href="https://instagram.com/[your-handle]" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="Instagram">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="https://linkedin.com/in/[your-handle]" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="https://twitter.com/[your-handle]" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="Twitter">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="mailto:your.email@example.com" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="Email">
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
-            <p className="mt-6 text-white/70">
+            <h4 className="font-display font-semibold text-lg mb-6 tracking-wide uppercase text-white/50">Contact</h4>
+            <a href="mailto:your.email@example.com" className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors mb-2">
+              <Mail className="w-4 h-4" />
               your.email@example.com
-            </p>
+            </a>
           </div>
         </div>
         
-        <div className="border-t border-white/10 mt-16 pt-8 text-center text-white/50 text-sm">
-          &copy; {new Date().getFullYear()} [Your Name] Swimming. All rights reserved.
+        <div className="border-t border-white/10 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/50 text-sm">
+          <span>&copy; {new Date().getFullYear()} Hubbard Wellness LLC. All rights reserved.</span>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy-policy" className="hover:text-accent transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-accent transition-colors">Terms of Service</Link>
+          </div>
         </div>
       </div>
     </footer>

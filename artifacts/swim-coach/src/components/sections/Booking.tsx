@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
-  CalendarCheck,
-  ExternalLink,
   Loader2,
   CheckCircle2,
 } from "lucide-react";
@@ -122,71 +120,7 @@ export function Booking() {
     <section id="booking" className="py-24 bg-background">
       <div className="container mx-auto px-4 md:px-6">
 
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-accent font-bold tracking-widest uppercase text-sm mb-3"
-          >
-            Schedule
-          </motion.h2>
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6"
-          >
-            Ready to dive in?
-          </motion.h3>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-muted-foreground"
-          >
-            Pick a service and book directly on my Calendly, or fill out the
-            intake form below so I can learn about your swimmer first!
-          </motion.p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          {quickServices.map((svc, i) => (
-            <motion.a
-              key={svc.label}
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
-              className="group bg-card border border-border/50 rounded-xl p-5 flex flex-col items-center text-center hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-            >
-              <h4 className="font-display font-bold text-foreground mb-1">
-                {svc.label}
-              </h4>
-              <p className="text-xs text-muted-foreground mb-3">{svc.sub}</p>
-              <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:text-accent transition-colors">
-                Schedule on Calendly
-                <ExternalLink className="w-3 h-3" />
-              </span>
-            </motion.a>
-          ))}
-        </div>
-
-        <div className="flex items-center justify-center mb-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <CalendarCheck className="w-4 h-4 text-primary" />
-            <span>
-              I'm usually free <strong className="text-foreground">Mondays, Thursday afternoons, Fridays,</strong> and <strong className="text-foreground">weekends</strong>.
-            </span>
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto mt-20">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

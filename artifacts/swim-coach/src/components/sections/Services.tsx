@@ -1,52 +1,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { PlayCircle } from "lucide-react";
 
-const CALENDLY_URL = "https://calendly.com/[your-handle]";
-
-const services = [
-  {
-    id: "private",
-    title: "Private Lesson",
-    price: 60,
-    unit: "/ 30 min",
-    tiers: ["$90 / 45 min", "$120 / 60 min"],
-    desc: "One-on-one, fully tailored to your level. Beginners learn water comfort, floating, and foundational strokes. Intermediate swimmers refine mechanics, breathing, and timing. We go at your pace.",
-    featured: false,
-  },
-  {
-    id: "advanced",
-    title: "Advanced / Team Prep",
-    price: 65,
-    unit: "/ 30 min",
-    tiers: ["$95 / 45 min", "$130 / 60 min"],
-    desc: "For competitive swimmers and team athletes looking for refined, technical coaching. Stroke analysis, flip turns, race strategy — the same level of detail I got training D1 at Michigan.",
-    featured: true,
-  },
-  {
-    id: "baby",
-    title: "Baby & Toddler",
-    price: 40,
-    unit: "/ session",
-    tiers: ["Babies 20-30 min · $45", "Toddlers up to 45 min · $40"],
-    desc: "Gentle water introduction for the littlest swimmers. Comfort and safety skills in a fun, supportive environment. Parent participation encouraged!",
-    featured: false,
-  },
-  {
-    id: "group",
-    title: "Group / Family",
-    price: 50,
-    unit: "/ 45 min",
-    tiers: [],
-    desc: "Perfect for siblings or small groups. Bring the family! I'll work with each swimmer's level while keeping it fun and engaging for everyone in the water.",
-    featured: false,
-  },
-];
-
-const packages = [
-  { title: "5-Session Pack", price: 360, save: 40 },
-  { title: "10-Session Pack", price: 680, save: 120 },
-];
+const CALENDLY_INTAKE_URL = "https://calendly.com/[your-handle]";
+const VIDEO_FORM_URL = "https://calendly.com/[your-handle]";
 
 export function Services() {
   return (
@@ -78,116 +34,48 @@ export function Services() {
             transition={{ delay: 0.2 }}
             className="text-lg text-muted-foreground"
           >
-            Transparent pricing built on the standard my Michigan coaches set: $1 per minute minimum, because quality instruction deserves fair, sustainable rates.
+            Thoughtfully designed lessons focused on water safety, confidence, and skill development. Each session is tailored to the swimmer's age, experience, level, and goals.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {services.map((svc, i) => (
-            <motion.div
-              key={svc.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`
-                bg-card rounded-2xl p-8 relative flex flex-col
-                shadow-lg shadow-black/5 border transition-all duration-300
-                hover:-translate-y-1 hover:shadow-xl hover:border-primary/30
-                ${svc.featured ? "border-primary ring-1 ring-primary" : "border-border/50"}
-              `}
-            >
-              {svc.featured && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full">
-                  Elite Level
-                </span>
-              )}
-
-              <div className="mb-4">
-                <h4 className="font-display text-xl font-bold text-foreground">{svc.title}</h4>
-              </div>
-
-              <div className="mb-2">
-                <span className="text-4xl font-black text-foreground">${svc.price}</span>
-                <span className="text-muted-foreground text-sm ml-1">{svc.unit}</span>
-              </div>
-
-              {svc.tiers.length > 0 && (
-                <div className="mb-6 space-y-0.5">
-                  {svc.tiers.map((t, idx) => (
-                    <p key={idx} className="text-xs text-muted-foreground">{t}</p>
-                  ))}
-                </div>
-              )}
-              {svc.tiers.length === 0 && <div className="mb-6" />}
-
-              <p className="text-muted-foreground text-sm flex-grow mb-8 leading-relaxed">
-                {svc.desc}
-              </p>
-
-              <Button
-                variant={svc.featured ? "default" : "outline"}
-                className="w-full mt-auto"
-                asChild
-              >
-                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
-                  Schedule on Calendly
-                </a>
-              </Button>
-            </motion.div>
-          ))}
-        </div>
-
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.5 }}
-          className="mb-16"
+          className="mb-6"
         >
-          <div className="bg-card rounded-2xl p-8 border border-accent/30 shadow-lg shadow-accent/5 flex flex-col sm:flex-row items-center gap-6 max-w-xl mx-auto">
-            <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0">
-              <PlayCircle className="w-8 h-8 text-accent" />
-            </div>
-            <div className="flex-grow text-center sm:text-left">
-              <h4 className="font-display text-xl font-bold text-foreground">Video Review</h4>
-              <p className="text-muted-foreground text-sm mt-1">
-                Send me a video of your stroke and I'll send back a detailed analysis with corrections, drills, and tips. Upload coming soon — for now, send via text or email!
-              </p>
-            </div>
-            <div className="text-center shrink-0">
-              <span className="text-3xl font-black text-foreground">$20</span>
-              <p className="text-xs text-muted-foreground">per video</p>
-            </div>
+          <h4 className="text-xl font-display font-bold text-foreground mb-4">Lesson Options & Rates</h4>
+          <div className="overflow-x-auto rounded-2xl border border-border shadow-sm">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-primary text-white">
+                  <th className="text-left px-6 py-4 font-semibold">Lesson Type</th>
+                  <th className="px-6 py-4 font-semibold text-center">30 min</th>
+                  <th className="px-6 py-4 font-semibold text-center">45 min</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border bg-card">
+                <tr className="hover:bg-secondary/50 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-foreground">Private (1:1)</td>
+                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$49</td>
+                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$69</td>
+                </tr>
+                <tr className="hover:bg-secondary/50 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-foreground">Semi-Private (2 swimmers)</td>
+                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$79</td>
+                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$109</td>
+                </tr>
+                <tr className="hover:bg-secondary/50 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-foreground">Semi-Private (3 swimmers)</td>
+                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$109</td>
+                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$139</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="bg-primary rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden shadow-2xl"
-        >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/4" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-300 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/4" />
-
-          <h4 className="font-display text-2xl md:text-3xl font-bold mb-4 relative z-10">Commit to the Process</h4>
-          <p className="text-white/70 mb-8 relative z-10 max-w-lg mx-auto">
-            Book multiple sessions or consecutive weeks and save. I'm flexible with scheduling — let's find what works for you!
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 relative z-10">
-            {packages.map((pkg, i) => (
-              <div key={i} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 w-full max-w-sm">
-                <h5 className="font-display font-bold text-xl mb-2">{pkg.title}</h5>
-                <div className="flex items-baseline justify-center gap-2 mb-2">
-                  <span className="text-3xl font-black">${pkg.price}</span>
-                </div>
-                <p className="text-white/80 text-sm font-medium bg-white/20 inline-block px-3 py-1 rounded-full">
-                  Save ${pkg.save}
-                </p>
-              </div>
-            ))}
+          <div className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+            <p><em>For swimmers 24 months and under, lessons are 30 minutes — a gentle water introduction with parent participation encouraged.</em></p>
+            <p><em>Semi-private cost can be split between swimmers.</em></p>
           </div>
         </motion.div>
 
@@ -195,10 +83,107 @@ export function Services() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 text-center"
+          transition={{ delay: 0.1 }}
+          className="mb-8"
+        >
+          <h4 className="text-xl font-display font-bold text-foreground mb-1">Packages</h4>
+          <p className="text-sm text-muted-foreground mb-4">Save when you book a series:</p>
+          <div className="overflow-x-auto rounded-2xl border border-border shadow-sm">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-primary text-white">
+                  <th className="text-left px-6 py-4 font-semibold">Lesson Type</th>
+                  <th className="px-6 py-4 font-semibold text-center">4 Lessons</th>
+                  <th className="px-6 py-4 font-semibold text-center">8 Lessons</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border bg-card">
+                {[
+                  { label: "Private (1:1) — 30 min",      four: "$179", fourSub: "~$44.75/lesson", eight: "$329", eightSub: "~$41.13/lesson" },
+                  { label: "Private (1:1) — 45 min",      four: "$229", fourSub: "~$57.25/lesson", eight: "$429", eightSub: "~$53.63/lesson" },
+                  { label: "Semi-Private (2) — 30 min",   four: "$279", fourSub: "~$69.75/lesson", eight: "$529", eightSub: "~$66.13/lesson" },
+                  { label: "Semi-Private (2) — 45 min",   four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
+                  { label: "Semi-Private (3) — 30 min",   four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
+                  { label: "Semi-Private (3) — 45 min",   four: "$489", fourSub: "~$122.25/lesson",eight: "$919", eightSub: "~$114.88/lesson" },
+                ].map((row, i) => (
+                  <tr key={i} className="hover:bg-secondary/50 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
+                    <td className="px-6 py-4 text-center">
+                      <span className="font-bold text-accent text-base block">{row.four}</span>
+                      <span className="text-xs text-muted-foreground">{row.fourSub}</span>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <span className="font-bold text-accent text-base block">{row.eight}</span>
+                      <span className="text-xs text-muted-foreground">{row.eightSub}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15 }}
+          className="mb-10"
+        >
+          <h4 className="text-xl font-display font-bold text-foreground mb-4">More Ways to Train</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
+              <div className="flex items-start justify-between mb-2">
+                <h5 className="font-display text-lg font-bold text-foreground">Advanced / Stroke Precision</h5>
+                <span className="text-2xl font-black text-foreground whitespace-nowrap ml-4">$109<span className="text-sm font-semibold text-muted-foreground"> / hr</span></span>
+              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                For competitive swimmers looking to refine technique. Includes video analysis and take-home analysis sheets.
+              </p>
+            </div>
+
+            <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
+              <div className="flex items-start justify-between mb-2">
+                <h5 className="font-display text-lg font-bold text-foreground">Video Analysis Session</h5>
+                <span className="text-2xl font-black text-foreground whitespace-nowrap ml-4">$59</span>
+              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-3">
+                Submit your video for a detailed technique breakdown with personalized recommendations and a Zoom debrief. Please send video at least 48 hours prior to your appointment.
+              </p>
+              <a
+                href={VIDEO_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-xs font-semibold text-accent hover:underline"
+              >
+                Submit video here →
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="text-center mb-10"
+        >
+          <Button size="lg" variant="default" asChild className="text-lg px-10 py-6 rounded-2xl shadow-lg">
+            <a href={CALENDLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+              Book quick 5–10 min client intake call here
+            </a>
+          </Button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-4 text-center"
         >
           <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-            Lessons available at <strong className="text-foreground">Skinner Park Pool</strong> (Whitney Young HS), <strong className="text-foreground">Sheridan Park Pool</strong> (near UIC), or your building's pool in the West Loop area. Travel fee of $5-10 may apply for locations 30+ min away.
+            Lessons available at <strong className="text-foreground">Skinner Park Pool</strong> (Whitney Young HS), <strong className="text-foreground">Sheridan Park Pool</strong> (near UIC), your building's pool, or another location that works for you. A <strong className="text-foreground">$15 travel fee</strong> applies for locations outside the city, 30+ minutes away, or when parking costs apply.
           </p>
         </motion.div>
 
