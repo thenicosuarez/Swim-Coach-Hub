@@ -1,5 +1,26 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/check/route": "app/api/auth/check/route.js",
   "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/auth/logout/route": "app/api/auth/logout/route.js",
+  "/api/coach/bookings/[id]/approve/route": "app/api/coach/bookings/[id]/approve/route.js",
+  "/api/coach/bookings/[id]/reject/route": "app/api/coach/bookings/[id]/reject/route.js",
   "/api/coach/bookings/route": "app/api/coach/bookings/route.js",
-  "/(dashboard)/page": "app/(dashboard)/page.js"
+  "/api/coach/clients/[id]/route": "app/api/coach/clients/[id]/route.js",
+  "/api/coach/clients/route": "app/api/coach/clients/route.js",
+  "/api/coach/config/route": "app/api/coach/config/route.js",
+  "/api/coach/invoices/[id]/route": "app/api/coach/invoices/[id]/route.js",
+  "/api/coach/invoices/route": "app/api/coach/invoices/route.js",
+  "/api/coach/plans/[id]/route": "app/api/coach/plans/[id]/route.js",
+  "/api/coach/plans/route": "app/api/coach/plans/route.js",
+  "/api/coach/sessions/[id]/route": "app/api/coach/sessions/[id]/route.js",
+  "/api/coach/sessions/route": "app/api/coach/sessions/route.js",
+  "/api/plans/share/[token]/route": "app/api/plans/share/[token]/route.js",
+  "/login/page": "app/login/page.js",
+  "/plans/[token]/page": "app/plans/[token]/page.js",
+  "/(dashboard)/clients/page": "app/(dashboard)/clients/page.js",
+  "/(dashboard)/invoices/page": "app/(dashboard)/invoices/page.js",
+  "/(dashboard)/page": "app/(dashboard)/page.js",
+  "/(dashboard)/plans/page": "app/(dashboard)/plans/page.js",
+  "/(dashboard)/sessions/page": "app/(dashboard)/sessions/page.js"
 }
