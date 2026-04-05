@@ -55,9 +55,9 @@ export function Services() {
               </thead>
               <tbody className="divide-y divide-border bg-card">
                 {[
-                  { label: "Private (1:1)", thirty: "$49", fortyfive: "$69" },
-                  { label: "Semi-Private (2 swimmers)", thirty: "$79", fortyfive: "$109" },
-                  { label: "Semi-Private (3 swimmers)", thirty: "$109", fortyfive: "$139" },
+                  { label: "Private (1:1)", thirty: "$45", fortyfive: "$60" },
+                  { label: "Semi-Private (2 swimmers)", thirty: "$75", fortyfive: "$105" },
+                  { label: "Semi-Private (3 swimmers)", thirty: "$105", fortyfive: "$130" },
                 ].map((row) => (
                   <tr key={row.label} className="hover:bg-secondary/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
@@ -94,12 +94,12 @@ export function Services() {
               </thead>
               <tbody className="divide-y divide-border bg-card">
                 {[
-                  { label: "Private (1:1) — 30 min",     four: "$179", fourSub: "~$44.75/lesson", eight: "$329", eightSub: "~$41.13/lesson" },
-                  { label: "Private (1:1) — 45 min",     four: "$229", fourSub: "~$57.25/lesson", eight: "$429", eightSub: "~$53.63/lesson" },
-                  { label: "Semi-Private (2) — 30 min",  four: "$279", fourSub: "~$69.75/lesson", eight: "$529", eightSub: "~$66.13/lesson" },
-                  { label: "Semi-Private (2) — 45 min",  four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
-                  { label: "Semi-Private (3) — 30 min",  four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
-                  { label: "Semi-Private (3) — 45 min",  four: "$489", fourSub: "~$122.25/lesson", eight: "$919", eightSub: "~$114.88/lesson" },
+                  { label: "Private (1:1) — 30 min",     four: "$170", fourSub: "$42.50/lesson", eight: "$320", eightSub: "$40/lesson" },
+                  { label: "Private (1:1) — 45 min",     four: "$225", fourSub: "$56.25/lesson", eight: "$425", eightSub: "$53.13/lesson" },
+                  { label: "Semi-Private (2) — 30 min",  four: "$275", fourSub: "$68.75/lesson", eight: "$524", eightSub: "$65.50/lesson" },
+                  { label: "Semi-Private (2) — 45 min",  four: "$385", fourSub: "$96.25/lesson", eight: "$735", eightSub: "$91.88/lesson" },
+                  { label: "Semi-Private (3) — 30 min",  four: "$405", fourSub: "$101.25/lesson", eight: "$795", eightSub: "$99.38/lesson" },
+                  { label: "Semi-Private (3) — 45 min",  four: "$480", fourSub: "$120/lesson", eight: "$912", eightSub: "$114/lesson" },
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-secondary/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
