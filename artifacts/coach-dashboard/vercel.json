@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd ../.. && pnpm --filter @workspace/coach-dashboard run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "cd ../.. && pnpm install",
+  "env": {
+    "BASE_PATH": "/coach",
+    "NEXT_PUBLIC_BASE_PATH": "/coach"
+  }
+}

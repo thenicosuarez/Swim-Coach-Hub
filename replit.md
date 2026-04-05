@@ -2,120 +2,107 @@
 
 ## Overview
 
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+pnpm workspace monorepo using TypeScript. Hosts two Next.js 15 App Router applications targeting Vercel deployment.
 
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces
 - **Node.js version**: 24
 - **Package manager**: pnpm
-- **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+- **TypeScript version**: 5.8
+- **Frontend/Backend**: Next.js 15 (App Router) — both apps are full-stack Next.js
+- **Database**: PostgreSQL + Drizzle ORM (`@workspace/db`)
+- **Styling**: Tailwind CSS v4 via `@tailwindcss/postcss`, shadcn/ui components
+- **Fonts**: DM Sans (body) + Outfit (headings) from Google Fonts
+
+## Design Tokens
+
+- **Primary (teal)**: `hsl(174 62% 35%)`
+- **Accent (coral)**: `hsl(16 85% 62%)`
+- **Background**: white / near-white
 
 ## Artifacts
 
-### `artifacts/swim-coach` — Swim Coach Website
-- A premium swimming coaching website for a Black female D1 University of Michigan swimmer turned private coach in Chicago's West Loop
-- Design: Teal/aqua primary (174 62% 35%), coral/orange accent (16 85% 62%), airy white backgrounds
-- Identity: "[Your Name]" placeholder throughout — coach name, email, social links TBD
-- Pages: Hero, About, Services & Rates, Book a Session (Calendly + Intake Form), Contact (chatbot placeholder), Footer
-- Scheduling: Service cards and booking tiles link out to Calendly (placeholder URL `https://calendly.com/[your-handle]`)
-- Lead intake form: Rich form collecting name, email, phone, neighborhood, swimmer age, service interest, goal (water safety / recreational / competitive), all-four-strokes preference, pool access, preferred days/times, experience level, notes — POSTs to `/api/bookings`
-- Contact section: No form — "Live Chat Coming Soon" placeholder + social links (Instagram, LinkedIn, Twitter, Email)
-- Routes:
-  - `GET /api/bookings` — list all booking requests
-  - `POST /api/bookings` — submit a booking/intake request
-  - `POST /api/contact` — submit a contact inquiry (currently unused, contact form removed)
-- Services & Rates (updated pricing based on $1/min principle):
+### `artifacts/swim-coach` — Swim Coach Public Website
+- Premium public-facing site for Coach Nikki Hubbard (Black female D1 University of Michigan swimmer, Chicago West Loop)
+- Next.js 15 App Router, no basePath (served at `/`)
+- Port: 18674
+- Pages: Hero, About, Services & Rates, Book a Session (Calendly + Intake Form), Contact, Privacy Policy, Terms of Service
+- Lead intake form: Rich form collecting name, email, phone, neighborhood, swimmer age, service interest, goal, pool access, preferred days/times, experience level, notes — POSTs to `/api/bookings`
+- Services & Rates:
   - Private Lesson: $60/30 min, $90/45 min, $120/60 min
   - Advanced / Team Prep: $65/30 min, $95/45 min, $130/60 min
   - Baby & Toddler: from $40/session
   - Group / Family: $50/45 min
-  - Video Review: $20/video (design-only placeholder)
-  - 5-Session Package: $360
-  - 10-Session Package: $680
-- Frontend packages: framer-motion, @hookform/resolvers, clsx, tailwind-merge, react-hook-form, zod, lucide-react
+  - Video Review: $20/video
+  - 5-Session Package: $360 | 10-Session Package: $680
+- API routes (Next.js Route Handlers):
+  - `GET /api/health`
+  - `POST /api/bookings` — submit intake request
+  - `POST /api/contact` — contact inquiry
+  - `POST /api/webhooks/tally` — Tally form webhook
+  - `POST /api/webhooks/calendly` — Calendly booking webhook
+- Vercel config: `vercel.json` present
 
 ### `artifacts/coach-dashboard` — Coach CRM Dashboard
-- Private coach-facing dashboard at `/coach` for managing leads, clients, and coaching plans
-- Password-protected via `COACH_PASSWORD` environment variable (default: `coach2026!`)
-- Same teal/coral design palette as the main swim-coach site
+- Private coach-facing dashboard at `/coach` (basePath = `/coach`)
+- Port: 23134
+- Auth: Cookie-based (`coach-session` httpOnly, 30 days). Server component layout checks `cookies()` from `next/headers` and calls `redirect()` if no session. Middleware in `src/middleware.ts` provides a secondary auth layer.
+- Password: stored in `COACH_PASSWORD` env var (default: `coach2026!`)
+- Auth API: `POST /coach/api/auth/login`, `POST /coach/api/auth/logout`, `GET /coach/api/auth/check`
+- Config API: `GET /coach/api/coach/config` — returns `{ calendlyUrl, coachEmail }`
 - Views:
-  - **Lead Funnel**: Lists all intake form submissions, filterable by status (pending/approved/rejected). Approve → promotes to client + shows "Copy Calendly Link". Reject → optional note.
-  - **Clients**: Lists approved leads as active clients. Coach can add/edit private session notes (auto-saved on blur). Shows linked coaching plans.
-  - **Coaching Plans**: Create/edit training plans (title, goals, drills, notes). Assign to clients. Share via public read-only URL.
-  - **Public Plan View**: `/coach/plans/:shareToken` — branded read-only plan page, no auth required.
-- API routes (all `/api/coach/*` require `x-coach-password` header):
-  - `GET /api/coach/bookings` — list all bookings (newest first)
-  - `PATCH /api/coach/bookings/:id/approve` — approve + auto-create client
-  - `PATCH /api/coach/bookings/:id/reject` — reject with optional note
-  - `GET /api/coach/clients` — list all clients
-  - `PATCH /api/coach/clients/:id` — update client notes/status
-  - `GET /api/coach/plans` — list all coaching plans
-  - `POST /api/coach/plans` — create a plan
-  - `PATCH /api/coach/plans/:id` — update a plan
-  - `GET /api/plans/share/:token` — public plan view (no auth)
-- DB tables: `clients` (FK to bookings), `coaching_plans` (with `share_token` UUID)
+  - **Lead Funnel** (`/coach`): All intake submissions, filter by status. Approve → creates client, shows Calendly link. Reject → optional note.
+  - **Clients** (`/coach/clients`): Approved leads, session notes, linked plans.
+  - **Sessions** (`/coach/sessions`): Scheduled coaching sessions CRUD.
+  - **Invoices** (`/coach/invoices`): Invoice management.
+  - **Plans** (`/coach/plans`): Coaching plans with shareable read-only links.
+  - **Shared Plan** (`/coach/plans/[token]`): Public, no auth required — branded read-only plan view.
+- API routes (all require `coach-session` cookie):
+  - Bookings: `GET/POST /api/coach/bookings`, `POST .../[id]/approve`, `POST .../[id]/reject`
+  - Clients: `GET/POST /api/coach/clients`, `GET/PATCH/DELETE .../[id]`
+  - Sessions: `GET/POST /api/coach/sessions`, `GET/PATCH/DELETE .../[id]`
+  - Invoices: `GET/POST /api/coach/invoices`, `GET/PATCH/DELETE .../[id]`
+  - Plans: `GET/POST /api/coach/plans`, `GET/PATCH/DELETE .../[id]`
+  - Shared plan (public): `GET /api/plans/share/[token]`
+- DB imports: `import { db, bookingsTable, clientsTable, coachingPlansTable, sessionsTable, invoicesTable } from "@workspace/db"`
+  - Note: `clientsTable` does NOT have an `updatedAt` column
+- Vercel config: `vercel.json` present
 
 ## Structure
 
 ```text
 artifacts-monorepo/
-├── artifacts/              # Deployable applications
-│   ├── api-server/         # Express API server
-│   ├── coach-dashboard/    # Coach CRM dashboard (React + Vite)
-│   └── swim-coach/         # Swim coaching website (React + Vite)
-├── lib/                    # Shared libraries
-│   ├── api-spec/           # OpenAPI spec + Orval codegen config
-│   ├── api-client-react/   # Generated React Query hooks
-│   ├── api-zod/            # Generated Zod schemas from OpenAPI
+├── artifacts/
+│   ├── coach-dashboard/    # Next.js 15 CRM (basePath=/coach, port 23134)
+│   └── swim-coach/         # Next.js 15 public site (port 18674)
+├── lib/
 │   └── db/                 # Drizzle ORM schema + DB connection
-├── scripts/                # Utility scripts (single workspace package)
-│   └── src/                # Individual .ts scripts, run via `pnpm --filter @workspace/scripts run <script>`
-├── pnpm-workspace.yaml     # pnpm workspace (artifacts/*, lib/*, lib/integrations/*, scripts)
-├── tsconfig.base.json      # Shared TS options (composite, bundler resolution, es2022)
-├── tsconfig.json           # Root TS project references
-└── package.json            # Root package with hoisted devDeps
+├── pnpm-workspace.yaml
+├── tsconfig.base.json
+└── package.json
 ```
 
-## TypeScript & Composite Projects
+## Key Architecture Notes
 
-Every package extends `tsconfig.base.json` which sets `composite: true`. The root `tsconfig.json` lists all packages as project references. This means:
+### Next.js basePath
+`coach-dashboard` uses `basePath: "/coach"` (set via `BASE_PATH` env var in `artifact.toml`). All routes, API calls, and links are relative to this basePath. The `NEXT_PUBLIC_BASE_PATH` env var is used client-side.
 
-- **Always typecheck from the root** — run `pnpm run typecheck` (which runs `tsc --build --emitDeclarationOnly`). This builds the full dependency graph so that cross-package imports resolve correctly. Running `tsc` inside a single package will fail if its dependencies haven't been built yet.
-- **`emitDeclarationOnly`** — we only emit `.d.ts` files during typecheck; actual JS bundling is handled by esbuild/tsx/vite...etc, not `tsc`.
-- **Project references** — when package A depends on package B, A's `tsconfig.json` must list B in its `references` array. `tsc --build` uses this to determine build order and skip up-to-date packages.
+### Auth Pattern (coach-dashboard)
+1. **Server layout** (`app/(dashboard)/layout.tsx`): Reads `coach-session` cookie via `cookies()` from `next/headers`. Calls `redirect()` if absent.
+2. **Middleware** (`src/middleware.ts`): Secondary layer — cookie check + redirect to login.
+3. **Login flow**: `POST /api/auth/login` with `{ password }` → sets `coach-session` httpOnly cookie → redirect to dashboard.
 
-## Root Scripts
-
-- `pnpm run build` — runs `typecheck` first, then recursively runs `build` in all packages that define it
-- `pnpm run typecheck` — runs `tsc --build --emitDeclarationOnly` using project references
-
-## Packages
-
-### `artifacts/api-server` (`@workspace/api-server`)
-
-Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` for request and response validation and `@workspace/db` for persistence.
-
-- Entry: `src/index.ts` — reads `PORT`, starts Express
-- App setup: `src/app.ts` — mounts CORS, JSON/urlencoded parsing, routes at `/api`
-- Routes: `src/routes/index.ts` mounts sub-routers
-- Depends on: `@workspace/db`, `@workspace/api-zod`
+### DB Schema
+- `bookingsTable` — intake form submissions
+- `clientsTable` — approved clients (promoted from bookings)
+- `coachingPlansTable` — training plans with `shareToken` for public sharing
+- `sessionsTable` — coaching session records
+- `invoicesTable` — invoice records
 
 ### `lib/db` (`@workspace/db`)
-
-Database layer using Drizzle ORM with PostgreSQL.
-
-- `src/schema/bookings.ts` — bookings table for swim coaching session requests
-- `src/schema/clients.ts` — clients table (promoted from approved bookings)
-- `src/schema/coaching-plans.ts` — coaching plans with shareable tokens
-
-### `lib/api-spec` (`@workspace/api-spec`)
-
-Owns the OpenAPI 3.1 spec (`openapi.yaml`) and the Orval config (`orval.config.ts`).
-
-Run codegen: `pnpm --filter @workspace/api-spec run codegen`
+- `src/schema/bookings.ts` — bookings table
+- `src/schema/clients.ts` — clients table (no `updatedAt` column)
+- `src/schema/coaching-plans.ts` — plans with shareable tokens
+- `src/schema/sessions.ts` — sessions table
+- `src/schema/invoices.ts` — invoices table

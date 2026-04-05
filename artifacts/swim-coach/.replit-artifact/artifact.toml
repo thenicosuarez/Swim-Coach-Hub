@@ -23,9 +23,13 @@ BASE_PATH = "/"
 
 [services.production]
 build = ["pnpm", "--filter", "@workspace/swim-coach", "run", "build"]
-publicDir = "artifacts/swim-coach/dist/public"
-serve = "static"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+[services.production.run]
+args = ["pnpm", "--filter", "@workspace/swim-coach", "run", "start"]
+
+[services.production.run.env]
+PORT = "18674"
+NODE_ENV = "production"
+
+[services.production.health.startup]
+path = "/api/health"

@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
@@ -6,9 +8,9 @@ export function Hero() {
   return (
     <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1560089000-7433a4ebbd64?q=80&w=2070&auto=format&fit=crop" 
-          alt="Black female swimmer racing in competition pool" 
+        <img
+          src="https://images.unsplash.com/photo-1560089000-7433a4ebbd64?q=80&w=2070&auto=format&fit=crop"
+          alt="Black female swimmer racing in competition pool"
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-overlay-dark/90 via-overlay-dark/70 to-transparent" />
@@ -16,7 +18,7 @@ export function Hero() {
 
       <div className="container relative z-10 mx-auto px-4 md:px-6 pt-20">
         <div className="max-w-3xl">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
@@ -27,8 +29,8 @@ export function Hero() {
               Chicago coached.
             </span>
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -54,7 +56,7 @@ export function Hero() {
           >
             Coach Nikki · West Loop + West Town, Chicago
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -62,20 +64,27 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button size="lg" variant="accent" asChild className="text-lg px-8">
-              <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
+              <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+                Book a Session
+              </a>
             </Button>
-            <Button size="lg" variant="outline" asChild className="text-lg px-8 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm">
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="text-lg px-8 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm"
+            >
               <a href="#services">View Rates</a>
             </Button>
           </motion.div>
         </div>
       </div>
 
-      <div 
+      <div
         className="absolute inset-0 z-0 opacity-10 mix-blend-overlay pointer-events-none"
         style={{
-          backgroundImage: `url(${import.meta.env.BASE_URL}images/water-texture.png)`,
-          backgroundSize: 'cover'
+          backgroundImage: "url(/images/water-texture.png)",
+          backgroundSize: "cover",
         }}
       />
     </section>

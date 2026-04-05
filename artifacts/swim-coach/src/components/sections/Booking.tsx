@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { TALLY_INTAKE_URL, CALENDLY_BASE_URL } from "@/lib/booking-urls";
 
@@ -27,8 +29,7 @@ export function Booking() {
             Book a Session
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-            Fill out the intake form below — I'll review your goals and reach out within
-            24 hours with a personalized recommendation and scheduling link.
+            Fill out the intake form below — I'll review your goals and reach out within 24 hours with a personalized recommendation and scheduling link.
           </p>
         </motion.div>
 
@@ -60,8 +61,7 @@ export function Booking() {
                       Swimmer Intake Form
                     </h4>
                     <p className="text-muted-foreground mb-6 max-w-sm">
-                      Tell me about your swimmer — goals, experience, and availability.
-                      I'll follow up within 24 hours.
+                      Tell me about your swimmer — goals, experience, and availability. I'll follow up within 24 hours.
                     </p>
                   </div>
                   <a

@@ -1,8 +1,9 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 import { Button } from "@/components/ui/button";
-
 
 export function Contact() {
   return (
@@ -30,17 +31,12 @@ export function Contact() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-              <Button
-                size="lg"
-                variant="accent"
-                asChild
-                className="text-lg px-8"
-              >
+              <Button size="lg" variant="accent" asChild className="text-lg px-8">
                 <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
                   Book quick 5–10 min intake call
                 </a>
               </Button>
-              <a 
+              <a
                 href="#booking"
                 className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors font-semibold text-base border border-white/30 px-6 py-3 rounded-lg hover:border-white/60"
               >
@@ -48,8 +44,8 @@ export function Contact() {
               </a>
             </div>
 
-            <a 
-              href="mailto:your.email@example.com" 
+            <a
+              href="mailto:your.email@example.com"
               className="inline-flex items-center gap-2 text-white/70 hover:text-accent transition-colors font-semibold text-lg"
             >
               <Mail className="w-5 h-5" />

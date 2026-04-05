@@ -1,38 +1,20 @@
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
-const API_BASE = "/api";
-
-function getPassword(): string | null {
-  return localStorage.getItem("coach_password");
-}
-
-export function setPassword(pw: string) {
-  localStorage.setItem("coach_password", pw);
-}
-
-export function clearPassword() {
-  localStorage.removeItem("coach_password");
-}
-
-export function isAuthenticated(): boolean {
-  return !!getPassword();
-}
+const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+const API_BASE = `${BASE_PATH}/api`;
 
 async function coachFetch(path: string, options: RequestInit = {}) {
-  const pw = getPassword();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string> || {}),
   };
-  if (pw) headers["x-coach-password"] = pw;
 
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers,
+    credentials: "include",
   });
 
   if (res.status === 401) {
-    clearPassword();
-    window.location.reload();
+    window.location.href = `${BASE_PATH}/login`;
     throw new Error("Unauthorized");
   }
 
@@ -44,11 +26,28 @@ async function coachFetch(path: string, options: RequestInit = {}) {
   return res.json();
 }
 
-export async function validatePassword(pw: string): Promise<boolean> {
+export async function login(password: string): Promise<boolean> {
   try {
-    const res = await fetch(`${API_BASE}/coach/auth-check`, {
-      headers: { "x-coach-password": pw },
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ password }),
     });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+export async function logout() {
+  await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include" });
+  window.location.href = `${BASE_PATH}/login`;
+}
+
+export async function checkAuth(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE}/auth/check`, { credentials: "include" });
     return res.ok;
   } catch {
     return false;
@@ -94,7 +93,14 @@ export async function getPlans() {
   return coachFetch("/coach/plans");
 }
 
-export async function createPlan(data: { title: string; goal?: string; drills?: string; notes?: string; clientId?: number; isPublic?: boolean }) {
+export async function createPlan(data: {
+  title: string;
+  goal?: string;
+  drills?: string;
+  notes?: string;
+  clientId?: number;
+  isPublic?: boolean;
+}) {
   return coachFetch("/coach/plans", {
     method: "POST",
     body: JSON.stringify(data),
@@ -110,9 +116,7 @@ export async function updatePlan(id: number, data: Record<string, unknown>) {
 
 export async function getSharedPlan(token: string) {
   const res = await fetch(`${API_BASE}/plans/share/${token}`);
-  if (!res.ok) {
-    throw new Error("Plan not found");
-  }
+  if (!res.ok) throw new Error("Plan not found");
   return res.json();
 }
 

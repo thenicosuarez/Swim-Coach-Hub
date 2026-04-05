@@ -19,13 +19,17 @@ run = "pnpm --filter @workspace/coach-dashboard run dev"
 
 [services.env]
 PORT = "23134"
-BASE_PATH = "/coach/"
+BASE_PATH = "/coach"
+NEXT_PUBLIC_BASE_PATH = "/coach"
 
 [services.production]
 build = ["pnpm", "--filter", "@workspace/coach-dashboard", "run", "build"]
-publicDir = "artifacts/coach-dashboard/dist/public"
-serve = "static"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+[services.production.run]
+args = ["pnpm", "--filter", "@workspace/coach-dashboard", "run", "start"]
+
+[services.production.run.env]
+PORT = "23134"
+NODE_ENV = "production"
+BASE_PATH = "/coach"
+NEXT_PUBLIC_BASE_PATH = "/coach"

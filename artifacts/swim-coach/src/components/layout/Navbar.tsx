@@ -1,10 +1,11 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
 import { Menu, X } from "lucide-react";
-
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,24 +29,26 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 ease-in-out",
-        isScrolled 
-          ? "bg-white/90 backdrop-blur-md shadow-sm py-3" 
+        isScrolled
+          ? "bg-white/90 backdrop-blur-md shadow-sm py-3"
           : "bg-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-10 h-10 rounded-full overflow-hidden bg-primary flex items-center justify-center">
-            <img 
-              src={`${import.meta.env.BASE_URL}images/logo.png`} 
-              alt="Coach Nikki Logo" 
+            <img
+              src="/images/logo.png"
+              alt="Coach Nikki Logo"
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <span className={cn(
-            "font-display font-bold text-xl tracking-tight transition-colors",
-            isScrolled ? "text-primary" : "text-white drop-shadow-md"
-          )}>
+          <span
+            className={cn(
+              "font-display font-bold text-xl tracking-tight transition-colors",
+              isScrolled ? "text-primary" : "text-white drop-shadow-md"
+            )}
+          >
             Coach<span className="text-accent"> Nikki</span>
           </span>
         </Link>
@@ -63,16 +66,21 @@ export function Navbar() {
               {link.name}
             </a>
           ))}
-          <Button 
-            asChild 
-            variant={isScrolled ? "default" : "default"}
-            className={cn(!isScrolled && "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary")}
+          <Button
+            asChild
+            variant="default"
+            className={cn(
+              !isScrolled &&
+                "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary"
+            )}
           >
-            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">Book a Session</a>
+            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer">
+              Book a Session
+            </a>
           </Button>
         </nav>
 
-        <button 
+        <button
           className="md:hidden p-2 text-primary"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
@@ -84,10 +92,12 @@ export function Navbar() {
         </button>
       </div>
 
-      <div className={cn(
-        "md:hidden absolute top-full left-0 w-full bg-white shadow-xl overflow-hidden transition-all duration-300 ease-in-out",
-        mobileMenuOpen ? "max-h-80 border-t" : "max-h-0"
-      )}>
+      <div
+        className={cn(
+          "md:hidden absolute top-full left-0 w-full bg-white shadow-xl overflow-hidden transition-all duration-300 ease-in-out",
+          mobileMenuOpen ? "max-h-80 border-t" : "max-h-0"
+        )}
+      >
         <nav className="flex flex-col p-4 gap-4">
           {navLinks.map((link) => (
             <a
@@ -100,7 +110,14 @@ export function Navbar() {
             </a>
           ))}
           <Button asChild className="mt-2 w-full">
-            <a href={TALLY_INTAKE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>Book a Session</a>
+            <a
+              href={TALLY_INTAKE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Book a Session
+            </a>
           </Button>
         </nav>
       </div>

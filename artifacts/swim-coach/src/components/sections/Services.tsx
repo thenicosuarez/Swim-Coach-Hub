@@ -1,7 +1,8 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { TALLY_INTAKE_URL } from "@/lib/booking-urls";
-
 
 export function Services() {
   return (
@@ -54,21 +55,17 @@ export function Services() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border bg-card">
-                <tr className="hover:bg-secondary/50 transition-colors">
-                  <td className="px-6 py-4 font-semibold text-foreground">Private (1:1)</td>
-                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$49</td>
-                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$69</td>
-                </tr>
-                <tr className="hover:bg-secondary/50 transition-colors">
-                  <td className="px-6 py-4 font-semibold text-foreground">Semi-Private (2 swimmers)</td>
-                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$79</td>
-                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$109</td>
-                </tr>
-                <tr className="hover:bg-secondary/50 transition-colors">
-                  <td className="px-6 py-4 font-semibold text-foreground">Semi-Private (3 swimmers)</td>
-                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$109</td>
-                  <td className="px-6 py-4 text-center font-bold text-accent text-base">$139</td>
-                </tr>
+                {[
+                  { label: "Private (1:1)", thirty: "$49", fortyfive: "$69" },
+                  { label: "Semi-Private (2 swimmers)", thirty: "$79", fortyfive: "$109" },
+                  { label: "Semi-Private (3 swimmers)", thirty: "$109", fortyfive: "$139" },
+                ].map((row) => (
+                  <tr key={row.label} className="hover:bg-secondary/50 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
+                    <td className="px-6 py-4 text-center font-bold text-accent text-base">{row.thirty}</td>
+                    <td className="px-6 py-4 text-center font-bold text-accent text-base">{row.fortyfive}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -98,12 +95,12 @@ export function Services() {
               </thead>
               <tbody className="divide-y divide-border bg-card">
                 {[
-                  { label: "Private (1:1) — 30 min",      four: "$179", fourSub: "~$44.75/lesson", eight: "$329", eightSub: "~$41.13/lesson" },
-                  { label: "Private (1:1) — 45 min",      four: "$229", fourSub: "~$57.25/lesson", eight: "$429", eightSub: "~$53.63/lesson" },
-                  { label: "Semi-Private (2) — 30 min",   four: "$279", fourSub: "~$69.75/lesson", eight: "$529", eightSub: "~$66.13/lesson" },
-                  { label: "Semi-Private (2) — 45 min",   four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
-                  { label: "Semi-Private (3) — 30 min",   four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
-                  { label: "Semi-Private (3) — 45 min",   four: "$489", fourSub: "~$122.25/lesson",eight: "$919", eightSub: "~$114.88/lesson" },
+                  { label: "Private (1:1) — 30 min",     four: "$179", fourSub: "~$44.75/lesson", eight: "$329", eightSub: "~$41.13/lesson" },
+                  { label: "Private (1:1) — 45 min",     four: "$229", fourSub: "~$57.25/lesson", eight: "$429", eightSub: "~$53.63/lesson" },
+                  { label: "Semi-Private (2) — 30 min",  four: "$279", fourSub: "~$69.75/lesson", eight: "$529", eightSub: "~$66.13/lesson" },
+                  { label: "Semi-Private (2) — 45 min",  four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
+                  { label: "Semi-Private (3) — 30 min",  four: "$389", fourSub: "~$97.25/lesson", eight: "$739", eightSub: "~$92.38/lesson" },
+                  { label: "Semi-Private (3) — 45 min",  four: "$489", fourSub: "~$122.25/lesson", eight: "$919", eightSub: "~$114.88/lesson" },
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-secondary/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
@@ -134,7 +131,9 @@ export function Services() {
             <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
               <div className="flex items-start justify-between mb-2">
                 <h5 className="font-display text-lg font-bold text-foreground">Advanced / Stroke Precision</h5>
-                <span className="text-2xl font-black text-foreground whitespace-nowrap ml-4">$109<span className="text-sm font-semibold text-muted-foreground"> / hr</span></span>
+                <span className="text-2xl font-black text-foreground whitespace-nowrap ml-4">
+                  $109<span className="text-sm font-semibold text-muted-foreground"> / hr</span>
+                </span>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 For competitive swimmers looking to refine technique. Includes video analysis and take-home analysis sheets.
