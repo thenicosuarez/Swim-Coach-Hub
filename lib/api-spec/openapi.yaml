@@ -292,6 +292,206 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CoachingPlan"
+  /coach/sessions:
+    get:
+      operationId: getCoachSessions
+      tags: [coach]
+      summary: List all sessions
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: clientId
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Session"
+    post:
+      operationId: createCoachSession
+      tags: [coach]
+      summary: Create a new session
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSessionRequest"
+      responses:
+        "201":
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+  /coach/sessions/{id}:
+    patch:
+      operationId: updateCoachSession
+      tags: [coach]
+      summary: Update a session
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scheduledAt:
+                  type: string
+                durationMinutes:
+                  type: integer
+                service:
+                  type: string
+                notes:
+                  type: string
+                status:
+                  type: string
+      responses:
+        "200":
+          description: Session updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+        "404":
+          description: Session not found
+  /coach/invoices:
+    get:
+      operationId: getCoachInvoices
+      tags: [coach]
+      summary: List all invoices
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: clientId
+          schema:
+            type: integer
+        - in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of invoices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Invoice"
+    post:
+      operationId: createCoachInvoice
+      tags: [coach]
+      summary: Create a new invoice
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateInvoiceRequest"
+      responses:
+        "201":
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+  /coach/invoices/{id}:
+    patch:
+      operationId: updateCoachInvoice
+      tags: [coach]
+      summary: Update an invoice
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amountCents:
+                  type: integer
+                status:
+                  type: string
+                dueDate:
+                  type: string
+                paymentMethod:
+                  type: string
+                notes:
+                  type: string
+      responses:
+        "200":
+          description: Invoice updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+        "404":
+          description: Invoice not found
+    delete:
+      operationId: deleteCoachInvoice
+      tags: [coach]
+      summary: Delete an invoice
+      parameters:
+        - in: header
+          name: x-coach-password
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Invoice deleted
+        "404":
+          description: Invoice not found
   /plans/share/{token}:
     get:
       operationId: getSharedPlan
@@ -511,3 +711,98 @@ components:
         - title
         - createdAt
         - updatedAt
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+        clientId:
+          type: integer
+        bookingId:
+          type: integer
+        scheduledAt:
+          type: string
+        durationMinutes:
+          type: integer
+        service:
+          type: string
+        notes:
+          type: string
+        status:
+          type: string
+          enum: [scheduled, completed, cancelled]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - status
+        - createdAt
+        - updatedAt
+    CreateSessionRequest:
+      type: object
+      properties:
+        clientId:
+          type: integer
+        bookingId:
+          type: integer
+        scheduledAt:
+          type: string
+        durationMinutes:
+          type: integer
+        service:
+          type: string
+        notes:
+          type: string
+        status:
+          type: string
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: integer
+        clientId:
+          type: integer
+        sessionId:
+          type: integer
+        amountCents:
+          type: integer
+        status:
+          type: string
+          enum: [draft, sent, paid]
+        dueDate:
+          type: string
+        paymentMethod:
+          type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - amountCents
+        - status
+        - createdAt
+        - updatedAt
+    CreateInvoiceRequest:
+      type: object
+      properties:
+        clientId:
+          type: integer
+        sessionId:
+          type: integer
+        amountCents:
+          type: integer
+        status:
+          type: string
+        dueDate:
+          type: string
+        paymentMethod:
+          type: string
+        notes:
+          type: string
+      required:
+        - amountCents

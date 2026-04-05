@@ -115,3 +115,52 @@ export async function getSharedPlan(token: string) {
   }
   return res.json();
 }
+
+export async function getSessions(clientId?: number) {
+  const q = clientId ? `?clientId=${clientId}` : "";
+  return coachFetch(`/coach/sessions${q}`);
+}
+
+export async function createSession(data: {
+  clientId?: number;
+  bookingId?: number;
+  scheduledAt?: string;
+  durationMinutes?: number;
+  service?: string;
+  notes?: string;
+  status?: string;
+}) {
+  return coachFetch("/coach/sessions", { method: "POST", body: JSON.stringify(data) });
+}
+
+export async function updateSession(id: number, data: Record<string, unknown>) {
+  return coachFetch(`/coach/sessions/${id}`, { method: "PATCH", body: JSON.stringify(data) });
+}
+
+export async function getInvoices(clientId?: number, status?: string) {
+  const params = new URLSearchParams();
+  if (clientId) params.set("clientId", String(clientId));
+  if (status) params.set("status", status);
+  const q = params.toString() ? `?${params}` : "";
+  return coachFetch(`/coach/invoices${q}`);
+}
+
+export async function createInvoice(data: {
+  clientId?: number;
+  sessionId?: number;
+  amountCents: number;
+  status?: string;
+  dueDate?: string;
+  paymentMethod?: string;
+  notes?: string;
+}) {
+  return coachFetch("/coach/invoices", { method: "POST", body: JSON.stringify(data) });
+}
+
+export async function updateInvoice(id: number, data: Record<string, unknown>) {
+  return coachFetch(`/coach/invoices/${id}`, { method: "PATCH", body: JSON.stringify(data) });
+}
+
+export async function deleteInvoice(id: number) {
+  return coachFetch(`/coach/invoices/${id}`, { method: "DELETE" });
+}

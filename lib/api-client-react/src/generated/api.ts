@@ -23,11 +23,19 @@ import type {
   ContactRequest,
   ContactResponse,
   CreateBookingRequest,
+  CreateInvoiceRequest,
   CreatePlanRequest,
+  CreateSessionRequest,
+  GetCoachInvoicesParams,
+  GetCoachSessionsParams,
   HealthStatus,
+  Invoice,
   RejectBookingBody,
+  Session,
   SharedPlan,
   UpdateCoachClientBody,
+  UpdateCoachInvoiceBody,
+  UpdateCoachSessionBody,
   UpdatePlanRequest,
 } from "./api.schemas";
 
@@ -1017,6 +1025,630 @@ export const useUpdateCoachPlan = <
   TContext
 > => {
   return useMutation(getUpdateCoachPlanMutationOptions(options));
+};
+
+/**
+ * @summary List all sessions
+ */
+export const getGetCoachSessionsUrl = (params?: GetCoachSessionsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/coach/sessions?${stringifiedParams}`
+    : `/api/coach/sessions`;
+};
+
+export const getCoachSessions = async (
+  params?: GetCoachSessionsParams,
+  options?: RequestInit,
+): Promise<Session[]> => {
+  return customFetch<Session[]>(getGetCoachSessionsUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCoachSessionsQueryKey = (
+  params?: GetCoachSessionsParams,
+) => {
+  return [`/api/coach/sessions`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetCoachSessionsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCoachSessions>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetCoachSessionsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCoachSessions>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCoachSessionsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCoachSessions>>
+  > = ({ signal }) => getCoachSessions(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCoachSessions>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCoachSessionsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCoachSessions>>
+>;
+export type GetCoachSessionsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List all sessions
+ */
+
+export function useGetCoachSessions<
+  TData = Awaited<ReturnType<typeof getCoachSessions>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetCoachSessionsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCoachSessions>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCoachSessionsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Create a new session
+ */
+export const getCreateCoachSessionUrl = () => {
+  return `/api/coach/sessions`;
+};
+
+export const createCoachSession = async (
+  createSessionRequest: CreateSessionRequest,
+  options?: RequestInit,
+): Promise<Session> => {
+  return customFetch<Session>(getCreateCoachSessionUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createSessionRequest),
+  });
+};
+
+export const getCreateCoachSessionMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCoachSession>>,
+    TError,
+    { data: BodyType<CreateSessionRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createCoachSession>>,
+  TError,
+  { data: BodyType<CreateSessionRequest> },
+  TContext
+> => {
+  const mutationKey = ["createCoachSession"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createCoachSession>>,
+    { data: BodyType<CreateSessionRequest> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createCoachSession(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateCoachSessionMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createCoachSession>>
+>;
+export type CreateCoachSessionMutationBody = BodyType<CreateSessionRequest>;
+export type CreateCoachSessionMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Create a new session
+ */
+export const useCreateCoachSession = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCoachSession>>,
+    TError,
+    { data: BodyType<CreateSessionRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createCoachSession>>,
+  TError,
+  { data: BodyType<CreateSessionRequest> },
+  TContext
+> => {
+  return useMutation(getCreateCoachSessionMutationOptions(options));
+};
+
+/**
+ * @summary Update a session
+ */
+export const getUpdateCoachSessionUrl = (id: number) => {
+  return `/api/coach/sessions/${id}`;
+};
+
+export const updateCoachSession = async (
+  id: number,
+  updateCoachSessionBody: UpdateCoachSessionBody,
+  options?: RequestInit,
+): Promise<Session> => {
+  return customFetch<Session>(getUpdateCoachSessionUrl(id), {
+    ...options,
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(updateCoachSessionBody),
+  });
+};
+
+export const getUpdateCoachSessionMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateCoachSession>>,
+    TError,
+    { id: number; data: BodyType<UpdateCoachSessionBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateCoachSession>>,
+  TError,
+  { id: number; data: BodyType<UpdateCoachSessionBody> },
+  TContext
+> => {
+  const mutationKey = ["updateCoachSession"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateCoachSession>>,
+    { id: number; data: BodyType<UpdateCoachSessionBody> }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateCoachSession(id, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateCoachSessionMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateCoachSession>>
+>;
+export type UpdateCoachSessionMutationBody = BodyType<UpdateCoachSessionBody>;
+export type UpdateCoachSessionMutationError = ErrorType<void>;
+
+/**
+ * @summary Update a session
+ */
+export const useUpdateCoachSession = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateCoachSession>>,
+    TError,
+    { id: number; data: BodyType<UpdateCoachSessionBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateCoachSession>>,
+  TError,
+  { id: number; data: BodyType<UpdateCoachSessionBody> },
+  TContext
+> => {
+  return useMutation(getUpdateCoachSessionMutationOptions(options));
+};
+
+/**
+ * @summary List all invoices
+ */
+export const getGetCoachInvoicesUrl = (params?: GetCoachInvoicesParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/coach/invoices?${stringifiedParams}`
+    : `/api/coach/invoices`;
+};
+
+export const getCoachInvoices = async (
+  params?: GetCoachInvoicesParams,
+  options?: RequestInit,
+): Promise<Invoice[]> => {
+  return customFetch<Invoice[]>(getGetCoachInvoicesUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCoachInvoicesQueryKey = (
+  params?: GetCoachInvoicesParams,
+) => {
+  return [`/api/coach/invoices`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetCoachInvoicesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCoachInvoices>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetCoachInvoicesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCoachInvoices>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCoachInvoicesQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCoachInvoices>>
+  > = ({ signal }) => getCoachInvoices(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCoachInvoices>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCoachInvoicesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCoachInvoices>>
+>;
+export type GetCoachInvoicesQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List all invoices
+ */
+
+export function useGetCoachInvoices<
+  TData = Awaited<ReturnType<typeof getCoachInvoices>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetCoachInvoicesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCoachInvoices>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCoachInvoicesQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Create a new invoice
+ */
+export const getCreateCoachInvoiceUrl = () => {
+  return `/api/coach/invoices`;
+};
+
+export const createCoachInvoice = async (
+  createInvoiceRequest: CreateInvoiceRequest,
+  options?: RequestInit,
+): Promise<Invoice> => {
+  return customFetch<Invoice>(getCreateCoachInvoiceUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createInvoiceRequest),
+  });
+};
+
+export const getCreateCoachInvoiceMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCoachInvoice>>,
+    TError,
+    { data: BodyType<CreateInvoiceRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createCoachInvoice>>,
+  TError,
+  { data: BodyType<CreateInvoiceRequest> },
+  TContext
+> => {
+  const mutationKey = ["createCoachInvoice"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createCoachInvoice>>,
+    { data: BodyType<CreateInvoiceRequest> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createCoachInvoice(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateCoachInvoiceMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createCoachInvoice>>
+>;
+export type CreateCoachInvoiceMutationBody = BodyType<CreateInvoiceRequest>;
+export type CreateCoachInvoiceMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Create a new invoice
+ */
+export const useCreateCoachInvoice = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCoachInvoice>>,
+    TError,
+    { data: BodyType<CreateInvoiceRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createCoachInvoice>>,
+  TError,
+  { data: BodyType<CreateInvoiceRequest> },
+  TContext
+> => {
+  return useMutation(getCreateCoachInvoiceMutationOptions(options));
+};
+
+/**
+ * @summary Update an invoice
+ */
+export const getUpdateCoachInvoiceUrl = (id: number) => {
+  return `/api/coach/invoices/${id}`;
+};
+
+export const updateCoachInvoice = async (
+  id: number,
+  updateCoachInvoiceBody: UpdateCoachInvoiceBody,
+  options?: RequestInit,
+): Promise<Invoice> => {
+  return customFetch<Invoice>(getUpdateCoachInvoiceUrl(id), {
+    ...options,
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(updateCoachInvoiceBody),
+  });
+};
+
+export const getUpdateCoachInvoiceMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateCoachInvoice>>,
+    TError,
+    { id: number; data: BodyType<UpdateCoachInvoiceBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateCoachInvoice>>,
+  TError,
+  { id: number; data: BodyType<UpdateCoachInvoiceBody> },
+  TContext
+> => {
+  const mutationKey = ["updateCoachInvoice"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateCoachInvoice>>,
+    { id: number; data: BodyType<UpdateCoachInvoiceBody> }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return updateCoachInvoice(id, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateCoachInvoiceMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateCoachInvoice>>
+>;
+export type UpdateCoachInvoiceMutationBody = BodyType<UpdateCoachInvoiceBody>;
+export type UpdateCoachInvoiceMutationError = ErrorType<void>;
+
+/**
+ * @summary Update an invoice
+ */
+export const useUpdateCoachInvoice = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateCoachInvoice>>,
+    TError,
+    { id: number; data: BodyType<UpdateCoachInvoiceBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateCoachInvoice>>,
+  TError,
+  { id: number; data: BodyType<UpdateCoachInvoiceBody> },
+  TContext
+> => {
+  return useMutation(getUpdateCoachInvoiceMutationOptions(options));
+};
+
+/**
+ * @summary Delete an invoice
+ */
+export const getDeleteCoachInvoiceUrl = (id: number) => {
+  return `/api/coach/invoices/${id}`;
+};
+
+export const deleteCoachInvoice = async (
+  id: number,
+  options?: RequestInit,
+): Promise<void> => {
+  return customFetch<void>(getDeleteCoachInvoiceUrl(id), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+export const getDeleteCoachInvoiceMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteCoachInvoice>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteCoachInvoice>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const mutationKey = ["deleteCoachInvoice"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteCoachInvoice>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return deleteCoachInvoice(id, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteCoachInvoiceMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteCoachInvoice>>
+>;
+
+export type DeleteCoachInvoiceMutationError = ErrorType<void>;
+
+/**
+ * @summary Delete an invoice
+ */
+export const useDeleteCoachInvoice = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteCoachInvoice>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteCoachInvoice>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  return useMutation(getDeleteCoachInvoiceMutationOptions(options));
 };
 
 /**

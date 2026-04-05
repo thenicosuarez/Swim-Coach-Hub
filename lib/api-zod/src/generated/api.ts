@@ -316,6 +316,166 @@ export const UpdateCoachPlanResponse = zod.object({
 });
 
 /**
+ * @summary List all sessions
+ */
+export const GetCoachSessionsQueryParams = zod.object({
+  clientId: zod.coerce.number().optional(),
+});
+
+export const GetCoachSessionsHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const GetCoachSessionsResponseItem = zod.object({
+  id: zod.number(),
+  clientId: zod.number().optional(),
+  bookingId: zod.number().optional(),
+  scheduledAt: zod.string().optional(),
+  durationMinutes: zod.number().optional(),
+  service: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum(["scheduled", "completed", "cancelled"]),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+export const GetCoachSessionsResponse = zod.array(GetCoachSessionsResponseItem);
+
+/**
+ * @summary Create a new session
+ */
+export const CreateCoachSessionHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const CreateCoachSessionBody = zod.object({
+  clientId: zod.number().optional(),
+  bookingId: zod.number().optional(),
+  scheduledAt: zod.string().optional(),
+  durationMinutes: zod.number().optional(),
+  service: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.string().optional(),
+});
+
+/**
+ * @summary Update a session
+ */
+export const UpdateCoachSessionParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateCoachSessionHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const UpdateCoachSessionBody = zod.object({
+  scheduledAt: zod.string().optional(),
+  durationMinutes: zod.number().optional(),
+  service: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.string().optional(),
+});
+
+export const UpdateCoachSessionResponse = zod.object({
+  id: zod.number(),
+  clientId: zod.number().optional(),
+  bookingId: zod.number().optional(),
+  scheduledAt: zod.string().optional(),
+  durationMinutes: zod.number().optional(),
+  service: zod.string().optional(),
+  notes: zod.string().optional(),
+  status: zod.enum(["scheduled", "completed", "cancelled"]),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary List all invoices
+ */
+export const GetCoachInvoicesQueryParams = zod.object({
+  clientId: zod.coerce.number().optional(),
+  status: zod.coerce.string().optional(),
+});
+
+export const GetCoachInvoicesHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const GetCoachInvoicesResponseItem = zod.object({
+  id: zod.number(),
+  clientId: zod.number().optional(),
+  sessionId: zod.number().optional(),
+  amountCents: zod.number(),
+  status: zod.enum(["draft", "sent", "paid"]),
+  dueDate: zod.string().optional(),
+  paymentMethod: zod.string().optional(),
+  notes: zod.string().optional(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+export const GetCoachInvoicesResponse = zod.array(GetCoachInvoicesResponseItem);
+
+/**
+ * @summary Create a new invoice
+ */
+export const CreateCoachInvoiceHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const CreateCoachInvoiceBody = zod.object({
+  clientId: zod.number().optional(),
+  sessionId: zod.number().optional(),
+  amountCents: zod.number(),
+  status: zod.string().optional(),
+  dueDate: zod.string().optional(),
+  paymentMethod: zod.string().optional(),
+  notes: zod.string().optional(),
+});
+
+/**
+ * @summary Update an invoice
+ */
+export const UpdateCoachInvoiceParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateCoachInvoiceHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+export const UpdateCoachInvoiceBody = zod.object({
+  amountCents: zod.number().optional(),
+  status: zod.string().optional(),
+  dueDate: zod.string().optional(),
+  paymentMethod: zod.string().optional(),
+  notes: zod.string().optional(),
+});
+
+export const UpdateCoachInvoiceResponse = zod.object({
+  id: zod.number(),
+  clientId: zod.number().optional(),
+  sessionId: zod.number().optional(),
+  amountCents: zod.number(),
+  status: zod.enum(["draft", "sent", "paid"]),
+  dueDate: zod.string().optional(),
+  paymentMethod: zod.string().optional(),
+  notes: zod.string().optional(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary Delete an invoice
+ */
+export const DeleteCoachInvoiceParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const DeleteCoachInvoiceHeader = zod.object({
+  "x-coach-password": zod.string(),
+});
+
+/**
  * @summary Get a public coaching plan by share token
  */
 export const GetSharedPlanParams = zod.object({

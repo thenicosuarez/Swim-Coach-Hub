@@ -138,6 +138,68 @@ export interface SharedPlan {
   updatedAt: string;
 }
 
+export type SessionStatus = (typeof SessionStatus)[keyof typeof SessionStatus];
+
+export const SessionStatus = {
+  scheduled: "scheduled",
+  completed: "completed",
+  cancelled: "cancelled",
+} as const;
+
+export interface Session {
+  id: number;
+  clientId?: number;
+  bookingId?: number;
+  scheduledAt?: string;
+  durationMinutes?: number;
+  service?: string;
+  notes?: string;
+  status: SessionStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateSessionRequest {
+  clientId?: number;
+  bookingId?: number;
+  scheduledAt?: string;
+  durationMinutes?: number;
+  service?: string;
+  notes?: string;
+  status?: string;
+}
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus];
+
+export const InvoiceStatus = {
+  draft: "draft",
+  sent: "sent",
+  paid: "paid",
+} as const;
+
+export interface Invoice {
+  id: number;
+  clientId?: number;
+  sessionId?: number;
+  amountCents: number;
+  status: InvoiceStatus;
+  dueDate?: string;
+  paymentMethod?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateInvoiceRequest {
+  clientId?: number;
+  sessionId?: number;
+  amountCents: number;
+  status?: string;
+  dueDate?: string;
+  paymentMethod?: string;
+  notes?: string;
+}
+
 export type RejectBookingBody = {
   note?: string;
 };
@@ -145,4 +207,29 @@ export type RejectBookingBody = {
 export type UpdateCoachClientBody = {
   notes?: string;
   status?: string;
+};
+
+export type GetCoachSessionsParams = {
+  clientId?: number;
+};
+
+export type UpdateCoachSessionBody = {
+  scheduledAt?: string;
+  durationMinutes?: number;
+  service?: string;
+  notes?: string;
+  status?: string;
+};
+
+export type GetCoachInvoicesParams = {
+  clientId?: number;
+  status?: string;
+};
+
+export type UpdateCoachInvoiceBody = {
+  amountCents?: number;
+  status?: string;
+  dueDate?: string;
+  paymentMethod?: string;
+  notes?: string;
 };
