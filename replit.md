@@ -38,9 +38,8 @@ pnpm workspace monorepo using TypeScript. Hosts two Next.js 15 App Router applic
   - 5-Session Package: $360 | 10-Session Package: $680
 - API routes (Next.js Route Handlers):
   - `GET /api/health`
-  - `POST /api/bookings` — submit intake request
+  - `POST /api/bookings` — submit intake request (native form in Booking section)
   - `POST /api/contact` — contact inquiry
-  - `POST /api/webhooks/tally` — Tally form webhook
   - `POST /api/webhooks/calendly` — Calendly booking webhook
 - Vercel config: `vercel.json` present
 
