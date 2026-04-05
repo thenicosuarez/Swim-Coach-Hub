@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth";
 import { db, invoicesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 
@@ -6,6 +7,9 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { id: rawId } = await params;
     const id = parseInt(rawId, 10);
@@ -50,6 +54,9 @@ export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { id: rawId } = await params;
     const id = parseInt(rawId, 10);

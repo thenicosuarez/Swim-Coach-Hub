@@ -1,3 +1,5 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/coach/bookings/route": "app/api/coach/bookings/route.js",
   "/(dashboard)/page": "app/(dashboard)/page.js"
 }

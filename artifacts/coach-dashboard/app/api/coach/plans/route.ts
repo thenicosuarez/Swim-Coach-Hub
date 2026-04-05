@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth";
 import { db, coachingPlansTable } from "@workspace/db";
 import { desc } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 export async function GET() {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const plans = await db
       .select()
@@ -31,6 +35,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const { title, goal, drills, notes, clientId, isPublic } = body;

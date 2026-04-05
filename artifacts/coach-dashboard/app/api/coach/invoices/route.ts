@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth";
 import { db, invoicesTable } from "@workspace/db";
 import { desc, eq } from "drizzle-orm";
 
 export async function GET(request: Request) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const clientId = searchParams.get("clientId");
@@ -37,6 +41,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const { clientId, sessionId, amountCents, status, dueDate, paymentMethod, notes } = body;

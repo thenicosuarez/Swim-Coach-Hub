@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth";
 import { db, bookingsTable } from "@workspace/db";
 import { desc } from "drizzle-orm";
 
 export async function GET() {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const bookings = await db
       .select()
