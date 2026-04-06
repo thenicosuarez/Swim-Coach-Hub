@@ -779,8 +779,8 @@
   .inline-flex {
     display: inline-flex;
   }
-  .aspect-\[3\/4\] {
-    aspect-ratio: 3/4;
+  .aspect-\[3\/5\] {
+    aspect-ratio: 3/5;
   }
   .aspect-square {
     aspect-ratio: 1 / 1;

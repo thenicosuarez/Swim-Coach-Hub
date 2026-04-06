@@ -18,12 +18,12 @@ export function About() {
           >
             <div className="absolute -inset-4 bg-secondary rounded-3xl -z-10 transform rotate-3" />
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl overflow-hidden shadow-xl aspect-[3/4] relative">
+              <div className="rounded-xl overflow-hidden shadow-xl aspect-[3/5] relative">
                 <Image
                   src="/images/nikki-portrait.webp"
                   alt="Nikki Hubbard"
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-center"
                   sizes="(max-width: 768px) 50vw, 300px"
                 />
               </div>
