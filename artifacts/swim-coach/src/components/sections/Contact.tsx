@@ -5,6 +5,8 @@ import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Contact() {
+  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "hello@coachnikki.com";
+
   return (
     <section id="contact" className="py-24 bg-primary relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-display font-black text-white/[0.03] whitespace-nowrap pointer-events-none select-none">
@@ -29,26 +31,20 @@ export function Contact() {
               I'm usually available <strong className="text-white/80">Mondays, Thursday afternoons, Fridays,</strong> and <strong className="text-white/80">weekends</strong>. Let's find a time that works!
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+            <div className="flex items-center justify-center mb-10">
               <Button size="lg" variant="accent" asChild className="text-lg px-8">
                 <a href="#booking">
                   Fill out my intake form
                 </a>
               </Button>
-              <a
-                href="#booking"
-                className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors font-semibold text-base border border-white/30 px-6 py-3 rounded-lg hover:border-white/60"
-              >
-                Fill out intake form
-              </a>
             </div>
 
             <a
-              href="mailto:your.email@example.com"
+              href={`mailto:${coachEmail}`}
               className="inline-flex items-center gap-2 text-white/70 hover:text-accent transition-colors font-semibold text-lg"
             >
               <Mail className="w-5 h-5" />
-              your.email@example.com
+              {coachEmail}
             </a>
           </motion.div>
         </div>

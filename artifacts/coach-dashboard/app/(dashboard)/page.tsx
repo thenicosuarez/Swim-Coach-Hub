@@ -17,6 +17,7 @@ interface Booking {
 }
 
 interface ParsedNotes {
+  swimmerAge?: string;
   swimmerName?: string;
   email?: string;
   phone?: string;
@@ -69,7 +70,7 @@ export default function LeadsPage() {
   const [rejectNote, setRejectNote] = useState("");
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
-  const [calendlyUrl, setCalendlyUrl] = useState("https://calendly.com/[your-handle]");
+  const [calendlyUrl, setCalendlyUrl] = useState("");
 
   useEffect(() => {
     getConfig().then(c => setCalendlyUrl(c.calendlyUrl)).catch(console.error);
@@ -177,6 +178,7 @@ export default function LeadsPage() {
                 {isExpanded && (
                   <div className="border-t border-border p-5 bg-muted/20">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      {parsed.swimmerAge && <div><span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Swimmer Age</span><p className="text-foreground mt-0.5">{parsed.swimmerAge}</p></div>}
                       {parsed.neighborhood && <div><span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Neighborhood</span><p className="text-foreground mt-0.5">{parsed.neighborhood}</p></div>}
                       {parsed.goal && <div><span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Goal</span><p className="text-foreground mt-0.5 capitalize">{parsed.goal}</p></div>}
                       {parsed.allFourStrokes && <div><span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">All Four Strokes</span><p className="text-foreground mt-0.5 capitalize">{parsed.allFourStrokes}</p></div>}

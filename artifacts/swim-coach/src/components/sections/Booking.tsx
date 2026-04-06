@@ -119,15 +119,15 @@ export function Booking() {
   }
 
   function buildNotes(): string {
-    const parts: string[] = [];
-    if (fields.swimmerAge) parts.push(`Swimmer age: ${fields.swimmerAge}`);
-    if (fields.experience) parts.push(`Experience: ${fields.experience}`);
-    if (fields.allFourStrokes) parts.push(`All four strokes: ${fields.allFourStrokes}`);
-    if (fields.poolAccess) parts.push(`Pool access: ${fields.poolAccess}`);
-    if (fields.neighborhood) parts.push(`Neighborhood: ${fields.neighborhood}`);
-    if (fields.goal) parts.push(`Goal: ${fields.goal}`);
-    if (fields.notes.trim()) parts.push(`Additional notes: ${fields.notes.trim()}`);
-    return parts.join("\n");
+    const obj: Record<string, string> = {};
+    if (fields.swimmerAge) obj.swimmerAge = fields.swimmerAge;
+    if (fields.experience) obj.experience = fields.experience;
+    if (fields.allFourStrokes) obj.allFourStrokes = fields.allFourStrokes;
+    if (fields.poolAccess) obj.poolAccess = fields.poolAccess;
+    if (fields.neighborhood) obj.neighborhood = fields.neighborhood;
+    if (fields.goal) obj.goal = fields.goal;
+    if (fields.notes.trim()) obj.additionalNotes = fields.notes.trim();
+    return Object.keys(obj).length > 0 ? JSON.stringify(obj) : "";
   }
 
   async function handleSubmit(e: React.FormEvent) {

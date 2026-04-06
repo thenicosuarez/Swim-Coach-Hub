@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export function About() {
@@ -17,26 +18,32 @@ export function About() {
           >
             <div className="absolute -inset-4 bg-secondary rounded-3xl -z-10 transform rotate-3" />
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl overflow-hidden shadow-xl aspect-[3/4]">
-                <img
-                  src="/images/nikki-portrait.png"
+              <div className="rounded-xl overflow-hidden shadow-xl aspect-[3/4] relative">
+                <Image
+                  src="/images/nikki-portrait.webp"
                   alt="Nikki Hubbard"
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 50vw, 300px"
                 />
               </div>
               <div className="flex flex-col gap-3">
-                <div className="rounded-xl overflow-hidden shadow-xl aspect-square">
-                  <img
-                    src="/images/nikki-michigan-team.png"
+                <div className="rounded-xl overflow-hidden shadow-xl aspect-square relative">
+                  <Image
+                    src="/images/nikki-michigan-team.webp"
                     alt="Nikki with Michigan swimming teammates"
-                    className="w-full h-full object-cover object-top"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 50vw, 200px"
                   />
                 </div>
-                <div className="rounded-xl overflow-hidden shadow-xl aspect-square">
-                  <img
-                    src="/images/nikki-personal.png"
+                <div className="rounded-xl overflow-hidden shadow-xl aspect-square relative">
+                  <Image
+                    src="/images/nikki-personal.webp"
                     alt="Nikki Hubbard"
-                    className="w-full h-full object-cover object-center"
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 50vw, 200px"
                   />
                 </div>
               </div>

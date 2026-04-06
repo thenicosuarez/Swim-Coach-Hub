@@ -20,7 +20,7 @@ export default function PrivacyPolicy() {
 
         <div className="prose prose-slate max-w-none">
           <h1 className="text-4xl font-display font-bold text-foreground mb-2">Privacy Policy</h1>
-          <p className="text-muted-foreground mb-10">Hubbard Wellness LLC · Effective Date: [EFFECTIVE DATE]</p>
+          <p className="text-muted-foreground mb-10">Hubbard Wellness LLC · Effective Date: January 1, 2026</p>
 
           <div className="space-y-10 text-foreground/80 leading-relaxed">
 

@@ -1,17 +1,22 @@
+import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
+  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "hello@coachnikki.com";
+
   return (
     <footer className="bg-overlay-dark text-white py-16">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <img
+              <Image
                 src="/images/logo.png"
-                alt="Logo"
-                className="w-10 h-10 rounded-full bg-white p-1"
+                alt="Coach Nikki Logo"
+                width={40}
+                height={40}
+                className="rounded-full bg-white p-1"
               />
               <span className="font-display font-bold text-2xl tracking-tight">
                 Coach<span className="text-accent"> Nikki</span>
@@ -43,11 +48,11 @@ export function Footer() {
               Contact
             </h4>
             <a
-              href="mailto:your.email@example.com"
+              href={`mailto:${coachEmail}`}
               className="flex items-center gap-2 text-white/70 hover:text-accent transition-colors mb-2"
             >
               <Mail className="w-4 h-4" />
-              your.email@example.com
+              {coachEmail}
             </a>
           </div>
         </div>

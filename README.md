@@ -24,21 +24,31 @@ pnpm --filter @workspace/coach-dashboard run dev   # http://localhost:23134/coac
 
 ### Environment Variables
 
-| Variable | App | Description |
-|----------|-----|-------------|
-| `DATABASE_URL` | Both | PostgreSQL connection string |
-| `COACH_PASSWORD` | coach-dashboard | Login password for the dashboard (required — auth fails closed without it) |
-| `COACH_CALENDLY_URL` | coach-dashboard | Calendly booking link (server-side) |
-| `NEXT_PUBLIC_COACH_CALENDLY_URL` | swim-coach | Calendly booking link (client-side) |
-| `NOTIFICATION_EMAIL` | swim-coach | Email address to notify on new intake submissions |
-| `SMTP_HOST` | swim-coach | SMTP server host for email notifications |
-| `SMTP_PORT` | swim-coach | SMTP port (default: 587) |
-| `SMTP_SECURE` | swim-coach | `true` for TLS, `false` for STARTTLS |
-| `SMTP_USER` | swim-coach | SMTP username |
-| `SMTP_PASS` | swim-coach | SMTP password |
-| `SMTP_FROM` | swim-coach | From address for notification emails |
-| `GOOGLE_SHEETS_WEBHOOK_URL` | swim-coach | Optional webhook URL to forward new bookings to Google Sheets |
-| `NODE_ENV` | Both | `production` enables secure cookies |
+| Variable | App | Required | Description |
+|----------|-----|----------|-------------|
+| `DATABASE_URL` | Both | Yes | PostgreSQL connection string |
+| `COACH_PASSWORD` | coach-dashboard | Yes | Login password for the dashboard (required — auth fails closed without it). **Rotate from default before deploying.** |
+| `COACH_CALENDLY_URL` | coach-dashboard | Yes | Calendly booking link (server-side) |
+| `NEXT_PUBLIC_COACH_CALENDLY_URL` | swim-coach | Yes | Calendly booking link (client-side) |
+| `NEXT_PUBLIC_COACH_EMAIL` | swim-coach | Yes | Coach email shown on public site (e.g., `nikki@hubbardwellness.com`) |
+| `NEXT_PUBLIC_SITE_URL` | swim-coach | No | Custom domain URL for sitemap (e.g., `https://coachnikki.com`) |
+| `NOTIFICATION_EMAIL` | swim-coach | No | Email address to notify on new intake submissions |
+| `SMTP_HOST` | swim-coach | No | SMTP server host for email notifications |
+| `SMTP_PORT` | swim-coach | No | SMTP port (default: 587) |
+| `SMTP_SECURE` | swim-coach | No | `true` for TLS, `false` for STARTTLS |
+| `SMTP_USER` | swim-coach | No | SMTP username |
+| `SMTP_PASS` | swim-coach | No | SMTP password |
+| `SMTP_FROM` | swim-coach | No | From address for notification emails |
+| `GOOGLE_SHEETS_WEBHOOK_URL` | swim-coach | No | Optional webhook URL to forward new bookings to Google Sheets |
+| `BASE_PATH` | coach-dashboard | Yes | `/coach` |
+| `NEXT_PUBLIC_BASE_PATH` | coach-dashboard | Yes | `/coach` |
+| `NODE_ENV` | Both | — | `production` enables secure cookies |
+
+### Security Note
+
+The `.replit` file is gitignored and must not be committed.
+All secrets (`DATABASE_URL`, `COACH_PASSWORD`, SMTP credentials) must be set exclusively via Vercel Environment Variables.
+Never hardcode credentials in source files.
 
 ## Database
 

@@ -47,3 +47,7 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Replit config (contains env vars — do not commit)
+.replit
+.replitignore

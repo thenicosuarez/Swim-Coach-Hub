@@ -6,6 +6,6 @@ export async function GET() {
   if (authError) return authError;
 
   return NextResponse.json({
-    calendlyUrl: process.env.COACH_CALENDLY_URL || "https://calendly.com/[your-handle]",
+    calendlyUrl: process.env.COACH_CALENDLY_URL || "",
   });
 }

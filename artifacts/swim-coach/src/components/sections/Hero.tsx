@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
@@ -7,10 +8,13 @@ export function Hero() {
   return (
     <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1560089000-7433a4ebbd64?q=80&w=2070&auto=format&fit=crop"
-          alt="Black female swimmer racing in competition pool"
-          className="w-full h-full object-cover object-center"
+        <Image
+          src="/images/hero-bg.webp"
+          alt="Swimmer racing in competition pool"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-overlay-dark/90 via-overlay-dark/70 to-transparent" />
       </div>
@@ -82,7 +86,7 @@ export function Hero() {
       <div
         className="absolute inset-0 z-0 opacity-10 mix-blend-overlay pointer-events-none"
         style={{
-          backgroundImage: "url(/images/water-texture.png)",
+          backgroundImage: "url(/images/water-texture.webp)",
           backgroundSize: "cover",
         }}
       />

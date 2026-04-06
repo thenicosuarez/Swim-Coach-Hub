@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -36,9 +37,11 @@ export function Navbar() {
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-10 h-10 rounded-full overflow-hidden bg-primary flex items-center justify-center">
-            <img
+            <Image
               src="/images/logo.png"
               alt="Coach Nikki Logo"
+              width={40}
+              height={40}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
