@@ -34,6 +34,7 @@ export default function YogaPage() {
 
       {/* ── HERO ── */}
       <section
+        className="yoga-hero-section"
         style={{
           minHeight: "100vh",
           display: "flex",
@@ -165,7 +166,7 @@ export default function YogaPage() {
       </section>
 
       {/* ── WHAT WE OFFER ── */}
-      <section id="offerings" style={{ padding: "6rem 4rem", backgroundColor: Y.cream }}>
+      <section id="offerings" className="yoga-section" style={{ padding: "6rem 4rem", backgroundColor: Y.cream }}>
         <p style={{ fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase", color: Y.terra, marginBottom: "0.75rem" }}>
           What We Offer
         </p>
