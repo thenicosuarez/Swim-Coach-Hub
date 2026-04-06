@@ -92,6 +92,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/(dashboard)/yoga/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/yoga">> = Specific
+  const handler = {} as typeof import("../../app/(dashboard)/yoga/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/login/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/login">> = Specific
@@ -240,6 +249,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/coach/sessions">> = Specific
   const handler = {} as typeof import("../../app/api/coach/sessions/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/api/coach/yoga/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/coach/yoga">> = Specific
+  const handler = {} as typeof import("../../app/api/coach/yoga/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

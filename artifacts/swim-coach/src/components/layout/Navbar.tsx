@@ -24,7 +24,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: "About", href: isYogaPage ? "/#about" : "#about" },
-    { name: "Services", href: isYogaPage ? "/#services" : "#services" },
+    { name: "Swim Lessons", href: isYogaPage ? "/#services" : "#services" },
     { name: "Contact", href: isYogaPage ? "/#contact" : "#contact" },
     { name: "Yoga", href: "/yoga", isPage: true },
   ];
@@ -87,7 +87,7 @@ export function Navbar() {
                 "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary"
             )}
           >
-            <Link href={isYogaPage ? "/#booking" : "#booking"}>
+            <Link href={isYogaPage ? "#book" : "#booking"}>
               Book a Session
             </Link>
           </Button>
@@ -127,7 +127,7 @@ export function Navbar() {
           ))}
           <Button asChild className="mt-2 w-full">
             <Link
-              href={isYogaPage ? "/#booking" : "#booking"}
+              href={isYogaPage ? "#book" : "#booking"}
               onClick={() => setMobileMenuOpen(false)}
             >
               Book a Session

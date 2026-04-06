@@ -3,7 +3,7 @@ import { Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
-  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "hello@coachnikki.com";
+  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "swimhubbard@gmail.com";
 
   return (
     <footer className="bg-overlay-dark text-white py-16">

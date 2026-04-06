@@ -5,7 +5,7 @@ import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Contact() {
-  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "hello@coachnikki.com";
+  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "swimhubbard@gmail.com";
 
   return (
     <section id="contact" className="py-24 bg-primary relative overflow-hidden">

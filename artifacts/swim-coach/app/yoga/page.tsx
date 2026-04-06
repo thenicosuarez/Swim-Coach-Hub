@@ -22,10 +22,28 @@ const cormorant: React.CSSProperties = {
 
 export default function YogaPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError("");
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      const res = await fetch("/api/yoga-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Something went wrong — please try again or email swimhubbard@gmail.com directly.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -415,9 +433,10 @@ export default function YogaPage() {
 
                 <button
                   type="submit"
+                  disabled={submitting}
                   style={{
                     marginTop: "0.5rem",
-                    backgroundColor: Y.charcoal,
+                    backgroundColor: submitting ? Y.sage : Y.charcoal,
                     color: Y.cream,
                     border: "none",
                     padding: "1rem 2rem",
@@ -427,15 +446,21 @@ export default function YogaPage() {
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     borderRadius: "2px",
-                    cursor: "pointer",
+                    cursor: submitting ? "not-allowed" : "pointer",
                     width: "100%",
                     transition: "background 0.25s",
+                    opacity: submitting ? 0.8 : 1,
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = Y.sage)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = Y.charcoal)}
+                  onMouseEnter={e => { if (!submitting) e.currentTarget.style.backgroundColor = Y.sage; }}
+                  onMouseLeave={e => { if (!submitting) e.currentTarget.style.backgroundColor = Y.charcoal; }}
                 >
-                  Send My Inquiry →
+                  {submitting ? "Sending…" : "Send My Inquiry →"}
                 </button>
+                {submitError && (
+                  <p style={{ fontSize: "0.85rem", color: "#c27a5b", fontWeight: 400, textAlign: "center" }}>
+                    {submitError}
+                  </p>
+                )}
                 <p style={{ fontSize: "0.8rem", color: Y.muted, fontWeight: 300, textAlign: "center", marginTop: "-0.5rem" }}>
                   We respond within 24 hours. No spam, ever.
                 </p>

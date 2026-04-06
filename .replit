@@ -30,3 +30,4 @@ timeoutMs = 20000
 [userenv.shared]
 COACH_PASSWORD = "coach2026!"
 COACH_CALENDLY_URL = "https://calendly.com/[your-handle]"
+NEXT_PUBLIC_COACH_EMAIL = "swimhubbard@gmail.com"

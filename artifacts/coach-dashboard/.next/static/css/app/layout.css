@@ -927,6 +927,9 @@
   .\[border-color\:var\(--button-outline\)\] {
     border-color: var(--button-outline);
   }
+  .border-\[\#b8d4bc\] {
+    border-color: #b8d4bc;
+  }
   .border-blue-200 {
     border-color: var(--color-blue-200);
   }
@@ -980,6 +983,9 @@
   }
   .border-l-transparent {
     border-left-color: transparent;
+  }
+  .bg-\[\#f0f5f1\] {
+    background-color: #f0f5f1;
   }
   .bg-background {
     background-color: hsl(var(--background));
@@ -1312,6 +1318,9 @@
   }
   .whitespace-pre-wrap {
     white-space: pre-wrap;
+  }
+  .text-\[\#3d7444\] {
+    color: #3d7444;
   }
   .text-accent {
     color: hsl(var(--accent));

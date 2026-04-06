@@ -13,7 +13,7 @@ pnpm workspace monorepo using TypeScript. Hosts two Next.js 15 App Router applic
 - **Frontend/Backend**: Next.js 15 (App Router) — both apps are full-stack Next.js
 - **Database**: PostgreSQL + Drizzle ORM (`@workspace/db`)
 - **Styling**: Tailwind CSS v4 via `@tailwindcss/postcss`, shadcn/ui components
-- **Fonts**: DM Sans (body) + Outfit (headings) from Google Fonts
+- **Fonts**: DM Sans (body) + Outfit (headings) + Cormorant Garamond (yoga display) from Google Fonts via next/font
 
 ## Design Tokens
 
