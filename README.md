@@ -71,7 +71,8 @@ Each app is deployed as a separate Vercel project. Both `vercel.json` files are 
 4. Add environment variables:
    - `DATABASE_URL`
    - `NEXT_PUBLIC_COACH_CALENDLY_URL`
-   - `COACH_EMAIL`
+   - `NEXT_PUBLIC_COACH_EMAIL` (coach email shown on public site)
+   - `NEXT_PUBLIC_SITE_URL` (optional — custom domain for sitemap)
 
 ### coach-dashboard
 
@@ -80,9 +81,8 @@ Each app is deployed as a separate Vercel project. Both `vercel.json` files are 
 3. Set **Framework** to Next.js
 4. Add environment variables:
    - `DATABASE_URL`
-   - `COACH_PASSWORD` (**required** — dashboard auth will not work without it)
+   - `COACH_PASSWORD` (**required** — dashboard auth will not work without it; rotate from default)
    - `COACH_CALENDLY_URL`
-   - `COACH_EMAIL`
    - `BASE_PATH=/coach`
    - `NEXT_PUBLIC_BASE_PATH=/coach`
 
