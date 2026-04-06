@@ -206,7 +206,7 @@ export default function TermsOfService() {
               <h2 className="text-2xl font-display font-bold text-foreground mb-3">19. Contact Information</h2>
               <div className="p-5 bg-secondary rounded-xl">
                 <p className="font-bold text-foreground">Hubbard Wellness LLC</p>
-                <p>Email: [CONTACT EMAIL]</p>
+                <p>Email: swimhubbard@gmail.com</p>
                 <p>Chicago, IL</p>
               </div>
             </section>

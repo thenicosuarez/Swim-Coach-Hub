@@ -362,14 +362,56 @@ export default function YogaPage() {
                   backgroundColor: Y.sagePale,
                   borderRadius: "4px",
                   border: `1px solid ${Y.sageLight}`,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "1.5rem",
                 }}
               >
-                <h3 style={{ ...cormorant, fontSize: "1.8rem", fontWeight: 300, color: Y.charcoal, marginBottom: "0.5rem" }}>
-                  Thank you, we&apos;ll be in touch!
-                </h3>
-                <p style={{ fontSize: "0.9rem", fontWeight: 300, color: Y.muted }}>
-                  Your inquiry has been received. Expect a reply within one business day.
-                </p>
+                <div>
+                  <h3 style={{ ...cormorant, fontSize: "1.8rem", fontWeight: 300, color: Y.charcoal, marginBottom: "0.5rem" }}>
+                    Thank you, we&apos;ll be in touch!
+                  </h3>
+                  <p style={{ fontSize: "0.9rem", fontWeight: 300, color: Y.muted }}>
+                    Your inquiry has been received. Expect a reply within one business day.
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: "#fff",
+                    border: `1px solid ${Y.sageLight}`,
+                    borderRadius: "4px",
+                    padding: "1.5rem 2rem",
+                    maxWidth: "380px",
+                    width: "100%",
+                  }}
+                >
+                  <p style={{ fontSize: "0.85rem", fontWeight: 500, color: Y.charcoal, marginBottom: "0.4rem", letterSpacing: "0.04em" }}>
+                    Want to connect sooner?
+                  </p>
+                  <p style={{ fontSize: "0.8rem", fontWeight: 300, color: Y.muted, marginBottom: "1rem", lineHeight: 1.6 }}>
+                    Book a free 5–10 minute intro call and we&apos;ll walk through your vision together.
+                  </p>
+                  <a
+                    href={process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/swimhubbard/intro-call"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-block",
+                      backgroundColor: Y.sage,
+                      color: "#fff",
+                      fontSize: "0.8rem",
+                      fontWeight: 500,
+                      letterSpacing: "0.06em",
+                      padding: "0.6rem 1.5rem",
+                      borderRadius: "2px",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Schedule My Intro Call
+                  </a>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
@@ -485,9 +527,23 @@ export default function YogaPage() {
         <span style={{ ...cormorant, fontSize: "1.3rem", fontWeight: 300, color: "rgba(250,248,243,0.7)" }}>
           Hubbard <span style={{ color: Y.sageLight }}>Wellness</span>
         </span>
-        <p style={{ fontSize: "0.8rem", fontWeight: 300, color: "rgba(250,248,243,0.35)" }}>
-          © Hubbard Wellness LLC
-        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
+          <a
+            href="/terms-of-service"
+            style={{ fontSize: "0.75rem", fontWeight: 300, color: "rgba(250,248,243,0.35)", textDecoration: "none", letterSpacing: "0.04em" }}
+          >
+            Terms of Service
+          </a>
+          <a
+            href="/privacy-policy"
+            style={{ fontSize: "0.75rem", fontWeight: 300, color: "rgba(250,248,243,0.35)", textDecoration: "none", letterSpacing: "0.04em" }}
+          >
+            Privacy Policy
+          </a>
+          <p style={{ fontSize: "0.75rem", fontWeight: 300, color: "rgba(250,248,243,0.35)", margin: 0 }}>
+            © Hubbard Wellness LLC
+          </p>
+        </div>
       </footer>
     </div>
   );

@@ -179,7 +179,7 @@ export default function PrivacyPolicy() {
               <p>If you have questions, concerns, or requests regarding this Privacy Policy or your personal information, please contact us at:</p>
               <div className="p-5 bg-secondary rounded-xl mt-3">
                 <p className="font-bold text-foreground">Hubbard Wellness LLC</p>
-                <p>Email: [CONTACT EMAIL]</p>
+                <p>Email: swimhubbard@gmail.com</p>
                 <p>Chicago, IL</p>
               </div>
             </section>

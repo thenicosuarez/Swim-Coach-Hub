@@ -25,7 +25,6 @@ export function Navbar() {
   const navLinks = [
     { name: "About", href: isYogaPage ? "/#about" : "#about" },
     { name: "Swim Lessons", href: isYogaPage ? "/#services" : "#services" },
-    { name: "Contact", href: isYogaPage ? "/#contact" : "#contact" },
     { name: "Yoga", href: "/yoga", isPage: true },
   ];
 

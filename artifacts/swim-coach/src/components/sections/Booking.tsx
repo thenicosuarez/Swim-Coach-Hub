@@ -209,9 +209,32 @@ export function Booking() {
                       You're all set!
                     </h4>
                     <p className="text-muted-foreground max-w-sm">
-                      Thanks for reaching out. I'll review your goals and follow up within 24 hours with a personalized plan and scheduling link.
+                      Thanks for reaching out. I'll review your goals and follow up within 24 hours.
                     </p>
                   </div>
+
+                  <div className="w-full max-w-sm bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center space-y-3">
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                      <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <p className="font-display font-semibold text-foreground text-sm">
+                      Want to skip the wait?
+                    </p>
+                    <p className="text-muted-foreground text-xs leading-relaxed">
+                      Schedule a free 5–10 minute intro call and we'll map out a plan together.
+                    </p>
+                    <a
+                      href={process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/swimhubbard/intro-call"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-1 bg-primary text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors"
+                    >
+                      Schedule My Intro Call
+                    </a>
+                  </div>
+
                   <button
                     onClick={() => setFormState("idle")}
                     className="text-sm text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
