@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -10,6 +11,8 @@ import { Menu, X } from "lucide-react";
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isYogaPage = pathname === "/yoga";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +23,10 @@ export function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: isYogaPage ? "/#about" : "#about" },
+    { name: "Services", href: isYogaPage ? "/#services" : "#services" },
+    { name: "Contact", href: isYogaPage ? "/#contact" : "#contact" },
+    { name: "Yoga", href: "/yoga", isPage: true },
   ];
 
   return (
@@ -57,16 +61,23 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               className={cn(
-                "text-sm font-semibold uppercase tracking-wider transition-colors hover:text-accent",
-                isScrolled ? "text-foreground/80" : "text-white/90 drop-shadow-sm"
+                "text-sm font-semibold uppercase tracking-wider transition-colors",
+                link.name === "Yoga"
+                  ? isScrolled
+                    ? "text-[#7a9e7e] hover:text-[#5a7e5e]"
+                    : "text-[#b8d4bc] hover:text-white"
+                  : cn(
+                      "hover:text-accent",
+                      isScrolled ? "text-foreground/80" : "text-white/90 drop-shadow-sm"
+                    )
               )}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
           <Button
             asChild
@@ -76,9 +87,9 @@ export function Navbar() {
                 "shadow-none border border-white/20 backdrop-blur-sm bg-white/10 hover:bg-white hover:text-primary"
             )}
           >
-            <a href="#booking">
+            <Link href={isYogaPage ? "/#booking" : "#booking"}>
               Book a Session
-            </a>
+            </Link>
           </Button>
         </nav>
 
@@ -97,27 +108,30 @@ export function Navbar() {
       <div
         className={cn(
           "md:hidden absolute top-full left-0 w-full bg-white shadow-xl overflow-hidden transition-all duration-300 ease-in-out",
-          mobileMenuOpen ? "max-h-80 border-t" : "max-h-0"
+          mobileMenuOpen ? "max-h-96 border-t" : "max-h-0"
         )}
       >
         <nav className="flex flex-col p-4 gap-4">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-display font-semibold text-foreground p-2 border-b border-border/50"
+              className={cn(
+                "text-lg font-display font-semibold p-2 border-b border-border/50",
+                link.name === "Yoga" ? "text-[#7a9e7e]" : "text-foreground"
+              )}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
           <Button asChild className="mt-2 w-full">
-            <a
-              href="#booking"
+            <Link
+              href={isYogaPage ? "/#booking" : "#booking"}
               onClick={() => setMobileMenuOpen(false)}
             >
               Book a Session
-            </a>
+            </Link>
           </Button>
         </nav>
       </div>
