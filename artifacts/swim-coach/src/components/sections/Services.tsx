@@ -57,7 +57,7 @@ export function Services() {
                 {[
                   { label: "Private (1:1)", thirty: "$45", fortyfive: "$60" },
                   { label: "Semi-Private (2 swimmers)", thirty: "$75", fortyfive: "$105" },
-                  { label: "Semi-Private (3 swimmers)", thirty: "$105", fortyfive: "$130" },
+                  { label: "Semi-Private (3 swimmers)", thirty: "$115", fortyfive: "$130" },
                 ].map((row) => (
                   <tr key={row.label} className="hover:bg-secondary/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
@@ -95,11 +95,11 @@ export function Services() {
               <tbody className="divide-y divide-border bg-card">
                 {[
                   { label: "Private (1:1) — 30 min",     four: "$170", fourSub: "$42.50/lesson", eight: "$320", eightSub: "$40/lesson" },
-                  { label: "Private (1:1) — 45 min",     four: "$225", fourSub: "$56.25/lesson", eight: "$425", eightSub: "$53.13/lesson" },
-                  { label: "Semi-Private (2) — 30 min",  four: "$275", fourSub: "$68.75/lesson", eight: "$524", eightSub: "$65.50/lesson" },
-                  { label: "Semi-Private (2) — 45 min",  four: "$385", fourSub: "$96.25/lesson", eight: "$735", eightSub: "$91.88/lesson" },
-                  { label: "Semi-Private (3) — 30 min",  four: "$405", fourSub: "$101.25/lesson", eight: "$795", eightSub: "$99.38/lesson" },
-                  { label: "Semi-Private (3) — 45 min",  four: "$480", fourSub: "$120/lesson", eight: "$912", eightSub: "$114/lesson" },
+                  { label: "Private (1:1) — 45 min",     four: "$220", fourSub: "$55/lesson", eight: "$420", eightSub: "$52.50/lesson" },
+                  { label: "Semi-Private (2) — 30 min",  four: "$275", fourSub: "$68.75/lesson", eight: "$525", eightSub: "$65.63/lesson" },
+                  { label: "Semi-Private (2) — 45 min",  four: "$385", fourSub: "$96.25/lesson", eight: "$735", eightSub: "$92/lesson" },
+                  { label: "Semi-Private (3) — 30 min",  four: "$395", fourSub: "$98.75/lesson", eight: "$750", eightSub: "$93.75/lesson" },
+                  { label: "Semi-Private (3) — 45 min",  four: "$480", fourSub: "$120/lesson", eight: "$915", eightSub: "$114.38/lesson" },
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-secondary/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-foreground">{row.label}</td>
@@ -131,7 +131,7 @@ export function Services() {
               <div className="flex items-start justify-between mb-2">
                 <h5 className="font-display text-lg font-bold text-foreground">Advanced / Stroke Precision</h5>
                 <span className="text-2xl font-black text-foreground whitespace-nowrap ml-4">
-                  $109<span className="text-sm font-semibold text-muted-foreground"> / hr</span>
+                  $100<span className="text-sm font-semibold text-muted-foreground"> / hr</span>
                 </span>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed">
